@@ -52,9 +52,7 @@ export default function Home() {
           <div className="text-center bg-white rounded-2xl shadow p-8 hover:shadow-lg transition">
             <div className="text-4xl mb-4">📱</div>
             <h3 className="text-xl font-semibold mb-2">Alltid tilgjengelig</h3>
-            <p>
-              Fungerer som app (PWA). Bruk den hvor som helst, selv uten nett.
-            </p>
+            <p>Fungerer som app. Bruk den hvor som helst, selv uten nett.</p>
           </div>
         </div>
       </main>
