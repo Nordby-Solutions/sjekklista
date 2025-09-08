@@ -62,7 +62,7 @@ export default function Home() {
       {/* Quote / Divider */}
       <section className="bg-gradient-to-r from-green-100 to-blue-100 py-16 text-center px-6">
         <blockquote className="text-2xl italic font-medium mb-6">
-          "Det som blir sjekket, blir gjort." ✅
+          &quot;Det som blir sjekket, blir gjort.&quot; ✅
         </blockquote>
         <p className="text-gray-700 max-w-xl mx-auto">
           Fra vektere til håndverkere – Sjekklista gir deg verktøyet du trenger
