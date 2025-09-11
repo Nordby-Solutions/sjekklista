@@ -7,8 +7,11 @@ import {
 } from "../components/ui/card";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
+import { usePWAInstall } from "@/hooks/usePWAInstall";
 
 export default function Home() {
+  const { canInstall, installApp } = usePWAInstall();
+
   return (
     <div className="min-h-screen bg-white text-slate-900 antialiased">
       <div className="max-w-5xl mx-auto px-6 py-12">
@@ -26,9 +29,16 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-            <Link to="/demo">
-              <Button className="w-full sm:w-auto">🚀 Prøv gratis</Button>
-            </Link>
+            {canInstall ? (
+              <Button className="w-full sm:w-auto" onClick={installApp}>
+                🚀 Installer appen
+              </Button>
+            ) : (
+              <Link to="/demo">
+                <Button className="w-full sm:w-auto">🚀 Prøv gratis</Button>
+              </Link>
+            )}
+
             <Button variant="ghost" className="w-full sm:w-auto">
               <a href="mailto:sebastianbjornstad@hotmail.com?subject=Sjekklista">
                 📩 Kontakt oss
