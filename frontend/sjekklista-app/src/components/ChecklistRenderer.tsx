@@ -7,11 +7,14 @@ import type { ChecklistTemplate, ChecklistTemplateItem } from "@/data/models";
 
 type ChecklistRendererProps = {
   template: ChecklistTemplate;
+  previewMode: boolean;
+
   //   onSubmit: (values: Record<string, any>) => void;
 };
 
 export function ChecklistRenderer({
   template,
+  previewMode = false,
 }: //   onSubmit,
 ChecklistRendererProps) {
   // Flatten state by item id
@@ -107,12 +110,16 @@ ChecklistRendererProps) {
         </div>
       ))}
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-      >
-        Lagre svar
-      </button>
+      {previewMode ? (
+        ""
+      ) : (
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+        >
+          Lagre svar
+        </button>
+      )}
     </form>
   );
 }

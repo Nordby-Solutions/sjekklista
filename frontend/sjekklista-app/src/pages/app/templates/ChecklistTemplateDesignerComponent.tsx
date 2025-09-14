@@ -5,6 +5,7 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
+  TouchSensor,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -42,6 +43,8 @@ import {
 } from "@/components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { API, api } from "@/data/api";
+import { toast } from "sonner";
 
 /* ------------------- Sortable wrapper ------------------- */
 function SortableItem({
@@ -62,12 +65,16 @@ function SortableItem({
   };
 
   return (
-    <div ref={setNodeRef} style={style}>
+    <div ref={setNodeRef} style={style} {...attributes}>
       <div className="flex items-center gap-2">
         {dragHandle ? (
-          <div {...listeners} {...attributes} className="cursor-grab">
+          <button
+            type="button"
+            {...listeners}
+            className="cursor-grab touch-none"
+          >
             {dragHandle}
-          </div>
+          </button>
         ) : null}
         {children}
       </div>
@@ -295,7 +302,20 @@ export function ChecklistTemplateDesignerComponent({
     item: ChecklistTemplateItem | null;
   } | null>(null);
 
-  const sensors = useSensors(useSensor(PointerSensor));
+  const saveTemplate = async () => {
+    await API.checklistTempate.saveChecklistTemplate(template);
+    toast("Lagring vellykket");
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    })
+  );
 
   /* ------------------- Section helpers ------------------- */
   const addSection = () => {
@@ -425,6 +445,11 @@ export function ChecklistTemplateDesignerComponent({
             setTemplate({ ...template, description: e.target.value })
           }
         />
+
+        <div className="flex gap-2">
+          <Button onClick={addSection}>➕ Ny seksjon</Button>
+          <Button onClick={saveTemplate}>Lagre</Button>
+        </div>
       </div>
 
       <DndContext
@@ -459,8 +484,6 @@ export function ChecklistTemplateDesignerComponent({
           </div>
         </SortableContext>
       </DndContext>
-
-      <Button onClick={addSection}>➕ Ny seksjon</Button>
 
       <ItemEditorDialog
         editingItem={editingItem}

@@ -16,6 +16,11 @@ export function ChecklistTemplateDesigner() {
 
   return (
     <div className="flex w-full max-w-4xl flex-col gap-6">
+      <h1 className="text-xl font-semibold">Ny sjekkliste</h1>
+      <p className="text-gray-600">
+        Lag dine egne sjekklister som kan gjenbrukes og deles med teamet. Når en
+        sjekkliste tas i bruk, blir malen grunnlaget for registreringen.
+      </p>
       <Tabs defaultValue="designer" className="w-full">
         <TabsList>
           <TabsTrigger value="designer">Designer</TabsTrigger>
@@ -32,7 +37,7 @@ export function ChecklistTemplateDesigner() {
 
         {/* Preview view */}
         <TabsContent value="preview" className="mt-4">
-          <ChecklistRenderer template={template} />
+          <ChecklistRenderer previewMode={true} template={template} />
         </TabsContent>
       </Tabs>
     </div>
