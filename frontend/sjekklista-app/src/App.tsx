@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import AppLayout from "@/components/AppLayout";
 import MarketingLayout from "@/components/MarketingLayout";
 import AppHome from "./pages/app/AppHome";
+import { ChecklistTemplateDesigner } from "./pages/app/templates/ChecklistTemplateDesigner";
 
 function App() {
   return (
@@ -16,12 +17,13 @@ function App() {
         <Route element={<MarketingLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/demo" element={<BasicChecklistDemo />} />
         </Route>
 
         {/* App functionality with minimal layout */}
         <Route path="/app" element={<AppLayout />}>
           <Route index element={<AppHome />} />
+          <Route path="design" element={<ChecklistTemplateDesigner />} />
+          <Route path="demo" element={<BasicChecklistDemo />} />
         </Route>
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />

@@ -34,7 +34,7 @@ export default function Home() {
                 🚀 Installer appen
               </Button>
             ) : (
-              <Link to="/demo">
+              <Link to="/app/demo">
                 <Button className="w-full sm:w-auto">🚀 Prøv gratis</Button>
               </Link>
             )}

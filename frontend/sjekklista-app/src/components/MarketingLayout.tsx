@@ -47,7 +47,7 @@ export default function MarketingLayout() {
                 Installer appen 🚀
               </Button>
             ) : (
-              <Link to="/demo">
+              <Link to="/app/demo">
                 <Button variant="ghost">Prøv gratis 🚀</Button>
               </Link>
             )}
@@ -89,7 +89,7 @@ export default function MarketingLayout() {
                       🚀 Installer appen
                     </Button>
                   ) : (
-                    <Link to="/demo" className="w-full flex justify-center">
+                    <Link to="/app/demo" className="w-full flex justify-center">
                       <Button
                         size="lg"
                         variant="ghost"

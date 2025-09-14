@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, List, Settings } from "lucide-react";
+import { Home, List, Settings, Pen } from "lucide-react";
 
 export default function AppLayout() {
   const location = useLocation();
@@ -8,6 +8,11 @@ export default function AppLayout() {
   const navItems = [
     { label: "Hjem", path: "/app", icon: <Home className="w-5 h-5" /> },
     { label: "Demo", path: "/app/demo", icon: <List className="w-5 h-5" /> },
+    {
+      label: "Design",
+      path: "/app/design",
+      icon: <Pen className="w-5 h-5" />,
+    },
     {
       label: "Innstillinger",
       path: "/app/settings",
