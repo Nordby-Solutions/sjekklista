@@ -23,21 +23,21 @@ export const metadata: Metadata = {
     title: "Sjekklista",
     description:
       "Lag sjekklister på sekunder. Intuitivt grensesnitt — ingen opplæring nødvendig.",
-    images: ["/og-image.png"],
+    // images: ["/og-image.png"],
   },
-  twitter: {
-    card: "summary_large_image",
-    site: "@sjekklista",
-  },
+  // twitter: {
+  //   card: "summary_large_image",
+  //   site: "@sjekklista",
+  // },
 };
 
-const orgJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Sjekklista",
-  url: "https://sjekklista.no",
-  logo: "https://sjekklista.no/og-image.png",
-};
+// const orgJsonLd = {
+//   "@context": "https://schema.org",
+//   "@type": "Organization",
+//   name: "Sjekklista",
+//   url: "https://sjekklista.no",
+//   logo: "https://sjekklista.no/og-image.png",
+// };
 
 export default function RootLayout({
   children,

@@ -1,37 +1,11 @@
 import Link from "next/link";
-import LottieChecklist from "@/components/LottieChecklist";
+import HeroSection from "@/components/HeroSection";
 
 export default function HomePage() {
   return (
     <main className="bg-gray-50 text-gray-900 min-h-screen">
       {/* Hero Section */}
-      <section className="px-6 py-32 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-            Sjekklister og dokumentasjon — gjort enkelt
-          </h1>
-          <p className="text-lg text-slate-600 mb-8">
-            Et raskt og pålitelig verktøy for prosjektledere, vektere og
-            håndverkere. Lag sjekklister på sekunder. Full sporbarhet.
-            Offline-støtte.
-          </p>
-          <div className="flex gap-4">
-            <Link
-              href="https://app.sjekklista.no"
-              className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition"
-            >
-              Kom i gang gratis
-            </Link>
-            {/* <Link
-              href="/demo"
-              className="text-blue-600 font-medium underline hover:text-blue-700"
-            >
-              Book en demo
-            </Link> */}
-          </div>
-        </div>
-        <LottieChecklist />
-      </section>
+      <HeroSection />
 
       {/* Features Section */}
       <section className="px-6 py-24 max-w-6xl mx-auto grid gap-12 md:grid-cols-3">

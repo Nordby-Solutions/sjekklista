@@ -1,0 +1,46 @@
+name: Build and deploy Next.js app to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  APPLICATION_PUBLISH_PROFILE: ${{ secrets.LANDING_APP_PUBLISH_PROFILE }}
+  WEBAPP_NAME: "sjekklista-landing"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - name: Install dependencies and build Next.js app
+        working-directory: ./frontend/sjekklista-landing
+        run: |
+          npm install
+          npm run build
+
+      - name: Move build output to standalone folder
+        working-directory: ./frontend/sjekklista-landing
+        run: |
+          mkdir -p build/standalone
+          cp -r .next build/standalone/.next
+          cp -r public build/standalone/public
+          cp package.json build/standalone/package.json
+          cp next.config.js build/standalone/next.config.js
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.WEBAPP_NAME }}
+          slot-name: "Production"
+          publish-profile: ${{ env.APPLICATION_PUBLISH_PROFILE }}
+          package: ./frontend/sjekklista-landing/build/standalone
