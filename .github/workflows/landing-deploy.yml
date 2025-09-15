@@ -31,8 +31,8 @@ jobs:
       - name: Prepare standalone output
         working-directory: ./frontend/sjekklista-landing
         run: |
-          mkdir -p build/standalone/.next
-          cp -r build/static build/standalone/.next/static
+          mkdir -p build/standalone/.next/static
+          cp -r build/static/* build/standalone/.next/static/
           mkdir -p build/standalone/public
           cp -r public/* build/standalone/public/
           cp package.json build/standalone/package.json
