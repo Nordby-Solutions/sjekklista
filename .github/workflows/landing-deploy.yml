@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "frontend/sjekklista-landing/**"
   workflow_dispatch:
 
 env:
