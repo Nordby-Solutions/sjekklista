@@ -22,21 +22,13 @@ jobs:
         with:
           node-version: "20.x"
 
-      - name: Install dependencies and build Next.js app
+      - name: npm install, build, and test
         working-directory: ./frontend/sjekklista-landing
         run: |
           npm install
           npm run build
-
-      - name: Prepare standalone output
-        working-directory: ./frontend/sjekklista-landing
-        run: |
-          mkdir -p build/standalone/.next/static
-          cp -r build/static/* build/standalone/.next/static/
-          mkdir -p build/standalone/public
-          cp -r public/* build/standalone/public/
-          cp package.json build/standalone/package.json
-          cp next.config.ts build/standalone/next.config.ts
+          mv ./build/static ./build/standalone/build
+          mv ./public ./build/standalone
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
