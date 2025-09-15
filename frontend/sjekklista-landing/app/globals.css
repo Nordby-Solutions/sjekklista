@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-brand-purple: #825bf9;
   --color-brand-blue: #0052cc;
   --color-brand-orange: #ffab00;
   --color-brand-green: #00c49a;

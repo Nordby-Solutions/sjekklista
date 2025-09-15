@@ -8,7 +8,10 @@ const LottiePlayer = dynamic(() => import("@/components/LottiePlayer"), {
 
 export default function FeatureSection() {
   return (
-    <section className="px-6 py-32 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+    <section
+      id="features"
+      className="px-6 py-32 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center"
+    >
       <LottiePlayer lottiePath="/lottie/customization.json" />
       <div>
         <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">

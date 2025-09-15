@@ -12,7 +12,7 @@ export default function FinalCTASection() {
     <section className="px-6 py-32 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center bg-slate-50 rounded-xl">
       <div>
         <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-          Ikke mer hodebry, Excel-rapporter og rot
+          Ikke mer hodebry, Excel-sjekklister og rot
         </h2>
         <p className="text-lg text-slate-600 mb-8">
           Sjekklista er laget for deg som jobber i felt og trenger dokumentasjon
@@ -22,7 +22,7 @@ export default function FinalCTASection() {
         </p>
         <Link
           href="https://app.sjekklista.no/signup"
-          className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition"
+          className="bg-brand-purple text-white px-6 py-3 rounded hover:bg-blue-700 transition"
         >
           Prøv gratis nå
         </Link>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import TopNav from "@/components/TopNav";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,6 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/icon.svg",
+  },
   title: {
     default: "Sjekklista – Sjekklister og dokumentasjon gjort enkelt",
     template: "%s | Sjekklista",
@@ -46,9 +51,34 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link
+          rel="preload"
+          href="/lottie/checklist.json"
+          as="fetch"
+          type="application/json"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/lottie/headache.json"
+          as="fetch"
+          type="application/json"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/lottie/customization.json"
+          as="fetch"
+          type="application/json"
+          crossOrigin="anonymous"
+        />
+      </Head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <TopNav />
         {children}
       </body>
     </html>
