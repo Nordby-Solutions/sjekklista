@@ -6,16 +6,16 @@ export default function AppLayout() {
   const location = useLocation();
 
   const navItems = [
-    { label: "Hjem", path: "/app", icon: <Home className="w-5 h-5" /> },
-    { label: "Demo", path: "/app/demo", icon: <List className="w-5 h-5" /> },
+    { label: "Hjem", path: "/", icon: <Home className="w-5 h-5" /> },
+    { label: "Demo", path: "/demo", icon: <List className="w-5 h-5" /> },
     {
       label: "Design",
-      path: "/app/design",
+      path: "/design",
       icon: <Pen className="w-5 h-5" />,
     },
     {
       label: "Innstillinger",
-      path: "/app/settings",
+      path: "/settings",
       icon: <Settings className="w-5 h-5" />,
     },
   ];

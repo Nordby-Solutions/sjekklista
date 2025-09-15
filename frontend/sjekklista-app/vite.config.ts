@@ -26,8 +26,8 @@ export default defineConfig({
         name: "Sjekklista",
         short_name: "Sjekklista",
         description: "Lag og del sjekklister enkelt og raskt",
-        scope: "/app/",
-        start_url: "/app",
+        scope: "/",
+        start_url: "/",
         display: "standalone",
         theme_color: "#ffffff",
         icons: [

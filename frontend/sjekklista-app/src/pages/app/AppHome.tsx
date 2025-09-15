@@ -33,7 +33,7 @@ export default function AppHome() {
         <Button
           className="bg-primary text-white hover:bg-blue-600"
           onClick={() => {
-            navigate("/app/design");
+            navigate("/design");
           }}
         >
           ➕ Lag din første sjekkliste
@@ -51,7 +51,7 @@ export default function AppHome() {
       <Button
         className="bg-primary text-white hover:bg-blue-600"
         onClick={() => {
-          navigate("/app/design");
+          navigate("/design");
         }}
       >
         ➕ Lag ny sjekkliste
