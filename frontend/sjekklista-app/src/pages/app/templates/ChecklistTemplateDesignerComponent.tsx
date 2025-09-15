@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { API, api } from "@/data/api";
+import { API } from "@/data/api";
 import { toast } from "sonner";
 
 /* ------------------- Sortable wrapper ------------------- */
