@@ -3,7 +3,7 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-const LottieChecklist = dynamic(() => import("@/components/LottieChecklist"), {
+const LottiePlayer = dynamic(() => import("@/components/LottiePlayer"), {
   ssr: false,
 });
 
@@ -26,15 +26,9 @@ export default function HeroSection() {
           >
             Kom i gang gratis
           </Link>
-          <Link
-            href="/demo"
-            className="text-blue-600 font-medium underline hover:text-blue-700"
-          >
-            Book en demo
-          </Link>
         </div>
       </div>
-      <LottieChecklist />
+      <LottiePlayer lottiePath="/lottie/checklist.json" />
     </section>
   );
 }
