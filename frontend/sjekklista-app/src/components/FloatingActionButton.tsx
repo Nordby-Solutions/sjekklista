@@ -4,7 +4,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Plus, ClipboardList, FileText, Settings } from "lucide-react";
+import { Plus } from "lucide-react";
 
 type ActionItem = {
   icon: React.ReactNode;

@@ -1,6 +1,5 @@
 import { ChecklistRenderer } from "@/components/ChecklistRenderer";
 import { Progress } from "@/components/ui/progress";
-import { Skeleton } from "@/components/ui/skeleton";
 import { API } from "@/data/api";
 import type { ChecklistTemplate } from "@/data/models";
 import { useEffect, useState } from "react";
