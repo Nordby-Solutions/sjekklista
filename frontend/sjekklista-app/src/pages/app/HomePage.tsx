@@ -20,7 +20,7 @@ const getChecklistTemplateLookup = async () => {
   return data.map((x) => ({ id: x.id, name: x.name }));
 };
 
-export default function AppHome() {
+export default function HomePage() {
   const navigate = useNavigate();
   const [templates, setTemplates] = useState<{ id: string; name: string }[]>(
     []

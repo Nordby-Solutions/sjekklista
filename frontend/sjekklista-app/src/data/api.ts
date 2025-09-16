@@ -25,6 +25,13 @@ const getChecklistTemplates = async () => {
   return data ?? [];
 };
 
+const findChecklistTemplate = async (id: string) => {
+  const data = await localforage.getItem<ChecklistTemplate[]>("checklists");
+  const checklist = data?.find((c) => c.id === id);
+
+  return checklist || null;
+};
+
 const getChecklistTemplateLookup = async () => {
   const data =
     (await localforage.getItem<ChecklistTemplate[]>("checklists")) ?? [];
@@ -57,6 +64,7 @@ export const API = {
     saveChecklistTemplate,
     getChecklistTemplates,
     getChecklistTemplateLookup,
+    findChecklistTemplate,
   },
 };
 
