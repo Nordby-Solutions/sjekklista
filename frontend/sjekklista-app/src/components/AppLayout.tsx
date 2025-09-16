@@ -21,20 +21,16 @@ export default function AppLayout() {
   ];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100 text-gray-900">
+    <div className="flex flex-col max-h-screen h-screen overflow-hidden bg-gray-100 text-gray-900">
       {/* Header */}
       <header className="bg-white shadow-md px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">
-            S
-          </div>
           <h1 className="text-xl font-semibold">Sjekklista.no</h1>
         </div>
       </header>
 
       {/* Main scrollable content */}
-      <main className="flex-1 overflow-auto p-4 space-y-4">
-        {/* Outlet renders nested routes */}
+      <main className="flex-1 overflow-auto p-4">
         <Outlet />
       </main>
 

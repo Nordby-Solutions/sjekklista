@@ -3,7 +3,15 @@ import localforage from "localforage";
 import type { ChecklistTemplate } from "@/data/models";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ClipboardList,
+  FileText,
+  Settings,
+} from "lucide-react";
+import FloatingActionButton from "@/components/FloatingActionButton";
 
 const getChecklistTemplateLookup = async () => {
   const data =
@@ -18,6 +26,24 @@ export default function AppHome() {
     []
   );
   const [search, setSearch] = useState("");
+
+  const menuItems = [
+    {
+      icon: <ClipboardList className="h-4 w-4" />,
+      label: "Ny sjekkliste",
+      onClick: () => navigate("/design"),
+    },
+    {
+      icon: <FileText className="h-4 w-4" />,
+      label: "Lag rapport",
+      onClick: () => console.log("Rapport"),
+    },
+    {
+      icon: <Settings className="h-4 w-4" />,
+      label: "Innstillinger",
+      onClick: () => console.log("Innstillinger"),
+    },
+  ];
 
   useEffect(() => {
     (async () => {
@@ -47,16 +73,7 @@ export default function AppHome() {
   );
 
   return (
-    <div className="space-y-6">
-      <Button
-        className="bg-primary text-white hover:bg-blue-600"
-        onClick={() => {
-          navigate("/design");
-        }}
-      >
-        ➕ Lag ny sjekkliste
-      </Button>
-
+    <div className="flex-1 h-full flex flex-col gap-2">
       <Input
         placeholder="Søk etter sjekklister..."
         className="bg-white"
@@ -64,24 +81,26 @@ export default function AppHome() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* Checklist cards */}
-      {(search.length == 0 ? templates : filtered).map((t) => (
-        <div key={t.id} className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="text-lg font-semibold text-gray-900">{t.name}</h2>
-          <p className="text-gray-700 mt-2">
-            Åpne denne sjekklisten for å fortsette eller gjøre endringer.
-          </p>
-          <Button
-            className="mt-4 bg-secondary text-white hover:bg-orange-500"
-            onClick={() => {
-              console.log("Åpne sjekkliste:", t.id);
-              // navigate or open checklist
-            }}
+      <div className="flex flex-col gap-2 overflow-y-auto flex-1 h-full p-2">
+        {/* Checklist cards */}
+        {(search.length == 0 ? templates : filtered).map((t) => (
+          <Link
+            to={`/checklist/${t.id}`}
+            key={t.id}
+            className="bg-white rounded-lg shadow-md p-4 flex"
           >
-            Åpne sjekkliste
-          </Button>
-        </div>
-      ))}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">{t.name}</h2>
+              <p className="text-gray-700 mt-2">
+                Åpne denne sjekklisten for å fortsette eller gjøre endringer.
+              </p>
+            </div>
+            <ArrowRight />
+          </Link>
+        ))}
+      </div>
+
+      <FloatingActionButton items={menuItems} />
     </div>
   );
 }
