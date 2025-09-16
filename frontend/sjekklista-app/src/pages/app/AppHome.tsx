@@ -89,7 +89,7 @@ export default function AppHome() {
             key={t.id}
             className="bg-white rounded-lg shadow-md p-4 flex"
           >
-            <div>
+            <div className="mr-auto">
               <h2 className="text-lg font-semibold text-gray-900">{t.name}</h2>
               <p className="text-gray-700 mt-2">
                 Åpne denne sjekklisten for å fortsette eller gjøre endringer.
