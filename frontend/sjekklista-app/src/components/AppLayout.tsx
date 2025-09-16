@@ -22,7 +22,8 @@ export default function AppLayout() {
     <div className="flex h-screen overflow-hidden bg-gray-50 text-gray-900">
       {/* Sidebar for desktop */}
       <aside className="hidden md:flex md:flex-col w-64 bg-white border-r p-4 space-y-4">
-        <h1 className="text-xl font-semibold mb-6">Sjekklista.no</h1>
+        {/* <h1 className="text-xl font-semibold mb-6">Sjekklista.no</h1> */}
+        <img className="mb-6 w-[113px]" src="/Sjekklista-logo-3-min.png"></img>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -45,7 +46,8 @@ export default function AppLayout() {
       <div className="flex-1 flex flex-col">
         {/* Header with hamburger for mobile */}
         <header className="bg-white shadow-md px-4 py-3 flex items-center justify-between md:hidden">
-          <h1 className="text-lg font-semibold">Sjekklista.no</h1>
+          <img className="w-[113px]" src="/Sjekklista-logo-3-min.png"></img>
+
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
