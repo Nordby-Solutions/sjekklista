@@ -4,13 +4,7 @@ import type { ChecklistTemplate } from "@/data/models";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  ArrowRight,
-  ClipboardList,
-  FileText,
-  Settings,
-} from "lucide-react";
+import { ArrowRight, ClipboardList, FileText, Settings } from "lucide-react";
 import FloatingActionButton from "@/components/FloatingActionButton";
 
 const getChecklistTemplateLookup = async () => {
