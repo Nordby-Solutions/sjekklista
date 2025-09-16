@@ -1,4 +1,4 @@
-name: CD Frontend - App
+name: CD Frontend - Landing
 
 on:
   push:
