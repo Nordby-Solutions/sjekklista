@@ -10,9 +10,8 @@ export default function FeatureSection() {
   return (
     <section
       id="features"
-      className="px-6 py-32 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center"
+      className="px-6 py-32 max-w-6xl mx-auto flex flex-col-reverse md:grid md:grid-cols-2 gap-16 items-center"
     >
-      <LottiePlayer lottiePath="/lottie/customization.json" />
       <div>
         <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
           Skreddersy sjekklister og rapporter
@@ -27,6 +26,9 @@ export default function FeatureSection() {
           <li>Trekk ut rapporter med full oversikt</li>
           <li>Del med andre brukere og internt i firmaet</li>
         </ul>
+      </div>
+      <div className="w-48 mx-auto md:w-full md:order-last">
+        <LottiePlayer lottiePath="/lottie/customization.json" />
       </div>
     </section>
   );

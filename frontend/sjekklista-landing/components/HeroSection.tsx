@@ -11,9 +11,17 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="px-6 py-32 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center"
+      className="px-6 py-4 gap-1 md:py-32 max-w-6xl mx-auto grid md:grid-cols-2 md:gap-16 items-center"
     >
-      <div>
+      {/* Lottie first on mobile */}
+      <div className="order-1 md:order-none">
+        <div className="w-56 mx-auto md:w-full">
+          <LottiePlayer lottiePath="/lottie/checklist.json" />
+        </div>
+      </div>
+
+      {/* Text second on mobile, first on desktop */}
+      <div className="order-2 md:order-none">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
           Sjekklister og dokumentasjon — gjort enkelt
         </h1>
@@ -31,7 +39,6 @@ export default function HeroSection() {
           </Link>
         </div>
       </div>
-      <LottiePlayer lottiePath="/lottie/checklist.json" />
     </section>
   );
 }
