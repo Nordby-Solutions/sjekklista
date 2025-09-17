@@ -35,7 +35,7 @@ export default function TopNav() {
               Priser
             </Link>
             <Link
-              href="https://app.sjekklista.no/signup"
+              href="https://app.sjekklista.no"
               className="bg-brand-purple text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
             >
               Kom i gang
@@ -53,7 +53,7 @@ export default function TopNav() {
               Priser
             </Link>
             <Link
-              href="https://app.sjekklista.no/signup"
+              href="https://app.sjekklista.no"
               className="bg-brand-purple text-white px-4 py-2 rounded-md hover:bg-blue-700 transition w-fit"
             >
               Kom i gang

@@ -32,7 +32,7 @@ export default function HeroSection() {
         </p>
         <div className="flex gap-4">
           <Link
-            href="https://app.sjekklista.no/signup"
+            href="https://app.sjekklista.no"
             className="bg-brand-purple text-white px-6 py-3 rounded hover:bg-blue-700 transition"
           >
             Kom i gang gratis

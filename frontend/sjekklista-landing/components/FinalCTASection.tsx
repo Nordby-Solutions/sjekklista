@@ -21,7 +21,7 @@ export default function FinalCTASection() {
           trenger for å jobbe smart og effektivt.
         </p>
         <Link
-          href="https://app.sjekklista.no/signup"
+          href="https://app.sjekklista.no"
           className="bg-brand-purple text-white px-6 py-3 rounded hover:bg-blue-700 transition"
         >
           Prøv gratis nå
