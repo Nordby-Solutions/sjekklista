@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ClipboardList, FileText, Settings } from "lucide-react";
 import FloatingActionButton from "@/components/FloatingActionButton";
 import { API } from "@/data/api";
+import SearchBar from "@/components/SearchBar";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -60,11 +61,9 @@ export default function HomePage() {
 
   return (
     <div className="flex-1 h-full flex flex-col gap-2">
-      <Input
-        placeholder="Søk etter sjekklister..."
-        className="bg-white"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+      <SearchBar
+        onSearch={(query) => setSearch(query)}
+        placeholder="Søk sjekklister..."
       />
 
       <div className="flex flex-col gap-2 overflow-y-auto flex-1 h-full p-2">

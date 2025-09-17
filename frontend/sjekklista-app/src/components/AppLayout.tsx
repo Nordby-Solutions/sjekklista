@@ -2,10 +2,10 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Menu, Home, List, Settings, Pen } from "lucide-react";
+import { usePWAInstall } from "@/hooks/usePWAInstall";
 
 const navItems = [
   { label: "Hjem", path: "/", icon: <Home className="w-5 h-5" /> },
-  { label: "Demo", path: "/demo", icon: <List className="w-5 h-5" /> },
   { label: "Design", path: "/design", icon: <Pen className="w-5 h-5" /> },
   { label: "Historikk", path: "/history", icon: <List className="w-5 h-5" /> },
   {
@@ -17,6 +17,10 @@ const navItems = [
 
 export default function AppLayout() {
   const location = useLocation();
+  const pwa = usePWAInstall();
+
+  pwa.canInstall; // bool
+  pwa.installApp(); // promise void
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50 text-gray-900">
@@ -74,6 +78,17 @@ export default function AppLayout() {
                     </Link>
                   );
                 })}
+
+                {pwa.canInstall && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={pwa.installApp}
+                    className="text-xs px-2 py-1 bg-brand-purple text-white"
+                  >
+                    Last ned app
+                  </Button>
+                )}
               </div>
             </SheetContent>
           </Sheet>

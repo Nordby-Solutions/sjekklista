@@ -293,9 +293,11 @@ function ItemEditorDialog({
 export function ChecklistTemplateDesignerComponent({
   template,
   setTemplate,
+  onSave,
 }: {
   template: ChecklistTemplate;
   setTemplate: (t: ChecklistTemplate) => void;
+  onSave: () => void;
 }) {
   const [editingItem, setEditingItem] = useState<{
     sectionId: string;
@@ -307,6 +309,7 @@ export function ChecklistTemplateDesignerComponent({
     await toast.success("Lagring vellykket", {
       position: "top-center",
     });
+    onSave();
   };
 
   const sensors = useSensors(

@@ -3,10 +3,12 @@ import { v4 as uuid } from "uuid";
 import type { ChecklistTemplate } from "@/data/models";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChecklistRenderer } from "@/components/ChecklistRenderer";
-import { ChecklistTemplateDesignerComponent } from "./ChecklistTemplateDesignerComponent";
+import { ChecklistTemplateDesignerComponent } from "../components/ChecklistTemplateDesignerComponent";
+import { useNavigate } from "react-router-dom";
 
 // This is your wrapper component
-export function ChecklistTemplateDesigner() {
+export function ChecklistTemplateDesignerPage() {
+  const navigate = useNavigate();
   const [template, setTemplate] = useState<ChecklistTemplate>({
     id: uuid(),
     versionId: uuid(),
@@ -14,6 +16,10 @@ export function ChecklistTemplateDesigner() {
     description: "",
     items: [],
   });
+
+  const onChecklistTemplateSaved = () => {
+    navigate("/");
+  };
 
   return (
     <div className="flex w-full max-w-4xl flex-col gap-6">
@@ -33,6 +39,7 @@ export function ChecklistTemplateDesigner() {
           <ChecklistTemplateDesignerComponent
             template={template}
             setTemplate={setTemplate}
+            onSave={onChecklistTemplateSaved}
           />
         </TabsContent>
 
