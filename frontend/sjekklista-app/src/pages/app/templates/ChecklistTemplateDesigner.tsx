@@ -9,6 +9,7 @@ import { ChecklistTemplateDesignerComponent } from "./ChecklistTemplateDesignerC
 export function ChecklistTemplateDesigner() {
   const [template, setTemplate] = useState<ChecklistTemplate>({
     id: uuid(),
+    versionId: uuid(),
     name: "",
     description: "",
     items: [],

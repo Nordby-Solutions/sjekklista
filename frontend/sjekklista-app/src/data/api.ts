@@ -1,6 +1,6 @@
 import axios from "axios";
 import localforage from "localforage";
-import type { ChecklistTemplate } from "./models/checklist-template";
+import type { Checklist, ChecklistTemplate } from "./models/checklist-template";
 
 // Configure LocalForage
 localforage.config({
@@ -12,6 +12,9 @@ localforage.config({
   driver: [localforage.WEBSQL, localforage.INDEXEDDB, localforage.LOCALSTORAGE], // Preferred storage drivers in order
 });
 
+const CHECKLIST_TEMPLATE = "checklist_templates";
+const CHECKLIST = "checklists";
+
 const getLatestChecklistTemplate = async () => {
   const data = await localforage.getItem<ChecklistTemplate>(
     "latestChecklistTemplate"
@@ -21,12 +24,16 @@ const getLatestChecklistTemplate = async () => {
 };
 
 const getChecklistTemplates = async () => {
-  const data = await localforage.getItem<ChecklistTemplate[]>("checklists");
+  const data = await localforage.getItem<ChecklistTemplate[]>(
+    CHECKLIST_TEMPLATE
+  );
   return data ?? [];
 };
 
 const findChecklistTemplate = async (id: string) => {
-  const data = await localforage.getItem<ChecklistTemplate[]>("checklists");
+  const data = await localforage.getItem<ChecklistTemplate[]>(
+    CHECKLIST_TEMPLATE
+  );
   const checklist = data?.find((c) => c.id === id);
 
   return checklist || null;
@@ -34,14 +41,14 @@ const findChecklistTemplate = async (id: string) => {
 
 const getChecklistTemplateLookup = async () => {
   const data =
-    (await localforage.getItem<ChecklistTemplate[]>("checklists")) ?? [];
+    (await localforage.getItem<ChecklistTemplate[]>(CHECKLIST_TEMPLATE)) ?? [];
 
   return data.map((x) => ({ id: x.id, name: x.name }));
 };
 
 const saveChecklistTemplate = async (template: ChecklistTemplate) => {
   const checklists =
-    (await localforage.getItem<ChecklistTemplate[]>("checklists")) ?? [];
+    (await localforage.getItem<ChecklistTemplate[]>(CHECKLIST_TEMPLATE)) ?? [];
 
   if (checklists.find((c) => c.id === template.id)) {
     // Update existing
@@ -51,14 +58,33 @@ const saveChecklistTemplate = async (template: ChecklistTemplate) => {
     checklists.push(template);
   }
 
-  await localforage.setItem("checklists", checklists);
+  await localforage.setItem(CHECKLIST_TEMPLATE, checklists);
 };
 
-// const createChecklistTemplate = async (template: ChecklistTemplate) => {
-//   await localforage.setItem("latestChecklistTemplate", template);
-// };
+const saveChecklist = async (checklist: Checklist) => {
+  const checklists = (await getChecklists()) ?? [];
+
+  if (checklists.find((c) => c.id === checklist.id)) {
+    // Update existing
+    const index = checklists.findIndex((c) => c.id === checklist.id);
+    checklists[index] = checklist;
+  } else {
+    checklists.push(checklist);
+  }
+
+  await localforage.setItem(CHECKLIST, checklists);
+};
+
+const getChecklists = async () => {
+  const data = await localforage.getItem<Checklist[]>(CHECKLIST);
+  return data ?? [];
+};
 
 export const API = {
+  checklist: {
+    getChecklists,
+    saveChecklist,
+  },
   checklistTempate: {
     getLatestChecklistTemplate,
     saveChecklistTemplate,

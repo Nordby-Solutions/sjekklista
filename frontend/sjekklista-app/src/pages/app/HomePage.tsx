@@ -1,18 +1,10 @@
 import { useEffect, useState } from "react";
-import localforage from "localforage";
-import type { ChecklistTemplate } from "@/data/models";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ClipboardList, FileText, Settings } from "lucide-react";
 import FloatingActionButton from "@/components/FloatingActionButton";
-
-const getChecklistTemplateLookup = async () => {
-  const data =
-    (await localforage.getItem<ChecklistTemplate[]>("checklists")) ?? [];
-
-  return data.map((x) => ({ id: x.id, name: x.name }));
-};
+import { API } from "@/data/api";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -41,7 +33,7 @@ export default function HomePage() {
 
   useEffect(() => {
     (async () => {
-      const data = await getChecklistTemplateLookup();
+      const data = await API.checklistTempate.getChecklistTemplateLookup();
       setTemplates(data);
     })();
   }, []);
@@ -63,7 +55,7 @@ export default function HomePage() {
   }
 
   const filtered = templates.filter((t) =>
-    t.name.toLowerCase().includes(search.toLowerCase())
+    t?.name?.toLowerCase()?.includes(search.toLowerCase())
   );
 
   return (

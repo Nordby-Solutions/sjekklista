@@ -304,7 +304,9 @@ export function ChecklistTemplateDesignerComponent({
 
   const saveTemplate = async () => {
     await API.checklistTempate.saveChecklistTemplate(template);
-    toast("Lagring vellykket");
+    await toast.success("Lagring vellykket", {
+      position: "top-center",
+    });
   };
 
   const sensors = useSensors(

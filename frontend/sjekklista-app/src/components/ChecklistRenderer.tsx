@@ -3,7 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import type { ChecklistTemplate, ChecklistTemplateItem } from "@/data/models";
+import type {
+  Checklist,
+  ChecklistTemplate,
+  ChecklistTemplateItem,
+} from "@/data/models";
+import { API } from "@/data/api";
+import { toast } from "sonner";
 
 type ChecklistRendererProps = {
   template: ChecklistTemplate;
@@ -27,9 +33,36 @@ ChecklistRendererProps) {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // onSubmit(values);
+
+    const now = new Date().toISOString();
+    const checklist: Checklist = {
+      id: crypto.randomUUID(),
+      templateId: template.id,
+      templateVersionId: template.versionId,
+      status: "in_progress", // or "not_started" initially
+      assignedTo: null,
+      dueDate: null,
+      createdAt: now,
+      updatedAt: now,
+      createdBy: "currentUserId", // replace with auth context
+      updatedBy: "currentUserId",
+      items: template.items.flatMap((section) =>
+        section.items.map((item) => ({
+          id: crypto.randomUUID(),
+          sectionId: section.id,
+          value: values[item.id] ?? null,
+          completedAt: values[item.id] ? now : null,
+          completedBy: values[item.id] ? "currentUserId" : null,
+        }))
+      ),
+    };
+
+    await API.checklist.saveChecklist(checklist);
+    await toast.success("Sjekklista lagret", {
+      position: "top-center",
+    });
   };
 
   return (
