@@ -44,6 +44,15 @@ export default function AppLayout() {
             </Link>
           );
         })}
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={pwa.installApp}
+          className="text-xs px-2 py-1 bg-brand-purple text-white"
+        >
+          Last ned app
+        </Button>
       </aside>
 
       {/* Main content */}
