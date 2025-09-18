@@ -7,6 +7,11 @@ import { usePWAInstall } from "@/hooks/usePWAInstall";
 const navItems = [
   { label: "Hjem", path: "/", icon: <Home className="w-5 h-5" /> },
   { label: "Design", path: "/design", icon: <Pen className="w-5 h-5" /> },
+  {
+    label: "Rapporter",
+    path: "/report-designer",
+    icon: <Pen className="w-5 h-5" />,
+  },
   { label: "Historikk", path: "/history", icon: <List className="w-5 h-5" /> },
   {
     label: "Innstillinger",
