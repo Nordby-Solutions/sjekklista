@@ -23,6 +23,11 @@ export default function FinalCTASection() {
         <Link
           href="https://app.sjekklista.no"
           className="bg-brand-purple text-white px-6 py-3 rounded hover:bg-blue-700 transition"
+          onClick={() => {
+            if (process.env.NODE_ENV === "production") {
+              window.umami?.track("final-cta-click");
+            }
+          }}
         >
           Prøv gratis nå
         </Link>
