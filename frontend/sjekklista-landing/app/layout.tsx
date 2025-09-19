@@ -74,28 +74,18 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
 
-        {/* {process.env.NODE_ENV === "production" && (
+        {process.env.NODE_ENV === "production" && (
           <script
             defer
             src="https://cloud.umami.is/script.js"
             data-website-id="92753677-5903-43ed-b05e-c06ae1a04b6e"
           ></script>
-
-        )} */}
+        )}
       </Head>
 
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
-        {process.env.NODE_ENV === "production" && (
-          // <script
-          //   defer
-          //   src="https://cloud.umami.is/script.js"
-          //   data-website-id="92753677-5903-43ed-b05e-c06ae1a04b6e"
-          // ></script>
-          <h1>Prod</h1>
-        )}
-
         <div className="bg-yellow-50 border-b border-yellow-300 text-sm text-yellow-900 px-4 py-2 text-center">
           Dette produktet er under utvikling. For å melde interesse kan du ta
           kontakt{" "}
