@@ -18,18 +18,33 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
       devOptions: {
-        enabled: true, // enable service worker in dev
-        suppressWarnings: true, // optional, hides console noise
+        enabled: true,
+        suppressWarnings: true,
         navigateFallback: "index.html",
       },
       manifest: {
         name: "Sjekklista",
         short_name: "Sjekklista",
         description: "Lag og del sjekklister enkelt og raskt",
+        lang: "nb",
+        dir: "ltr",
         scope: "/",
         start_url: "/",
         display: "standalone",
-        theme_color: "#ffffff",
+        display_override: ["standalone", "minimal-ui", "browser"],
+        theme_color: "#825bf9",
+        background_color: "#825bf9",
+        categories: ["productivity", "business"],
+        prefer_related_applications: false,
+        // Optional: Add if you have a native app
+        // related_applications: [
+        //   {
+        //     platform: "play",
+        //     id: "com.example.nativeapp"
+        //   }
+        // ],
+        // Optional: Add if you have an IARC rating
+        // iarc_rating_id: "e1234567890",
         icons: [
           {
             src: "pwa-64x64.png",
