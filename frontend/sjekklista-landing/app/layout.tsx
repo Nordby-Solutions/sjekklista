@@ -78,6 +78,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
+        <div className="bg-yellow-50 border-b border-yellow-300 text-sm text-yellow-900 px-4 py-2 text-center">
+          Dette produktet er under utvikling. For å melde interesse kan du ta
+          kontakt{" "}
+          <a
+            href="mailto:sebastianbjornstad@hotmail.com"
+            className="underline font-medium text-yellow-800 hover:text-yellow-600"
+          >
+            her
+          </a>
+          .
+        </div>
+
         <TopNav />
         {children}
       </body>
