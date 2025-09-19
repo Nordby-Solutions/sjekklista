@@ -73,14 +73,6 @@ export default function RootLayout({
           type="application/json"
           crossOrigin="anonymous"
         />
-
-        {process.env.NODE_ENV === "production" && (
-          <script
-            defer
-            src="https://cloud.umami.is/script.js"
-            data-website-id="92753677-5903-43ed-b05e-c06ae1a04b6e"
-          ></script>
-        )}
       </Head>
 
       <body
@@ -100,6 +92,14 @@ export default function RootLayout({
 
         <TopNav />
         {children}
+
+        {process.env.NODE_ENV === "production" && (
+          <script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id="92753677-5903-43ed-b05e-c06ae1a04b6e"
+          ></script>
+        )}
       </body>
     </html>
   );
