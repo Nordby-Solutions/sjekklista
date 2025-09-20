@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import TopNav from "@/components/TopNav";
-import Head from "next/head";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,21 +28,8 @@ export const metadata: Metadata = {
     title: "Sjekklista",
     description:
       "Lag sjekklister på sekunder. Intuitivt grensesnitt — ingen opplæring nødvendig.",
-    // images: ["/og-image.png"],
   },
-  // twitter: {
-  //   card: "summary_large_image",
-  //   site: "@sjekklista",
-  // },
 };
-
-// const orgJsonLd = {
-//   "@context": "https://schema.org",
-//   "@type": "Organization",
-//   name: "Sjekklista",
-//   url: "https://sjekklista.no",
-//   logo: "https://sjekklista.no/og-image.png",
-// };
 
 export default function RootLayout({
   children,
@@ -50,8 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <Head>
+    <html lang="no">
+      <head>
         <link
           rel="preload"
           href="/lottie/checklist.json"
@@ -73,8 +60,7 @@ export default function RootLayout({
           type="application/json"
           crossOrigin="anonymous"
         />
-      </Head>
-
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
@@ -94,11 +80,11 @@ export default function RootLayout({
         {children}
 
         {process.env.NODE_ENV === "production" && (
-          <script
-            async
+          <Script
             src="https://cloud.umami.is/script.js"
             data-website-id="92753677-5903-43ed-b05e-c06ae1a04b6e"
-          ></script>
+            strategy="afterInteractive"
+          />
         )}
       </body>
     </html>
