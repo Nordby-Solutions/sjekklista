@@ -2,7 +2,7 @@ export type ChecklistField = {
   id: string;
   label: string;
   sectionName: string;
-  type: "textfield" | "textarea" | "checkbox" | "date" | "number";
+  type: "textfield" | "textarea" | "checkbox" | "date" | "number" | "signature";
 };
 
 export type TextBlockDescriptor = {

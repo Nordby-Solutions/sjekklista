@@ -5,12 +5,11 @@ import { ArrowRight, ClipboardList, FileText, Settings } from "lucide-react";
 import FloatingActionButton from "@/components/FloatingActionButton";
 import { API } from "@/data/api";
 import SearchBar from "@/components/SearchBar";
+import type { ChecklistTemplateLookup } from "@/data/models";
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const [templates, setTemplates] = useState<{ id: string; name: string }[]>(
-    []
-  );
+  const [templates, setTemplates] = useState<ChecklistTemplateLookup[]>([]);
   const [search, setSearch] = useState("");
 
   const menuItems = [
@@ -59,29 +58,43 @@ export default function HomePage() {
   );
 
   return (
-    <div className="flex-1 h-full flex flex-col gap-2">
-      <SearchBar
-        onSearch={(query) => setSearch(query)}
-        placeholder="Søk sjekklister..."
-      />
+    <div className="flex-1 h-full flex flex-col">
+      <div className="px-4 pt-6 pb-2 space-y-2">
+        <h1 className="text-2xl font-bold text-gray-800">Sjekklister</h1>
+        <p className="text-sm text-gray-600">
+          Trykk på en sjekkliste for å starte registrering.
+        </p>
 
-      <div className="flex flex-col gap-2 overflow-y-auto flex-1 h-full p-2">
-        {/* Checklist cards */}
-        {(search.length == 0 ? templates : filtered).map((t) => (
-          <Link
-            to={`/checklist/${t.id}`}
-            key={t.id}
-            className="bg-white rounded-lg shadow-md p-4 flex"
-          >
-            <div className="mr-auto">
-              <h2 className="text-lg font-semibold text-gray-900">{t.name}</h2>
-              <p className="text-gray-700 mt-2">
-                Åpne denne sjekklisten for å starte ny registrering.
-              </p>
-            </div>
-            <ArrowRight />
-          </Link>
-        ))}
+        <SearchBar
+          onSearch={(query) => setSearch(query)}
+          placeholder="Søk sjekklister..."
+        />
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-3">
+        {(search.length === 0 ? templates : filtered).length === 0 ? (
+          <div className="text-center text-gray-500 mt-4">
+            Ingen sjekklister funnet.
+          </div>
+        ) : (
+          (search.length === 0 ? templates : filtered).map((t) => (
+            <Link
+              to={`/checklist/${t.id}`}
+              key={t.id}
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex items-center justify-between border border-gray-200"
+            >
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900">
+                  {t.name}
+                </h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  {t.description || "Ingen beskrivelse tilgjengelig."}
+                </p>
+              </div>
+              <ArrowRight className="text-gray-400" />
+            </Link>
+          ))
+        )}
       </div>
 
       <FloatingActionButton items={menuItems} />

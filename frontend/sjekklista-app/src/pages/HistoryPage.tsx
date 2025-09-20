@@ -21,7 +21,15 @@ export default function HistoryPage() {
 
   return (
     <div>
-      <h1>Utførte sjekklister</h1>
+      <div className="px-4 pt-6 pb-2 space-y-2">
+        <h1 className="text-2xl font-bold text-gray-800">
+          Tidligere registreringer
+        </h1>
+        <p className="text-sm text-gray-600">
+          Her finner du en oversikt over sjekklister du allerede har fullført.
+        </p>
+      </div>
+
       <div className="flex flex-col gap-2 overflow-y-auto flex-1 h-full p-2">
         {/* Checklist cards */}
         {(search.length == 0 ? checklists : filteredChecklists).map((t) => (

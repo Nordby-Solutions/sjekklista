@@ -1,6 +1,10 @@
 import axios from "axios";
 import localforage from "localforage";
-import type { Checklist, ChecklistTemplate } from "./models/checklist-template";
+import type {
+  Checklist,
+  ChecklistTemplate,
+  ChecklistTemplateLookup,
+} from "./models/checklist-template";
 
 // Configure LocalForage
 localforage.config({
@@ -43,7 +47,16 @@ const getChecklistTemplateLookup = async () => {
   const data =
     (await localforage.getItem<ChecklistTemplate[]>(CHECKLIST_TEMPLATE)) ?? [];
 
-  return data.map((x) => ({ id: x.id, name: x.name }));
+  const lookups = data.map(
+    (x) =>
+      ({
+        id: x.id,
+        name: x.name,
+        description: x.description,
+      } as ChecklistTemplateLookup)
+  );
+
+  return lookups;
 };
 
 const saveChecklistTemplate = async (template: ChecklistTemplate) => {

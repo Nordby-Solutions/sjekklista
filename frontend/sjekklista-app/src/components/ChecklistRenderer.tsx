@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,6 +10,15 @@ import type {
 } from "@/data/models";
 import { API } from "@/data/api";
 import { toast } from "sonner";
+import SignatureCanvas from "react-signature-canvas";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 type ChecklistRendererProps = {
   template: ChecklistTemplate;
@@ -25,6 +34,21 @@ export function ChecklistRenderer({
 ChecklistRendererProps) {
   // Flatten state by item id
   const [values, setValues] = useState<Record<string, any>>({});
+  const sigRefs = useRef<Record<string, SignatureCanvas>>({});
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [canvasWidth, setCanvasWidth] = useState(300);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const resize = () => {
+      if (containerRef.current) {
+        setCanvasWidth(containerRef.current.offsetWidth);
+      }
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
 
   const handleChange = (item: ChecklistTemplateItem, value: any) => {
     setValues((prev) => ({
@@ -33,15 +57,15 @@ ChecklistRendererProps) {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSave = async (
+    status: "draft" | "not_started" | "in_progress" | "completed"
+  ) => {
     const now = new Date().toISOString();
     const checklist: Checklist = {
       id: crypto.randomUUID(),
       templateId: template.id,
       templateVersionId: template.versionId,
-      status: "in_progress", // or "not_started" initially
+      status: status,
       assignedTo: null,
       dueDate: null,
       createdAt: now,
@@ -63,10 +87,12 @@ ChecklistRendererProps) {
     await toast.success("Sjekklista lagret", {
       position: "top-center",
     });
+
+    navigate("/");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form className="space-y-6">
       {/* Template header */}
       <div>
         <h1 className="text-2xl font-bold">{template.name}</h1>
@@ -137,6 +163,38 @@ ChecklistRendererProps) {
                     onChange={(e) => handleChange(item, Number(e.target.value))}
                   />
                 )}
+
+                {item.type === "signature" && (
+                  <div ref={containerRef}>
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        if (ref) sigRefs.current[item.id] = ref;
+                      }}
+                      penColor="black"
+                      canvasProps={{
+                        width: canvasWidth,
+                        height: 200,
+                        className: "border", // 👈 full width via Tailwind
+                      }}
+                      onEnd={() => {
+                        const dataURL = sigRefs.current[item.id]
+                          ?.getTrimmedCanvas()
+                          .toDataURL("image/png");
+                        handleChange(item, dataURL);
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        sigRefs.current[item.id]?.clear();
+                        handleChange(item, ""); // Clear value
+                      }}
+                      className="mt-2 text-sm text-red-600"
+                    >
+                      Fjern signatur
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -146,12 +204,28 @@ ChecklistRendererProps) {
       {previewMode ? (
         ""
       ) : (
-        <button
-          type="submit"
-          className="bg-brand-purple text-white px-4 py-2 rounded-md"
-        >
-          Lagre svar
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="bg-brand-purple text-white">Lagre svar</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              className="py-4 text-base"
+              onClick={() => handleSave("completed")}
+            >
+              ✅ Lagre som fullført
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="py-4 text-base"
+              onClick={() => handleSave("draft")}
+            >
+              📝 Lagre som kladd
+            </DropdownMenuItem>
+            <DropdownMenuItem className="py-4 text-base">
+              ❌ Avbryt
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
     </form>
   );

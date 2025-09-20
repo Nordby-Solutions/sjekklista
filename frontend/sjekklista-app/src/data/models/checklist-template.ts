@@ -2,7 +2,7 @@ export interface Checklist {
   id: string;
   templateId: string;
   templateVersionId: string;
-  status: "not_started" | "in_progress" | "completed";
+  status: "draft" | "not_started" | "in_progress" | "completed";
   assignedTo: string | null; // User ID or name
   dueDate: string | null; // ISO date string
   createdAt: string; // ISO date string
@@ -29,6 +29,12 @@ export type ChecklistTemplate = {
   items: ChecklistTemplateSection[];
 };
 
+export type ChecklistTemplateLookup = {
+  id: string;
+  name: string;
+  description: string;
+};
+
 export interface CreateChecklistTemplateArgs {
   name: string;
   description: string;
@@ -46,6 +52,6 @@ export interface ChecklistTemplateItem {
   id: string;
   label: string;
   info: string | null; // Optional additional info
-  type: "textfield" | "textarea" | "checkbox" | "date" | "number";
+  type: "textfield" | "textarea" | "checkbox" | "date" | "number" | "signature";
   required: boolean;
 }

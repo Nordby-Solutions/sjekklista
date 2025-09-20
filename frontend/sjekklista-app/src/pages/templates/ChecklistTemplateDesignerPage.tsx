@@ -3,9 +3,15 @@ import { v4 as uuid } from "uuid";
 import type { ChecklistTemplate } from "@/data/models";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChecklistRenderer } from "@/components/ChecklistRenderer";
-import { ChecklistTemplateDesignerComponent } from "../../components/ChecklistTemplateDesignerComponent";
+import { ChecklistTemplateDesignerComponent } from "../../components/checklist-template/ChecklistTemplateDesignerComponent";
 import { useNavigate, useParams } from "react-router-dom";
 import { API } from "@/data/api";
+import { Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // This is your wrapper component
 export function ChecklistTemplateDesignerPage() {
@@ -45,15 +51,22 @@ export function ChecklistTemplateDesignerPage() {
 
   return (
     <div className="flex w-full max-w-4xl flex-col gap-6">
-      <h1 className="text-xl font-semibold">
-        {id ? "Rediger sjekkliste" : "Ny sjekkliste"}
-      </h1>
-      {id && (
-        <p className="text-gray-600">
-          Lag dine egne sjekklister som kan gjenbrukes og deles med teamet. Når
-          en sjekkliste tas i bruk, blir malen grunnlaget for registreringen.
-        </p>
-      )}
+      <div className="flex gap-2">
+        <h1 className="text-xl font-semibold">
+          {id ? "Rediger sjekkliste" : "Ny sjekkliste"}
+        </h1>
+
+        <Tooltip>
+          <TooltipTrigger>
+            <Info></Info>
+          </TooltipTrigger>
+          <TooltipContent>
+            Lag dine egne sjekklister som kan gjenbrukes og deles med teamet.
+            Når en sjekkliste tas i bruk, blir malen grunnlaget for
+            registreringen.
+          </TooltipContent>
+        </Tooltip>
+      </div>
 
       <Tabs defaultValue="designer" className="w-full">
         <TabsList>
