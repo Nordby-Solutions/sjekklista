@@ -3,10 +3,11 @@ import NotFound from "./pages/NotFound";
 import { Toaster } from "@/components/ui/sonner";
 import AppLayout from "@/components/AppLayout";
 import HomePage from "./pages/HomePage";
-import { ChecklistTemplateDesignerPage } from "./pages/ChecklistTemplateDesignerPage";
+import { ChecklistTemplateDesignerPage } from "./pages/templates/ChecklistTemplateDesignerPage";
 import ChecklistPage from "./pages/ChecklistPage";
 import HistoryPage from "./pages/HistoryPage";
 import ReportDesignerPage from "./pages/ReportDesignerPage";
+import ChecklistTemplatesPage from "./pages/templates/ChecklistTemplatesPage";
 
 function App() {
   return (
@@ -14,8 +15,16 @@ function App() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/design" element={<ChecklistTemplateDesignerPage />} />
           <Route path="/history" element={<HistoryPage />}></Route>
+          <Route
+            path="/checklist-templates"
+            element={<ChecklistTemplatesPage />}
+          ></Route>
+          <Route path="/design" element={<ChecklistTemplateDesignerPage />} />
+          <Route
+            path="/design/:id"
+            element={<ChecklistTemplateDesignerPage />}
+          />
           <Route path="/checklist/:id" element={<ChecklistPage />} />
           <Route path="/report-designer" element={<ReportDesignerPage />} />
         </Route>

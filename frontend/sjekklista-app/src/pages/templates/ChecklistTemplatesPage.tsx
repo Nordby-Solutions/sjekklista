@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, ClipboardList, FileText, Settings } from "lucide-react";
+import { ArrowRight, ClipboardList } from "lucide-react";
 import FloatingActionButton from "@/components/FloatingActionButton";
 import { API } from "@/data/api";
 import SearchBar from "@/components/SearchBar";
 
-export default function HomePage() {
+export default function ChecklistTemplatesPage() {
   const navigate = useNavigate();
   const [templates, setTemplates] = useState<{ id: string; name: string }[]>(
     []
@@ -18,16 +18,6 @@ export default function HomePage() {
       icon: <ClipboardList className="h-4 w-4" />,
       label: "Ny sjekkliste",
       onClick: () => navigate("/design"),
-    },
-    {
-      icon: <FileText className="h-4 w-4" />,
-      label: "Lag rapport",
-      onClick: () => console.log("Rapport"),
-    },
-    {
-      icon: <Settings className="h-4 w-4" />,
-      label: "Innstillinger",
-      onClick: () => console.log("Innstillinger"),
     },
   ];
 
@@ -69,14 +59,14 @@ export default function HomePage() {
         {/* Checklist cards */}
         {(search.length == 0 ? templates : filtered).map((t) => (
           <Link
-            to={`/checklist/${t.id}`}
+            to={`/design/${t.id}`}
             key={t.id}
             className="bg-white rounded-lg shadow-md p-4 flex"
           >
             <div className="mr-auto">
               <h2 className="text-lg font-semibold text-gray-900">{t.name}</h2>
               <p className="text-gray-700 mt-2">
-                Åpne denne sjekklisten for å starte ny registrering.
+                Åpne denne sjekklisten å gjøre endringer.
               </p>
             </div>
             <ArrowRight />
