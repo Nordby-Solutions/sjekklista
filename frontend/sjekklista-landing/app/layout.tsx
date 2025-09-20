@@ -93,11 +93,13 @@ export default function RootLayout({
         <TopNav />
         {children}
 
-        <script
-          defer
-          src="https://cloud.umami.is/script.js"
-          data-website-id="92753677-5903-43ed-b05e-c06ae1a04b6e"
-        ></script>
+        {process.env.NODE_ENV === "production" && (
+          <script
+            async
+            src="https://cloud.umami.is/script.js"
+            data-website-id="92753677-5903-43ed-b05e-c06ae1a04b6e"
+          ></script>
+        )}
       </body>
     </html>
   );
