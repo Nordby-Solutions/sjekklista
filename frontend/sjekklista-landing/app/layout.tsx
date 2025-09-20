@@ -38,29 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="no">
-      <head>
-        <link
-          rel="preload"
-          href="/lottie/checklist.json"
-          as="fetch"
-          type="application/json"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/lottie/headache.json"
-          as="fetch"
-          type="application/json"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/lottie/customization.json"
-          as="fetch"
-          type="application/json"
-          crossOrigin="anonymous"
-        />
-      </head>
+      <head></head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
@@ -83,7 +61,7 @@ export default function RootLayout({
           <Script
             src="https://cloud.umami.is/script.js"
             data-website-id="92753677-5903-43ed-b05e-c06ae1a04b6e"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
         )}
       </body>
