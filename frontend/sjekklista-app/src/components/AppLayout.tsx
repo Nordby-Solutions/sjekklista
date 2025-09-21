@@ -1,7 +1,16 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { Menu, Home, List, Settings, Pen, LogIn, LogOut } from "lucide-react";
+import {
+  Menu,
+  Home,
+  List,
+  Settings,
+  Pen,
+  LogIn,
+  LogOut,
+  Download,
+} from "lucide-react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -91,7 +100,7 @@ export default function AppLayout() {
               onClick={() =>
                 logout({ logoutParams: { returnTo: window.location.origin } })
               }
-              className="w-full justify-start gap-2 text-sm text-gray-600 hover:text-red-600"
+              className="w-full justify-start gap-2 text-xs text-gray-600 hover:text-red-600"
             >
               <LogOut className="w-4 h-4" />
               Logg ut
@@ -100,7 +109,7 @@ export default function AppLayout() {
             <Button
               onClick={() => loginWithRedirect()}
               size="sm"
-              className="w-full bg-brand-purple text-white hover:bg-brand-purple/90"
+              className="w-full text-xs bg-brand-purple text-white hover:bg-brand-purple/90"
             >
               <LogIn className="w-2 h-2 mr-2" />
               Logg inn
@@ -113,6 +122,7 @@ export default function AppLayout() {
             onClick={pwa.installApp}
             className="w-full text-xs bg-brand-purple hover:bg-brand-purple/90"
           >
+            <Download className="w-2 h-2 mr-2" />
             Last ned app
           </Button>
         </div>
