@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { text } from "@pdfme/schemas";
+import { text, line, ellipse, rectangle, checkbox } from "@pdfme/schemas";
 import { useAutoCollapseSidebarForWidePage } from "@/hooks/useAutoCollapseSidebarForWidePage";
 import { BLANK_A4_PDF } from "@pdfme/common";
 
@@ -61,7 +61,7 @@ export default function ReportDesignerPage() {
     const designer = new Designer({
       domContainer: containerRef.current,
       template: initialTemplate,
-      plugins: { text },
+      plugins: { text, line, ellipse, rectangle, checkbox },
       options: {
         sidebarOpen: true,
         lang: "en", // base language (keeps internal defaults)
@@ -171,7 +171,7 @@ export default function ReportDesignerPage() {
       const pdfUint8Array = await generate({
         template: tpl,
         inputs: [{}],
-        plugins: { text }, // include any other plugins used in the template
+        plugins: { text, line, ellipse, rectangle, checkbox }, // include any other plugins used in the template
       });
 
       const blob = new Blob([new Uint8Array(pdfUint8Array)], {
