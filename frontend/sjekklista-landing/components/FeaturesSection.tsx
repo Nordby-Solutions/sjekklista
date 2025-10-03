@@ -1,10 +1,4 @@
-"use client";
-
-import dynamic from "next/dynamic";
-
-const LottiePlayer = dynamic(() => import("@/components/LottiePlayer"), {
-  ssr: false,
-});
+import LottieWrapper from "./LottieWrapper";
 
 export default function FeatureSection() {
   return (
@@ -28,7 +22,7 @@ export default function FeatureSection() {
         </ul>
       </div>
       <div className="w-48 mx-auto md:w-full md:order-last">
-        <LottiePlayer lottiePath="/lottie/customization.json" />
+        <LottieWrapper path="/lottie/customization.json" />
       </div>
     </section>
   );

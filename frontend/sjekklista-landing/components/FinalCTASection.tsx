@@ -1,11 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-const LottiePlayer = dynamic(() => import("@/components/LottiePlayer"), {
-  ssr: false,
-});
+import LottieWrapper from "./LottieWrapper";
 
 export default function FinalCTASection() {
   return (
@@ -32,7 +26,7 @@ export default function FinalCTASection() {
           Prøv gratis nå
         </Link>
       </div>
-      <LottiePlayer lottiePath="/lottie/headache.json" />
+      <LottieWrapper path="/lottie/headache.json" />
     </section>
   );
 }

@@ -1,11 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-const LottiePlayer = dynamic(() => import("@/components/LottiePlayer"), {
-  ssr: false,
-});
+import LottieWrapper from "./LottieWrapper";
 
 export default function HeroSection() {
   return (
@@ -16,7 +10,7 @@ export default function HeroSection() {
       {/* Lottie first on mobile */}
       <div className="order-1 md:order-none">
         <div className="w-56 mx-auto md:w-full">
-          <LottiePlayer lottiePath="/lottie/checklist.json" />
+          <LottieWrapper path="/lottie/checklist.json" />
         </div>
       </div>
 

@@ -1,8 +1,6 @@
-import Link from "next/link";
 import HeroSection from "@/components/HeroSection";
 import FeatureSection from "@/components/FeaturesSection";
 import FinalCTASection from "@/components/FinalCTASection";
-import TrustedBySection from "@/components/TrustedBySection";
 import PricingSection from "@/components/PricingSection";
 
 export default function HomePage() {
