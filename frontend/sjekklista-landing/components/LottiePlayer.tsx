@@ -14,9 +14,7 @@ export default function LottiePlayer({ lottiePath, width }: LottiePlayerProps) {
         autoplay
         loop
         src={lottiePath}
-        className={`w-[${
-          width ?? "200px"
-        }] sm:w-[250px] md:w-[300px] lg:w-[390px]`}
+        className="sm:w-[250px] md:w-[300px] lg:w-[390px]"
       />
     </div>
   );
