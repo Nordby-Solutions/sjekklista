@@ -9,7 +9,7 @@ export default function HeroSection() {
     >
       {/* Lottie first on mobile */}
       <div className="order-1 md:order-none">
-        <div className="w-56 mx-auto md:w-full">
+        <div className="w-56 h-56 mx-auto md:w-full md:h-[300px]">
           <LottieWrapper path="/lottie/checklist.json" />
         </div>
       </div>
