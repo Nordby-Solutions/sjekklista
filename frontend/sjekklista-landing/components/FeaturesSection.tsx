@@ -4,8 +4,9 @@ export default function FeatureSection() {
   return (
     <section
       id="features"
-      className="px-6 py-32 max-w-6xl mx-auto flex flex-col-reverse md:grid md:grid-cols-2 gap-16 items-center"
+      className="px-6 py-24 md:py-32 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center"
     >
+      {/* Text first on all viewports */}
       <div>
         <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
           Skreddersy sjekklister og rapporter
@@ -21,7 +22,9 @@ export default function FeatureSection() {
           <li>Del med andre brukere og internt i firmaet</li>
         </ul>
       </div>
-      <div className="w-48 mx-auto md:w-full md:order-last">
+
+      {/* Lottie animation with reserved space */}
+      <div className="mx-auto w-[192px] h-[192px] sm:w-[224px] sm:h-[224px] md:w-[300px] md:h-[300px] lg:w-[390px] lg:h-[390px]">
         <LottieWrapper path="/lottie/customization.json" />
       </div>
     </section>

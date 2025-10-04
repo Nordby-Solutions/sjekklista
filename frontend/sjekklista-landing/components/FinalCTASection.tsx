@@ -3,7 +3,7 @@ import LottieWrapper from "./LottieWrapper";
 
 export default function FinalCTASection() {
   return (
-    <section className="px-6 py-32 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center bg-slate-50 rounded-xl">
+    <section className="px-6 py-32 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center rounded-xl">
       <div>
         <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
           Ikke mer hodebry, Excel-sjekklister og rot

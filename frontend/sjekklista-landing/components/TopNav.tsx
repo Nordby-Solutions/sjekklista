@@ -7,7 +7,7 @@ export default function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-slate-200/60">
+    <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="max-w-6xl mx-auto px-6">
         <div className="h-16 flex items-center justify-between">
           <Link
