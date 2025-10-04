@@ -5,6 +5,7 @@ import type {
   ChecklistTemplate,
   ChecklistTemplateLookup,
 } from "./models/checklist-template";
+import type { ReportTemplate } from "./models";
 
 // Configure LocalForage
 localforage.config({
@@ -18,6 +19,7 @@ localforage.config({
 
 const CHECKLIST_TEMPLATE = "checklist_templates";
 const CHECKLIST = "checklists";
+const REPORT_TEMPLATE = "report_template";
 
 const getLatestChecklistTemplate = async () => {
   const data = await localforage.getItem<ChecklistTemplate>(
@@ -93,7 +95,32 @@ const getChecklists = async () => {
   return data ?? [];
 };
 
+const getReportTemplates = async () => {
+  const reportTemplates =
+    (await localforage.getItem<ReportTemplate[]>(REPORT_TEMPLATE)) ?? [];
+
+  return reportTemplates;
+};
+
+const saveReportTemplate = async (template: ReportTemplate) => {
+  const reportTemplates = await getReportTemplates();
+
+  if (reportTemplates.find((c) => c.id === template.id)) {
+    // Update existing
+    const index = reportTemplates.findIndex((c) => c.id === template.id);
+    reportTemplates[index] = template;
+  } else {
+    reportTemplates.push(template);
+  }
+
+  await localforage.setItem(REPORT_TEMPLATE, reportTemplates);
+};
+
 export const API = {
+  reportTemplates: {
+    saveReportTemplate,
+    getReportTemplates,
+  },
   checklist: {
     getChecklists,
     saveChecklist,

@@ -15,7 +15,8 @@ export interface Checklist {
 
 export interface ChecklistItem {
   id: string;
-  sectionId: string;
+  templateItemId: string;
+  templateSectionId: string;
   value: string | boolean | null; // Value can be text, boolean (for checkbox), or null if not filled
   completedAt: string | null; // ISO date string when the item was completed
   completedBy: string | null; // User ID or name who completed the item

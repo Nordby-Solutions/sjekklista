@@ -3,7 +3,11 @@ import { Designer } from "@pdfme/ui";
 import { generate } from "@pdfme/generator";
 import type { Template, Schema } from "@pdfme/common";
 import { API } from "@/data/api";
-import type { ChecklistTemplate } from "@/data/models";
+import type {
+  ChecklistTemplate,
+  ChecklistTemplateItem,
+  ChecklistTemplateSection,
+} from "@/data/models";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -17,6 +21,8 @@ import { Separator } from "@/components/ui/separator";
 import { text, line, ellipse, rectangle, checkbox } from "@pdfme/schemas";
 import { useAutoCollapseSidebarForWidePage } from "@/hooks/useAutoCollapseSidebarForWidePage";
 import { BLANK_A4_PDF } from "@pdfme/common";
+import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
 
 export default function ReportDesignerPage() {
   useAutoCollapseSidebarForWidePage();
@@ -24,6 +30,7 @@ export default function ReportDesignerPage() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const designerRef = useRef<Designer | null>(null);
   const templateRef = useRef<Template | null>(null);
+  const [reportName, setReportName] = useState<string>("");
 
   const [templates, setTemplates] = useState<ChecklistTemplate[]>([]);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(
@@ -114,17 +121,21 @@ export default function ReportDesignerPage() {
   }, [selectedTemplateId, templates]);
 
   // Programmatically add a field to the Designer without recreating it
-  const addField = (label: string) => {
+  const addField = (
+    section: ChecklistTemplateSection,
+    item: ChecklistTemplateItem
+  ) => {
     const designer = designerRef.current;
     if (!designer) return;
 
+    const key = `${section.name}_${item.label}`.replace(/\s+/g, "_");
     const current = designer.getTemplate();
     const page0 = current.schemas[0] ?? [];
 
     const newField: Schema = {
-      name: label,
+      name: key,
       type: "text",
-      content: label,
+      content: `{${key}}`,
       position: { x: 50, y: 50 + page0.length * 30 },
       width: 50,
       height: 5,
@@ -143,6 +154,20 @@ export default function ReportDesignerPage() {
     designer.updateTemplate(next);
     // keep templateRef synced
     templateRef.current = next;
+  };
+
+  const saveReportTemplate = async () => {
+    const template = templateRef.current;
+    if (!template) return;
+
+    await API.reportTemplates.saveReportTemplate({
+      id: "MY_FIRST",
+      name: reportName,
+      checklistTemplateId: selectedTemplateId!,
+      reportObj: template,
+    });
+
+    toast("Lagring vellykket.");
   };
 
   // Export PDF preview using current template from the Designer
@@ -206,6 +231,12 @@ export default function ReportDesignerPage() {
           </Select>
         </div>
 
+        <Input
+          name="report-name"
+          value={reportName}
+          onChange={(e) => setReportName(e.target.value)}
+        />
+
         <ScrollArea className="flex-1 p-4">
           <h3 className="text-sm font-semibold mb-2">Tilgjengelige felt</h3>
           {selectedTemplateId ? (
@@ -224,9 +255,7 @@ export default function ReportDesignerPage() {
                           variant="outline"
                           size="sm"
                           className="w-full justify-start"
-                          onClick={() =>
-                            addField(`${section.name}_${item.label}`)
-                          }
+                          onClick={() => addField(section, item)}
                         >
                           + {item.label}
                         </Button>
@@ -250,6 +279,13 @@ export default function ReportDesignerPage() {
             disabled={!isDesignerReady}
           >
             Forhåndsvis PDF
+          </Button>
+          <Button
+            className="w-full mt-2"
+            onClick={saveReportTemplate}
+            disabled={!isDesignerReady}
+          >
+            Lagre PDF
           </Button>
         </div>
       </aside>

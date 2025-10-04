@@ -75,7 +75,8 @@ ChecklistRendererProps) {
       items: template.items.flatMap((section) =>
         section.items.map((item) => ({
           id: crypto.randomUUID(),
-          sectionId: section.id,
+          templateItemId: item.id,
+          templateSectionId: section.id,
           value: values[item.id] ?? null,
           completedAt: values[item.id] ? now : null,
           completedBy: values[item.id] ? "currentUserId" : null,
