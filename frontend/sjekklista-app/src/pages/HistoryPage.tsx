@@ -30,7 +30,17 @@ function mapChecklistToInputs(
 
       console.log("CHECKLISTITEM: ", checklistItem);
 
-      inputs[key] = checklistItem?.value ?? "";
+      const rawValue = checklistItem?.value;
+
+      // Convert all values to strings safely
+      inputs[key] =
+        rawValue === null || rawValue === undefined
+          ? ""
+          : typeof rawValue === "string"
+          ? rawValue
+          : typeof rawValue === "boolean"
+          ? rawValue ? "Ja" : "Nei"
+          : String(rawValue);
     }
   }
 
