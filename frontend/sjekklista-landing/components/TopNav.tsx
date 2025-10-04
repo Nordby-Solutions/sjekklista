@@ -17,7 +17,7 @@ export default function TopNav() {
           >
             <Image
               alt="Sjekklista logo"
-              src="Sjekklista-logo-3-min.png"
+              src="/Sjekklista-logo-3-min.png"
               className="w-[113px]"
             />
           </Link>
