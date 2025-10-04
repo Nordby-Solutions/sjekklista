@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 
 export default function TopNav() {
@@ -15,11 +14,7 @@ export default function TopNav() {
             href="/"
             className="font-semibold tracking-tight text-brand-purple text-lg"
           >
-            <Image
-              alt="Sjekklista logo"
-              src="/Sjekklista-logo-3-min.png"
-              className="w-[113px]"
-            />
+            Sjekklista
           </Link>
 
           {/* Mobile menu toggle */}
