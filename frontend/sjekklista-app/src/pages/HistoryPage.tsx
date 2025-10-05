@@ -1,175 +1,208 @@
-import { Button } from "@/components/ui/button";
-import { API } from "@/data/api";
-import type { Checklist, ChecklistTemplate } from "@/data/models";
-import { ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { text, line, ellipse, rectangle, checkbox } from "@pdfme/schemas";
-import { generate } from "@pdfme/generator";
-import { BLANK_A4_PDF } from "@pdfme/common";
+// import { useEffect, useState } from "react";
+// import { Link } from "react-router-dom";
+// import { Button } from "@/components/ui/button";
+// import { ArrowRight } from "lucide-react";
+// import { toast } from "sonner";
+// import { API } from "@/data/api";
+// import type { Checklist, ChecklistTemplate } from "@/data/models";
+// import { text, line, ellipse, rectangle, checkbox } from "@pdfme/schemas";
+// import { generate } from "@pdfme/generator";
+// import { BLANK_A4_PDF } from "@pdfme/common";
 
-function mapChecklistToInputs(
-  checklistTemplate: ChecklistTemplate,
-  checklist: Checklist
-): Record<string, string | boolean> {
-  const inputs: Record<string, string | boolean> = {};
+// function mapChecklistToInputs(
+//   checklistTemplate: ChecklistTemplate,
+//   checklist: Checklist
+// ): Record<string, string | boolean> {
+//   const inputs: Record<string, string | boolean> = {};
 
-  console.log("mapChecklistToInputs: ", {
-    checklistTemplate,
-    checklist,
-  });
+//   for (const section of checklistTemplate.items) {
+//     for (const item of section.items) {
+//       const key = `${section.name}_${item.label}`.replace(/\s+/g, "_");
+//       const checklistItem = checklist.items.find(
+//         (ci) =>
+//           ci.templateSectionId === section.id && ci.templateItemId === item.id
+//       );
+//       const rawValue = checklistItem?.value;
+//       inputs[key] =
+//         rawValue === null || rawValue === undefined
+//           ? ""
+//           : typeof rawValue === "string"
+//           ? rawValue
+//           : typeof rawValue === "boolean"
+//           ? rawValue
+//             ? "Ja"
+//             : "Nei"
+//           : String(rawValue);
+//     }
+//   }
 
-  for (const section of checklistTemplate.items) {
-    for (const item of section.items) {
-      const key = `${section.name}_${item.label}`.replace(/\s+/g, "_");
+//   return inputs;
+// }
 
-      const checklistItem = checklist.items.find(
-        (ci) =>
-          ci.templateSectionId === section.id && ci.templateItemId === item.id
-      );
+// export default function HistoryPage() {
+//   const [checklists, setChecklists] = useState<Checklist[]>([]);
+//   const [checklistTemplates, setChecklistTemplates] = useState<
+//     { id: string; name: string }[]
+//   >([]);
+//   const [statusFilter, setStatusFilter] =
+//     useState<Checklist["status"]>("in_progress");
 
-      console.log("CHECKLISTITEM: ", checklistItem);
+//   useEffect(() => {
+//     (async () => {
+//       const [checklists, checklistTemplates] = await Promise.all([
+//         API.checklist.getChecklists(),
+//         API.checklistTempate.getChecklistTemplates(),
+//       ]);
 
-      const rawValue = checklistItem?.value;
+//       setChecklists(checklists);
+//       setChecklistTemplates(
+//         checklistTemplates.map((x) => ({ id: x.id, name: x.name }))
+//       );
+//     })();
+//   }, []);
 
-      // Convert all values to strings safely
-      inputs[key] =
-        rawValue === null || rawValue === undefined
-          ? ""
-          : typeof rawValue === "string"
-          ? rawValue
-          : typeof rawValue === "boolean"
-          ? rawValue ? "Ja" : "Nei"
-          : String(rawValue);
-    }
-  }
+//   const createPdf = async (checklist: Checklist) => {
+//     const [checklistTemplate, reports] = await Promise.all([
+//       API.checklistTempate.findChecklistTemplate(checklist.templateId!),
+//       API.reportTemplates.getReportTemplates(),
+//     ]);
 
-  return inputs;
-}
+//     if (!reports?.length) {
+//       toast("Fant ingen rapporter");
+//       return;
+//     }
 
-export default function HistoryPage() {
-  const [checklists, setChecklists] = useState<Checklist[]>([]);
-  const [filteredChecklists, __] = useState<Checklist[]>([]);
-  const [checklistTemplates, setChecklistTemplates] = useState<
-    { id: string; name: string }[]
-  >([]);
-  const [search, _] = useState("");
+//     const reportTemplate = reports[0];
+//     const inputs = [mapChecklistToInputs(checklistTemplate!, checklist)];
 
-  useEffect(() => {
-    (async () => {
-      const [checklists, checklistTemplates] = await Promise.all([
-        API.checklist.getChecklists(),
-        API.checklistTempate.getChecklistTemplates(),
-      ]);
+//     let tpl = reportTemplate.reportObj;
+//     if (typeof tpl.basePdf === "string" && tpl.basePdf.startsWith("/")) {
+//       try {
+//         const res = await fetch(tpl.basePdf);
+//         if (!res.ok) throw new Error("Failed to fetch basePdf");
+//         const ab = await res.arrayBuffer();
+//         tpl.basePdf = new Uint8Array(ab);
+//       } catch (err) {
+//         console.error("Could not load basePdf, falling back to BLANK_PDF", err);
+//         tpl.basePdf = BLANK_A4_PDF;
+//       }
+//     } else if (!tpl.basePdf) {
+//       tpl.basePdf = BLANK_A4_PDF;
+//     }
 
-      const templateDict = checklistTemplates.map((x) => ({
-        id: x.id,
-        name: x.name,
-      }));
+//     try {
+//       const pdfUint8Array = await generate({
+//         template: tpl,
+//         inputs,
+//         plugins: { text, line, ellipse, rectangle, checkbox },
+//       });
 
-      setChecklists(checklists);
-      setChecklistTemplates(templateDict);
-    })();
-  }, []);
+//       const blob = new Blob([new Uint8Array(pdfUint8Array)], {
+//         type: "application/pdf",
+//       });
+//       const url = URL.createObjectURL(blob);
+//       window.open(url, "_blank");
+//     } catch (err) {
+//       console.error("PDF preview failed", err);
+//     }
+//   };
 
-  const createPdf = async (checklist: Checklist) => {
-    const [checklistTemplate, reports] = await Promise.all([
-      await API.checklistTempate.findChecklistTemplate(checklist.templateId!),
-      await API.reportTemplates.getReportTemplates(),
-    ]);
+//   const filtered = checklists.filter((c) => c.status === statusFilter);
 
-    if (reports?.length == 0) {
-      toast("Fant ingen rapporter");
-    }
+//   return (
+//     <main className="flex flex-col h-full">
+//       {/* Header */}
+//       <header className="px-4 pt-6 pb-2 space-y-2">
+//         <h1 className="text-2xl font-bold text-gray-800">
+//           Tidligere registreringer
+//         </h1>
+//         <p className="text-sm text-gray-600">
+//           Her finner du en oversikt over sjekklister du allerede har fullført
+//           eller jobber med.
+//         </p>
+//       </header>
 
-    console.log("Reports: ", { reports });
+//       {/* Status Filter Tabs */}
+//       <nav
+//         className="sticky top-0 z-10 bg-white px-4 py-2 flex gap-2 border-b"
+//         aria-label="Statusfilter"
+//       >
+//         {["in_progress", "completed", "archived"].map((status) => (
+//           <Button
+//             key={status}
+//             variant={statusFilter === status ? "default" : "outline"}
+//             onClick={() => setStatusFilter(status)}
+//           >
+//             {status === "in_progress"
+//               ? "Pågående"
+//               : status === "completed"
+//               ? "Fullført"
+//               : "Arkivert"}
+//           </Button>
+//         ))}
+//       </nav>
 
-    const reportTemplate = reports[0];
-    const inputs = [mapChecklistToInputs(checklistTemplate!, checklist)];
+//       {/* Checklist List */}
+//       <section
+//         aria-labelledby="checklist-heading"
+//         className="flex flex-col gap-2 overflow-y-auto flex-1 p-4"
+//       >
+//         <h2 id="checklist-heading" className="sr-only">
+//           Sjekklister
+//         </h2>
 
-    // ensure basePdf is actual bytes
-    let tpl = reportTemplate.reportObj;
-    if (typeof tpl.basePdf === "string" && tpl.basePdf.startsWith("/")) {
-      try {
-        const res = await fetch(tpl.basePdf);
-        if (!res.ok) throw new Error("Failed to fetch basePdf");
-        const ab = await res.arrayBuffer();
-        tpl.basePdf = new Uint8Array(ab);
-      } catch (err) {
-        console.error("Could not load basePdf, falling back to BLANK_PDF", err);
-        tpl.basePdf = BLANK_A4_PDF;
-      }
-    } else if (!tpl.basePdf) {
-      tpl.basePdf = BLANK_A4_PDF;
-    }
+//         {filtered.map((checklist) => {
+//           const templateName = checklistTemplates.find(
+//             (x) => x.id === checklist.templateId
+//           )?.name;
+//           const isInProgress = checklist.status === "in_progress";
+//           const isCompleted = checklist.status === "completed";
 
-    console.log("Before generate: ", { inputs });
+//           const card = (
+//             <article
+//               aria-label={`Sjekkliste ${templateName}`}
+//               className="bg-white rounded-lg shadow-md p-4 flex items-center hover:bg-gray-50 transition"
+//             >
+//               <div className="mr-auto">
+//                 <h3 className="text-lg font-semibold text-gray-900">
+//                   {templateName}
+//                 </h3>
+//                 <p className="text-sm text-gray-600">
+//                   {checklist.createdBy} –{" "}
+//                   {new Date(checklist.createdAt).toLocaleDateString()}
+//                 </p>
+//                 <p className="text-sm text-gray-700 mt-2">
+//                   {isInProgress
+//                     ? "Fortsett registreringen"
+//                     : isCompleted
+//                     ? "Fullført – klar for PDF"
+//                     : "Arkivert"}
+//                 </p>
+//               </div>
 
-    try {
-      const pdfUint8Array = await generate({
-        template: tpl,
-        inputs: inputs,
-        plugins: { text, line, ellipse, rectangle, checkbox }, // include any other plugins used in the template
-      });
+//               {isCompleted ? (
+//                 <Button onClick={() => createPdf(checklist)}>PDF</Button>
+//               ) : (
+//                 <ArrowRight className="text-gray-500" />
+//               )}
+//             </article>
+//           );
 
-      const blob = new Blob([new Uint8Array(pdfUint8Array)], {
-        type: "application/pdf",
-      });
-      const url = URL.createObjectURL(blob);
-      window.open(url, "_blank");
-      // optional: URL.revokeObjectURL(url) after some timeout
-    } catch (err) {
-      console.error("PDF preview failed", err);
-    }
-  };
-
-  return (
-    <div>
-      <div className="px-4 pt-6 pb-2 space-y-2">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Tidligere registreringer
-        </h1>
-        <p className="text-sm text-gray-600">
-          Her finner du en oversikt over sjekklister du allerede har fullført.
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-2 overflow-y-auto flex-1 h-full p-2">
-        {/* Checklist cards */}
-        {(search.length == 0 ? checklists : filteredChecklists).map(
-          (currChecklist) => (
-            <div
-              key={currChecklist.id}
-              className="bg-white rounded-lg shadow-md p-4 flex"
-            >
-              <div className="mr-auto">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Status: {currChecklist.status}
-                </h2>
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Mal:{" "}
-                  {
-                    checklistTemplates?.find(
-                      (x) => x.id == currChecklist.templateId
-                    )?.name
-                  }
-                </h2>
-                <h2 className="text-lg font-semibold text-gray-900">
-                  {currChecklist.createdBy} - {currChecklist.createdAt}
-                </h2>
-                <p className="text-gray-700 mt-2">
-                  Åpne denne sjekklisten for å fortsette eller gjøre endringer.
-                </p>
-              </div>
-              <ArrowRight />
-
-              <Button onClick={() => createPdf(currChecklist)}>
-                Skriv ut PDF
-              </Button>
-            </div>
-          )
-        )}
-      </div>
-    </div>
-  );
-}
+//           return isInProgress ? (
+//             <Link
+//               key={checklist.id}
+//               to={`/checklist/${checklist.id}`}
+//               role="link"
+//               aria-label={`Åpne sjekkliste ${templateName}`}
+//               className="block"
+//             >
+//               {card}
+//             </Link>
+//           ) : (
+//             <div key={checklist.id}>{card}</div>
+//           );
+//         })}
+//       </section>
+//     </main>
+//   );
+// }

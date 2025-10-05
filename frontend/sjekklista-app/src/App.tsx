@@ -2,20 +2,18 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import { Toaster } from "@/components/ui/sonner";
 import AppLayout from "@/components/AppLayout";
-import HomePage from "./pages/HomePage";
 import { ChecklistTemplateDesignerPage } from "./pages/templates/ChecklistTemplateDesignerPage";
 import ChecklistPage from "./pages/ChecklistPage";
-import HistoryPage from "./pages/HistoryPage";
 import ReportDesignerPage from "./pages/ReportDesignerPage";
 import ChecklistTemplatesPage from "./pages/templates/ChecklistTemplatesPage";
+import ChecklistDashboard from "./pages/ChecklistDashboard";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<AppLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/history" element={<HistoryPage />}></Route>
+          <Route index element={<ChecklistDashboard />} />
           <Route
             path="/checklist-templates"
             element={<ChecklistTemplatesPage />}

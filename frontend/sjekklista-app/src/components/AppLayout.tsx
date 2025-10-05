@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import {
   Menu,
-  Home,
   List,
   Settings,
   Pen,
@@ -18,12 +17,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useSidebar } from "./SidebarContext";
 
 const navItems = [
-  { label: "Hjem", path: "/", icon: <Home className="w-5 h-5" /> },
-  {
-    label: "Registreringer",
-    path: "/history",
-    icon: <List className="w-5 h-5" />,
-  },
+  { label: "Registreringer", path: "/", icon: <List className="w-5 h-5" /> },
   {
     label: "Sjekklister",
     path: "/checklist-templates",
