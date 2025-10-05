@@ -3,9 +3,8 @@
 /frontend/sjekklista-app/dev-dist
 /frontend/sjekklista-app/dist
 
-
 # dependencies
-/node_modules
+**/node_modules/
 /.pnp
 .pnp.js
 

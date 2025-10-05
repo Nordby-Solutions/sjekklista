@@ -84,13 +84,13 @@ export default function ChecklistDashboard() {
     <main className="flex flex-col h-full">
       {/* Header */}
       <header className="px-4 pt-6 pb-2 space-y-2">
-        <h1 className="text-2xl font-bold text-gray-800">Sjekklister</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Registreringer</h1>
         <p className="text-sm text-gray-600">
           Fortsett registrering eller start en ny.
         </p>
         <SearchBar
           onSearch={(query) => setSearch(query)}
-          placeholder="Søk sjekklister..."
+          placeholder="Søk registreringer..."
         />
       </header>
 
@@ -177,7 +177,7 @@ export default function ChecklistDashboard() {
       {/* Template Selection Dialog */}
       {showTemplateDialog && (
         <div
-          className="fixed inset-0 z-50 bg-opacity-50 flex items-center justify-center"
+          className="fixed inset-0 backdrop-blur-2xl z-50 bg-opacity-50 flex items-center justify-center"
           onClick={() => setShowTemplateDialog(false)}
         >
           <div
