@@ -51,6 +51,19 @@ jobs:
         working-directory: backend/sjekklista-backend
         run: supabase migration up
 
+      - name: Extract Supabase service role key
+        working-directory: backend/sjekklista-backend
+        run: |
+          echo "Extracting service role key..."
+          export SUPABASE_SERVICE_ROLE_KEY=$(grep SUPABASE_SERVICE_ROLE_KEY .supabase/docker/volumes/api.env | cut -d '=' -f2)
+          echo "SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY" >> $GITHUB_ENV
+
+      - name: Write .env.test
+        working-directory: backend/sjekklista-backend
+        run: |
+          echo "SUPABASE_URL=http://localhost:54321" > .env.test
+          echo "SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY" >> .env.test
+
       - name: Install dependencies and build
         working-directory: backend/sjekklista-backend
         run: |

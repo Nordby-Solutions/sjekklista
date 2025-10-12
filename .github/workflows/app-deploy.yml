@@ -1,15 +1,11 @@
 name: CD Frontend - App
 
 on:
-  push:
+  pull_request:
     branches:
       - main
     paths:
       - "frontend/sjekklista-app/**"
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
 
 jobs:
   build_and_deploy_job:
