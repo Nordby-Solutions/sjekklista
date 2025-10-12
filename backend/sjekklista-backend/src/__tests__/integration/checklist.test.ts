@@ -1,6 +1,5 @@
 import request from "supertest";
-import { describe } from "node:test";
-import sjekklistaApp from "../../src/app";
+import sjekklistaApp from "../../app";
 
 describe("Checklist Registration API", () => {
   // beforeAll(async () => {
@@ -15,7 +14,7 @@ describe("Checklist Registration API", () => {
 
   it("should fetch checklists", async () => {
     const res = await request(sjekklistaApp).get("/api/checklist-registration");
-    expect(res.status).toBe(500);
+    expect(res.status).toBe(200);
     expect(res.body).toEqual(expect.arrayContaining([]));
   });
 });
