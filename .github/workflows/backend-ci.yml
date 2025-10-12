@@ -33,7 +33,7 @@ jobs:
 
       - name: Run migrations
         working-directory: backend/sjekklista-backend
-        run: supabase db push
+        run: supabase migration up
 
       - name: Install dependencies and build
         working-directory: backend/sjekklista-backend

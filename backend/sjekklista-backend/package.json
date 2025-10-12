@@ -10,7 +10,7 @@
     "start": "node dist/server.js",
     "test": "cross-env NODE_ENV=test jest --testTimeout=5000 --detectOpenHandles --verbose",
     "test:ci": "cross-env NODE_ENV=ci jest --testTimeout=5000 --detectOpenHandles --runInBand --coverage",
-    "migrate-db:dev": "ts-node scripts/migrate.ts dev",
+    "migrate-db:ci": "supabase migration up",
     "migrate-db:prod": "ts-node scripts/migrate.ts prod"
   },
   "keywords": [],
