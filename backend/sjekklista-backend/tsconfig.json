@@ -9,5 +9,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["__tests__"]
 }

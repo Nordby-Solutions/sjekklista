@@ -2,11 +2,13 @@
 
 /frontend/sjekklista-app/dev-dist
 /frontend/sjekklista-app/dist
-
+/backend/sjekklista-backend/dist
 # dependencies
 **/node_modules/
 /.pnp
 .pnp.js
+
+
 
 # testing
 /coverage
@@ -37,3 +39,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+backend/sjekklista-backend/dist/app.js
