@@ -31,10 +31,6 @@ jobs:
         working-directory: backend/sjekklista-backend
         run: supabase start --debug &
 
-      - name: Wait for Supabase to be ready
-        working-directory: backend/sjekklista-backend
-        run: npx wait-on http://localhost:54321/rest/v1
-
       - name: Run migrations
         working-directory: backend/sjekklista-backend
         run: npm run migrate-db:dev
