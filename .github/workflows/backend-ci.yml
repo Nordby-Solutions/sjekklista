@@ -22,10 +22,10 @@ jobs:
         with:
           node-version: "20.x"
 
-      - name: Install Supabase CLI
-        run: |
-          curl -sL https://github.com/supabase/cli/releases/latest/download/supabase-linux-amd64.tar.gz | tar -xz
-          sudo mv supabase /usr/local/bin
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
 
       - name: Start Supabase
         working-directory: backend/sjekklista-backend
