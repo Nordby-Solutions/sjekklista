@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn src/server.ts",
+    "dev": "concurrently \"supabase start\" \"ts-node-dev --respawn src/server.ts\"",
+    "dev:db": "supabase start",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test jest --testTimeout=5000 --detectOpenHandles --verbose",
+    "test:ci": "cross-env NODE_ENV=ci jest --testTimeout=5000 --detectOpenHandles --runInBand --coverage",
+    "migrate-db:dev": "ts-node scripts/migrate.ts dev",
+    "migrate-db:prod": "ts-node scripts/migrate.ts prod"
   },
   "keywords": [],
   "author": "Sebastian Nordby",
@@ -17,6 +21,7 @@
     "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^11.1.0",
     "@pdfme/common": "^5.4.6",
+    "@supabase/supabase-js": "^2.75.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -27,9 +32,18 @@
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.6.2",
+    "@types/supertest": "^6.0.3",
+    "@types/wait-on": "^5.3.4",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wait-on": "^9.0.1"
   }
 }
