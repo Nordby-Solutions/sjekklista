@@ -54,8 +54,9 @@ jobs:
       - name: Write .env.ci
         working-directory: backend/sjekklista-backend
         run: |
-          echo "SUPABASE_URL=http://localhost:54321" > .env.ci
-          echo "SUPABASE_SERVICE_ROLE_KEY=$(grep SUPABASE_SERVICE_ROLE_KEY .supabase/docker/volumes/api.env | cut -d '=' -f2)" >> .env.ci
+          container_id=$(docker ps --filter "name=supabase-rest" --format "{{.ID}}")
+          docker exec $container_id printenv SUPABASE_SERVICE_ROLE_KEY > .env.ci
+          echo "SUPABASE_URL=http://localhost:54321" >> .env.ci
 
       - name: Show contents of .env.ci
         working-directory: backend/sjekklista-backend
