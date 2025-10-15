@@ -55,8 +55,7 @@ jobs:
         working-directory: backend/sjekklista-backend
         run: |
           echo "Extracting service role key..."
-          export SUPABASE_SERVICE_ROLE_KEY=$(grep SUPABASE_SERVICE_ROLE_KEY .supabase/docker/volumes/api.env | cut -d '=' -f2)
-          echo "SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY" >> $GITHUB_ENV
+          echo "SUPABASE_SERVICE_ROLE_KEY=$(grep SUPABASE_SERVICE_ROLE_KEY .supabase/docker/volumes/api.env | cut -d '=' -f2)" >> $GITHUB_ENV
 
       - name: Write .env.ci
         working-directory: backend/sjekklista-backend
