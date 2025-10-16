@@ -51,9 +51,13 @@ jobs:
         working-directory: backend/sjekklista-backend
         run: supabase migration up
 
-      - name: Write .env.ci from Supabase status
+      - name: Write .env.ci from Supabase status JSON
         working-directory: backend/sjekklista-backend
-        run: supabase status -o env > .env.ci
+        run: |
+          supabase status -o json > supabase-status.json
+
+          echo "SUPABASE_URL=$(jq -r '.API_URL' supabase-status.json)" > .env.ci
+          echo "SUPABASE_SERVICE_ROLE_KEY=$(jq -r '.SERVICE_ROLE_KEY' supabase-status.json)" >> .env.ci
 
       - name: Show contents of .env.ci
         working-directory: backend/sjekklista-backend
