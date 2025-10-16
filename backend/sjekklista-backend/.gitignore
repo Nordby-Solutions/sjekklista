@@ -1,0 +1,9 @@
+/dist/**/*
+./temp
+./node_modules
+/coverage/**/*
+
+# dotenvx
+.env.development
+.env.test
+.env.production
