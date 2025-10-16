@@ -108,6 +108,18 @@ export const LoginPage = () => {
               >
                 {resetLoading ? "Sender lenke..." : "Tilbakestill passord"}
               </Button>
+
+              {/* Link to signup */}
+              <p className="text-center text-sm text-gray-100 sm:text-gray-600 mt-2">
+                Har du ikke en konto?{" "}
+                <button
+                  type="button"
+                  onClick={() => navigate("/signup")}
+                  className="font-medium underline sm:text-brand-purple sm:no-underline sm:hover:underline"
+                >
+                  Registrer deg
+                </button>
+              </p>
             </div>
           </CardContent>
         </Card>
