@@ -1,4 +1,4 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import {
@@ -6,15 +6,16 @@ import {
   List,
   Settings,
   Pen,
-  LogIn,
   LogOut,
   Download,
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useSidebar } from "./SidebarContext";
+import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
 
 const navItems = [
   { label: "Registreringer", path: "/", icon: <List className="w-5 h-5" /> },
@@ -30,7 +31,7 @@ const navItems = [
   },
   {
     label: "Innstillinger",
-    path: "/settings",
+    path: "/profile",
     icon: <Settings className="w-5 h-5" />,
   },
 ];
@@ -38,8 +39,30 @@ const navItems = [
 export default function AppLayout() {
   const location = useLocation();
   const pwa = usePWAInstall();
-  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const { collapsed, setCollapsed } = useSidebar();
+  const [user, setUser] = useState<User | null>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      setUser(user!);
+    })();
+  }, []);
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error signing out:", error.message);
+    } else {
+      console.log("Signed out successfully");
+      // optionally redirect
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50 text-gray-900">
@@ -52,11 +75,9 @@ export default function AppLayout() {
         <div className="flex items-center justify-between px-2 py-3 border-b">
           <div className="flex items-center gap-2">
             {!collapsed && (
-              <img
-                src="/Sjekklista-logo-3-min.png"
-                alt="Sjekklista logo"
-                className="w-36"
-              />
+              <h1 className="text-brand-purple font-bold text-xl ml-2">
+                Sjekklista
+              </h1>
             )}
           </div>
 
@@ -88,20 +109,13 @@ export default function AppLayout() {
             }`}
           aria-hidden={collapsed}
         >
-          {isAuthenticated && user ? (
+          {user && (
             <>
-              <img
-                src={user.picture}
-                alt={user.name}
-                className="w-12 h-12 rounded-full object-cover"
-              />
               <h2 className="text-sm font-semibold text-gray-800 mt-2">
-                {user.name}
+                {user?.user_metadata["full_name"]}
               </h2>
               <p className="text-xs text-gray-500">{user.email}</p>
             </>
-          ) : (
-            <p className="text-xs text-gray-500">Ingen pålogget bruker</p>
           )}
         </div>
 
@@ -142,49 +156,26 @@ export default function AppLayout() {
 
         {/* Actions (icons only when collapsed) */}
         <div className="border-t px-2 py-3 space-y-2">
-          {isAuthenticated ? (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() =>
-                logout({ logoutParams: { returnTo: window.location.origin } })
-              }
-              className={`w-full justify-start gap-2 text-xs ${
-                collapsed ? "text-gray-600" : "text-gray-600 hover:text-red-600"
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleSignOut}
+            className={`w-full justify-start gap-2 text-xs ${
+              collapsed ? "text-gray-600" : "text-gray-600 hover:text-red-600"
+            }`}
+            title="Logg ut"
+          >
+            <span className="flex items-center justify-center w-8">
+              <LogOut className="w-4 h-4" />
+            </span>
+            <span
+              className={`${
+                collapsed ? "opacity-0 w-0 overflow-hidden" : "ml-2"
               }`}
-              title="Logg ut"
             >
-              <span className="flex items-center justify-center w-8">
-                <LogOut className="w-4 h-4" />
-              </span>
-              <span
-                className={`${
-                  collapsed ? "opacity-0 w-0 overflow-hidden" : "ml-2"
-                }`}
-              >
-                Logg ut
-              </span>
-            </Button>
-          ) : (
-            <Button
-              onClick={() => loginWithRedirect()}
-              size="sm"
-              className="w-full text-xs bg-brand-purple text-white hover:bg-brand-purple/90"
-              title="Logg inn"
-            >
-              <div className="flex items-center justify-center w-8">
-                <LogIn className="w-4 h-4" />
-              </div>
-              <span
-                className={`${
-                  collapsed ? "opacity-0 w-0 overflow-hidden" : "ml-2"
-                }`}
-              >
-                Logg inn
-              </span>
-            </Button>
-          )}
-
+              Logg ut
+            </span>
+          </Button>
           <Button
             variant="default"
             size="sm"
