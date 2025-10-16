@@ -51,6 +51,14 @@ jobs:
         working-directory: backend/sjekklista-backend
         run: supabase migration up
 
+      - name: Write .env.ci from Supabase status
+        working-directory: backend/sjekklista-backend
+        run: supabase status -o env > .env.ci
+
+      - name: Show contents of .env.ci
+        working-directory: backend/sjekklista-backend
+        run: cat .env.ci
+
       - name: Install dependencies and build
         working-directory: backend/sjekklista-backend
         run: |
