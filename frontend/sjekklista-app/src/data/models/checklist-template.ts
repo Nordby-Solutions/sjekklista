@@ -30,6 +30,13 @@ export type ChecklistTemplate = {
   items: ChecklistTemplateSection[];
 };
 
+export interface ChecklistTemplateSection {
+  id: string;
+  name: string;
+  description: string | null; // Optional description for the section
+  items: ChecklistTemplateItem[];
+}
+
 export type ChecklistTemplateLookup = {
   id: string;
   name: string;
@@ -40,13 +47,6 @@ export interface CreateChecklistTemplateArgs {
   name: string;
   description: string;
   items: ChecklistTemplateSection[];
-}
-
-export interface ChecklistTemplateSection {
-  id: string;
-  name: string;
-  description: string | null; // Optional description for the section
-  items: ChecklistTemplateItem[];
 }
 
 export interface ChecklistTemplateItem {
