@@ -6,7 +6,6 @@ import {
   List,
   Settings,
   Pen,
-  LogIn,
   LogOut,
   Download,
   ChevronsLeft,
