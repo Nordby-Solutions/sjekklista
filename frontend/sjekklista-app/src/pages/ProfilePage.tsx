@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 
 export const ProfilePage = () => {
+  const { t } = useTranslation();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -20,7 +22,11 @@ export const ProfilePage = () => {
         error,
       } = await supabase.auth.getUser();
       if (error) {
-        toast("Kunne ikke hente brukerdata: " + error.message);
+        toast(
+          t("profile.fetchError", "Kunne ikke hente brukerdata:") +
+            " " +
+            error.message
+        );
         return;
       }
       if (user) {
@@ -45,9 +51,11 @@ export const ProfilePage = () => {
     setLoading(false);
 
     if (error) {
-      toast("Oppdatering feilet: " + error.message);
+      toast(
+        t("profile.updateError", "Oppdatering feilet:") + " " + error.message
+      );
     } else {
-      toast("Profilen ble oppdatert!");
+      toast(t("profile.updated", "Profilen ble oppdatert!"));
     }
   };
 
@@ -57,13 +65,15 @@ export const ProfilePage = () => {
         <Card className="w-full shadow-none sm:shadow-lg sm:rounded-lg">
           <CardHeader>
             <CardTitle className="text-center text-lg sm:text-xl">
-              Min profil
+              {t("profile.title", "Min profil")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">Fornavn</Label>
+                <Label htmlFor="firstName">
+                  {t("profile.firstName", "Fornavn")}
+                </Label>
                 <Input
                   id="firstName"
                   value={firstName}
@@ -73,7 +83,9 @@ export const ProfilePage = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="lastName">Etternavn</Label>
+                <Label htmlFor="lastName">
+                  {t("profile.lastName", "Etternavn")}
+                </Label>
                 <Input
                   id="lastName"
                   value={lastName}
@@ -83,7 +95,7 @@ export const ProfilePage = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">Telefon</Label>
+                <Label htmlFor="phone">{t("profile.phone", "Telefon")}</Label>
                 <Input
                   id="phone"
                   type="tel"
@@ -98,7 +110,9 @@ export const ProfilePage = () => {
                 onClick={handleUpdate}
                 disabled={loading}
               >
-                {loading ? "Lagrer..." : "Oppdater profil"}
+                {loading
+                  ? t("profile.saving", "Lagrer...")
+                  : t("profile.updateButton", "Oppdater profil")}
               </Button>
             </div>
           </CardContent>

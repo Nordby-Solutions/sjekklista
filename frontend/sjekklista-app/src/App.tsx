@@ -8,9 +8,12 @@ import ReportDesignerPage from "./pages/ReportDesignerPage";
 import ChecklistTemplatesPage from "./pages/templates/ChecklistTemplatesPage";
 import ChecklistDashboard from "./pages/ChecklistDashboard";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { LoginPage } from "./pages/LoginPage";
-import { SignUpPage } from "./pages/SignUpPage";
+import { LoginPage } from "./pages/auth/LoginPage";
+import { SignUpPage } from "./pages/auth/SignUpPage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { DocumentationChecklistTemplatePage } from "./pages/documentation/DocumentationChecklistTemplatePage";
+import DocumentationPage from "./pages/documentation/DocumentationPage";
+import "./i18n"; // <— initialize before rendering
 
 function App() {
   return (
@@ -35,6 +38,13 @@ function App() {
           />
           <Route path="/checklist/:id" element={<ChecklistPage />} />
           <Route path="/report-designer" element={<ReportDesignerPage />} />
+          <Route path="/documentation">
+            <Route index element={<DocumentationPage />} />
+            <Route
+              path="checklist-templates"
+              element={<DocumentationChecklistTemplatePage />}
+            />
+          </Route>
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />

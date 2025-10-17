@@ -7,9 +7,11 @@ import SearchBar from "@/components/SearchBar";
 import { API } from "@/data/api";
 import type { Checklist, ChecklistTemplateLookup } from "@/data/models";
 import { createPdf } from "@/logic/createPdf";
+import { useTranslation } from "react-i18next";
 
 export default function ChecklistDashboard() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [templates, setTemplates] = useState<ChecklistTemplateLookup[]>([]);
   const [checklists, setChecklists] = useState<Checklist[]>([]);
   const [checklistTemplates, setChecklistTemplates] = useState<
@@ -59,7 +61,7 @@ export default function ChecklistDashboard() {
   const menuItems = [
     {
       icon: <ClipboardList className="h-4 w-4" />,
-      label: "Ny registrering",
+      label: t("newRegistration"),
       onClick: () => {
         if (templates.length === 1) {
           navigate(`/checklist/${templates[0].id}`);
@@ -70,12 +72,12 @@ export default function ChecklistDashboard() {
     },
     {
       icon: <FileText className="h-4 w-4" />,
-      label: "Lag rapport",
+      label: t("createReport"),
       onClick: () => console.log("Rapport"),
     },
     {
       icon: <Settings className="h-4 w-4" />,
-      label: "Innstillinger",
+      label: t("settings"),
       onClick: () => console.log("Innstillinger"),
     },
   ];
@@ -84,13 +86,15 @@ export default function ChecklistDashboard() {
     <main className="flex flex-col h-full">
       {/* Header */}
       <header className="px-4 pt-6 pb-2 space-y-2">
-        <h1 className="text-2xl font-bold text-gray-800">Registreringer</h1>
+        <h1 className="text-2xl font-bold text-gray-800">
+          {t("registrations")}
+        </h1>
         <p className="text-sm text-gray-600">
-          Fortsett registrering eller start en ny.
+          {t("continueRegistrationOrStartNew")}
         </p>
         <SearchBar
           onSearch={(query) => setSearch(query)}
-          placeholder="Søk registreringer..."
+          placeholder={`${t("search")}...`}
         />
       </header>
 
@@ -106,10 +110,10 @@ export default function ChecklistDashboard() {
             onClick={() => setStatusFilter(status)}
           >
             {status === "in_progress"
-              ? "Pågående"
+              ? t("statusInProgress")
               : status === "completed"
-              ? "Fullført"
-              : "Utkast"}
+              ? t("statusCompleted")
+              : t("statusDraft")}
           </Button>
         ))}
       </nav>
@@ -120,7 +124,7 @@ export default function ChecklistDashboard() {
         className="flex flex-col gap-2 overflow-y-auto flex-1 p-4"
       >
         <h2 id="checklist-heading" className="sr-only">
-          Tidligere sjekklister
+          {t("previousChecklists")}
         </h2>
         {filteredChecklists.map((checklist) => {
           const templateName = checklistTemplates.find(
@@ -131,7 +135,7 @@ export default function ChecklistDashboard() {
 
           const card = (
             <article
-              aria-label={`Sjekkliste ${templateName}`}
+              aria-label={`${t("checklist")} ${templateName}`}
               className="bg-white rounded-lg shadow-md p-4 flex items-center hover:bg-gray-50 transition"
             >
               <div className="mr-auto">
@@ -144,10 +148,10 @@ export default function ChecklistDashboard() {
                 </p>
                 <p className="text-sm text-gray-700 mt-2">
                   {isInProgress
-                    ? "Fortsett registreringen"
+                    ? t("continueRegistration")
                     : isCompleted
-                    ? "Fullført – klar for PDF"
-                    : "Utkast"}
+                    ? t("completedReadyForPDF")
+                    : t("draft")}
                 </p>
               </div>
               {isCompleted ? (
@@ -163,7 +167,7 @@ export default function ChecklistDashboard() {
               key={checklist.id}
               to={`/checklist/${checklist.id}`}
               role="link"
-              aria-label={`Åpne sjekkliste ${templateName}`}
+              aria-label={t("openChecklist", { name: templateName })}
               className="block"
             >
               {card}
@@ -187,11 +191,13 @@ export default function ChecklistDashboard() {
             <button
               onClick={() => setShowTemplateDialog(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-              aria-label="Lukk dialog"
+              aria-label={t("close")}
             >
               <X className="w-5 h-5" />
             </button>
-            <h2 className="text-xl font-semibold mb-4">Velg en mal</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              {t("select-a-template")}
+            </h2>
             <ul className="space-y-2">
               {filteredTemplates.map((template) => (
                 <li key={template.id}>

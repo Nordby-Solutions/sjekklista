@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -34,6 +35,7 @@ export function ChecklistRenderer({
 ChecklistRendererProps) {
   // Flatten state by item id
   const [values, setValues] = useState<Record<string, any>>({});
+  const { t } = useTranslation();
   const sigRefs = useRef<Record<string, SignatureCanvas>>({});
   const containerRef = useRef<HTMLDivElement>(null);
   const [canvasWidth, setCanvasWidth] = useState(300);
@@ -85,7 +87,7 @@ ChecklistRendererProps) {
     };
 
     await API.checklist.saveChecklist(checklist);
-    await toast.success("Sjekklista lagret", {
+    await toast.success(t("checklist.saved", "Sjekklista lagret"), {
       position: "top-center",
     });
 
@@ -145,7 +147,7 @@ ChecklistRendererProps) {
                       checked={values[item.id] ?? false}
                       onCheckedChange={(val) => handleChange(item, !!val)}
                     />
-                    <span>Ja / Nei</span>
+                    <span>{t("checklist.yesNo", "Ja / Nei")}</span>
                   </div>
                 )}
 
@@ -192,7 +194,7 @@ ChecklistRendererProps) {
                       }}
                       className="mt-2 text-sm text-red-600"
                     >
-                      Fjern signatur
+                      {t("checklist.removeSignature", "Fjern signatur")}
                     </button>
                   </div>
                 )}
@@ -207,23 +209,25 @@ ChecklistRendererProps) {
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-brand-purple text-white">Lagre svar</Button>
+            <Button className="bg-brand-purple text-white">
+              {t("checklist.saveAnswers", "Lagre svar")}
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem
               className="py-4 text-base"
               onClick={() => handleSave("completed")}
             >
-              ✅ Lagre som fullført
+              ✅ {t("checklist.saveAsCompleted", "Lagre som fullført")}
             </DropdownMenuItem>
             <DropdownMenuItem
               className="py-4 text-base"
               onClick={() => handleSave("draft")}
             >
-              📝 Lagre som kladd
+              📝 {t("checklist.saveAsDraft", "Lagre som kladd")}
             </DropdownMenuItem>
             <DropdownMenuItem className="py-4 text-base">
-              ❌ Avbryt
+              ❌ {t("checklist.cancel", "Avbryt")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

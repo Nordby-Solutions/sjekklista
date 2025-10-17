@@ -3,45 +3,53 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import {
   Menu,
-  List,
   Settings,
-  Pen,
   LogOut,
   Download,
   ChevronsLeft,
   ChevronsRight,
+  Palette,
+  ClipboardList,
+  ListCheck,
 } from "lucide-react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { useSidebar } from "./SidebarContext";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-
-const navItems = [
-  { label: "Registreringer", path: "/", icon: <List className="w-5 h-5" /> },
-  {
-    label: "Sjekklister",
-    path: "/checklist-templates",
-    icon: <Pen className="w-5 h-5" />,
-  },
-  {
-    label: "Rapporter",
-    path: "/report-designer",
-    icon: <Pen className="w-5 h-5" />,
-  },
-  {
-    label: "Innstillinger",
-    path: "/profile",
-    icon: <Settings className="w-5 h-5" />,
-  },
-];
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 export default function AppLayout() {
   const location = useLocation();
+  const { t } = useTranslation();
   const pwa = usePWAInstall();
   const { collapsed, setCollapsed } = useSidebar();
   const [user, setUser] = useState<User | null>();
   const navigate = useNavigate();
+
+  const navItems = [
+    {
+      label: t("registrations"),
+      path: "/",
+      icon: <ListCheck className="w-5 h-5" />,
+    },
+    {
+      label: t("checklistTemplates"),
+      path: "/checklist-templates",
+      icon: <ClipboardList className="w-5 h-5" />,
+    },
+    {
+      label: t("createReport"),
+      path: "/report-designer",
+      icon: <Palette className="w-5 h-5" />,
+    },
+    {
+      label: t("settings"),
+      path: "/profile",
+      icon: <Settings className="w-5 h-5" />,
+    },
+  ];
 
   useEffect(() => {
     (async () => {
@@ -76,7 +84,7 @@ export default function AppLayout() {
           <div className="flex items-center gap-2">
             {!collapsed && (
               <h1 className="text-brand-purple font-bold text-xl ml-2">
-                Sjekklista
+                {t("brandName")}
               </h1>
             )}
           </div>
@@ -85,10 +93,10 @@ export default function AppLayout() {
             <Button
               variant="ghost"
               size="icon"
-              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              aria-label={collapsed ? t("openMenu") : t("closeMenu")}
               onClick={() => setCollapsed(!collapsed)}
               className="text-gray-600"
-              title={collapsed ? "Utvid" : "Skjul"}
+              title={collapsed ? t("openMenu") : t("closeMenu")}
             >
               {collapsed ? (
                 <ChevronsRight className="w-4 h-4" />
@@ -157,31 +165,11 @@ export default function AppLayout() {
         {/* Actions (icons only when collapsed) */}
         <div className="border-t px-2 py-3 space-y-2">
           <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleSignOut}
-            className={`w-full justify-start gap-2 text-xs ${
-              collapsed ? "text-gray-600" : "text-gray-600 hover:text-red-600"
-            }`}
-            title="Logg ut"
-          >
-            <span className="flex items-center justify-center w-8">
-              <LogOut className="w-4 h-4" />
-            </span>
-            <span
-              className={`${
-                collapsed ? "opacity-0 w-0 overflow-hidden" : "ml-2"
-              }`}
-            >
-              Logg ut
-            </span>
-          </Button>
-          <Button
             variant="default"
             size="sm"
             onClick={pwa.installApp}
             className="w-full text-xs bg-brand-purple hover:bg-brand-purple/90"
-            title="Last ned app"
+            title={t("downloadApp")}
           >
             <div className="flex items-center justify-center w-8">
               <Download className="w-4 h-4" />
@@ -191,9 +179,30 @@ export default function AppLayout() {
                 collapsed ? "opacity-0 w-0 overflow-hidden" : "ml-2"
               }`}
             >
-              Last ned app
+              {t("downloadApp")}
             </span>
           </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleSignOut}
+            className={`w-full justify-start gap-2 text-xs ${
+              collapsed ? "text-gray-600" : "text-gray-600 hover:text-red-600"
+            }`}
+            title={t("logout")}
+          >
+            <span className="flex items-center justify-center w-8">
+              <LogOut className="w-4 h-4" />
+            </span>
+            <span
+              className={`${
+                collapsed ? "opacity-0 w-0 overflow-hidden" : "ml-2"
+              }`}
+            >
+              {t("logout")}
+            </span>
+          </Button>
+          <LanguageSwitcher />
         </div>
       </aside>
 
@@ -204,12 +213,12 @@ export default function AppLayout() {
           <img
             className="w-[113px]"
             src="/Sjekklista-logo-3-min.png"
-            alt="logo"
+            alt={t("brandLogoAlt")}
           />
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Open menu">
+              <Button variant="ghost" size="icon" aria-label={t("openMenu")}>
                 <Menu className="w-6 h-6" />
               </Button>
             </SheetTrigger>
@@ -241,7 +250,7 @@ export default function AppLayout() {
                     onClick={pwa.installApp}
                     className="text-xs"
                   >
-                    Last ned app
+                    {t("downloadApp")}
                   </Button>
                 )}
               </div>

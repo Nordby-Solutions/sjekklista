@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Popover,
   PopoverTrigger,
@@ -25,13 +26,14 @@ function MenuItem({
   label: string;
   onClick?: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <button
       onClick={onClick}
       className="flex items-center gap-3 w-full px-3 py-2 rounded-md hover:bg-slate-100 text-slate-700 text-sm"
     >
       {icon}
-      {label}
+      {t(label, label)}
     </button>
   );
 }

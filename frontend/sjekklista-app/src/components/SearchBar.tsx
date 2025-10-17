@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -10,6 +11,7 @@ export default function SearchBar({
   onSearch: (query: string) => void;
   placeholder?: string;
 }) {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const debounced = useDebouncedValue(search, 300);
 
@@ -20,7 +22,7 @@ export default function SearchBar({
   return (
     <div className="relative w-full max-w-md">
       <Input
-        placeholder={placeholder || "Søk..."}
+        placeholder={placeholder || t("search", "Søk...")}
         className="bg-white pr-10 pl-10"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
