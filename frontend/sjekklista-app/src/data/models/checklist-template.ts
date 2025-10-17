@@ -1,7 +1,7 @@
 export interface Checklist {
   id: string;
   templateId: string;
-  templateVersionId: string;
+  templateVersionId: number;
   status: "draft" | "not_started" | "in_progress" | "completed";
   assignedTo: string | null; // User ID or name
   dueDate: string | null; // ISO date string
@@ -23,10 +23,15 @@ export interface ChecklistItem {
 }
 
 export type ChecklistTemplate = {
-  id: string;
-  versionId: string;
+  id: string; // uuid
   name: string;
+  created_at: string; // ISO date string
+  updated_at: string | null; // ISO date string or null
+  definition: any; // JSON object, type as needed
+  workspaceId: string; // uuid
   description: string;
+  versionId: number;
+
   items: ChecklistTemplateSection[];
 };
 

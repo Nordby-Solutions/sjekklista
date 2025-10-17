@@ -6,6 +6,7 @@ import type {
   ChecklistTemplateLookup,
 } from "./models/checklist-template";
 import type { ReportTemplate } from "./models";
+import { supabase } from "@/lib/supabase";
 
 // Configure LocalForage
 localforage.config({
@@ -45,11 +46,23 @@ const findChecklistTemplate = async (id: string) => {
   return checklist || null;
 };
 
-const getChecklistTemplateLookup = async () => {
-  const data =
-    (await localforage.getItem<ChecklistTemplate[]>(CHECKLIST_TEMPLATE)) ?? [];
+// Converted from Postgres table to TypeScript interface
+export interface ChecklistTemplateDb {
+  id: string; // uuid
+  name: string;
+  description: string | null;
+  version_id: number;
+  created_at: string; // ISO date string
+  updated_at: string | null; // ISO date string or null
+  definition: any; // JSON object, type as needed
+  workspace_id: string; // uuid
+}
 
-  const lookups = data.map(
+const getChecklistTemplateLookup = async () => {
+  const { data } = await supabase.from("checklist_templates").select("*");
+  const checklistTemplates = data as ChecklistTemplateDb[];
+
+  const lookups = checklistTemplates.map(
     (x) =>
       ({
         id: x.id,

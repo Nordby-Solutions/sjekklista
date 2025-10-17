@@ -11,6 +11,7 @@ import {
   Palette,
   ClipboardList,
   ListCheck,
+  Book,
 } from "lucide-react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { useSidebar } from "./SidebarContext";
@@ -43,6 +44,11 @@ export default function AppLayout() {
       label: t("createReport"),
       path: "/report-designer",
       icon: <Palette className="w-5 h-5" />,
+    },
+    {
+      label: t("documentation"),
+      path: "/documentation",
+      icon: <Book className="w-5 h-5" />,
     },
     {
       label: t("settings"),
