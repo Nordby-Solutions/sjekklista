@@ -38,7 +38,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write
       contents: read
 
     steps:
@@ -48,16 +47,10 @@ jobs:
           name: node-app
           path: ./deploy
 
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CAADA46384994C688D4AEADEFF89C7E2 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E2F75DE0155244D182A5AEE9F03EC533 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7285179794ED47E396E0D27EE8CF9B7F }}
-
-      - name: Deploy to Azure Web App
+      - name: Deploy to Azure Web App using publish profile
         uses: azure/webapps-deploy@v3
         with:
           app-name: "sjekklista-api"
           slot-name: "Production"
           package: ./deploy
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_SJEKKLISTAAPI }}

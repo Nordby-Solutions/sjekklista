@@ -11,7 +11,8 @@
     "test": "cross-env NODE_ENV=test jest --testTimeout=5000 --detectOpenHandles --verbose",
     "test:ci": "cross-env NODE_ENV=ci jest --testTimeout=5000 --detectOpenHandles --runInBand --coverage",
     "migrate-db:ci": "supabase migration up",
-    "migrate-db:prod": "ts-node scripts/migrate.ts prod"
+    "migrate-db:prod": "ts-node scripts/migrate.ts prod",
+    "bootstrap:db:models": "npx supabase gen types typescript --project-id rcvrywiusbnycllwlkon --schema public > src/types/supabase.ts"
   },
   "keywords": [],
   "author": "Sebastian Nordby",
