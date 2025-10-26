@@ -2,8 +2,9 @@ import { Router } from "express";
 import {
   checklistRegistrationSchema,
   checklistTemplateSchema,
-  ChecklistTemplateDto,
   mapToChecklistTemplateDtoToPersistenceModel,
+  ChecklistTemplatePersistenceModel,
+  mapToChecklistTemplatePersistenceModelToDto,
 } from "./contracts";
 import { supabase } from "../../lib/supabase";
 
@@ -23,11 +24,17 @@ router.get("/checklist-template", async (req, res) => {
       return res.status(500).json({ error: error.message });
     }
 
-    const checklistTemplates = data as ChecklistTemplateDto[];
+    const checklistTemplates = data as ChecklistTemplatePersistenceModel[];
+    const checklistTemplatesDto = checklistTemplates.map(
+      mapToChecklistTemplatePersistenceModelToDto
+    );
+    console.debug(
+      "Fetched checklist templates:",
+      checklistTemplates,
+      checklistTemplatesDto
+    );
 
-    console.debug("Fetched checklist templates:", checklistTemplates);
-
-    res.json(data);
+    res.json(checklistTemplatesDto);
   } catch (err) {
     console.error("Unexpected error:", err);
     res.status(500).json({ error: "Unexpected error" });

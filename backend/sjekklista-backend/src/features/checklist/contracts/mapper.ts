@@ -17,3 +17,18 @@ export const mapToChecklistTemplateDtoToPersistenceModel = (
     workspace_id: template.workspaceId,
   };
 };
+
+export const mapToChecklistTemplatePersistenceModelToDto = (
+  model: ChecklistTemplatePersistenceModel
+): ChecklistTemplateDto => {
+  return {
+    createdAt: model.created_at,
+    updatedAt: model.updated_at,
+    description: model.description,
+    definition: model.definition,
+    id: model.id,
+    name: model.name,
+    versionId: model.version_id,
+    workspaceId: model.workspace_id,
+  };
+};
