@@ -8,6 +8,13 @@ on:
       - "backend/**"
       - "infra/**"
 
+# Required for detect-changes
+permissions:
+  contents: read
+  pull-requests: read
+
+# Filter out which components has been changed
+# and only deploy those with changes
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
