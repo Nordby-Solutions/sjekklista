@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: cd frontend/sjekklista-app && npm run test
+      - run: cd frontend/sjekklista-app && npm ci && npm run test
 
   test-backend:
     needs: detect-changes
