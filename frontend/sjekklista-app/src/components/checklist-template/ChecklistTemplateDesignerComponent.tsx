@@ -46,10 +46,6 @@ export function ChecklistTemplateDesignerComponent({
   } | null>(null);
 
   const saveTemplate = async () => {
-    await API.checklistTempate.saveChecklistTemplate(template);
-    await toast.success("Lagring vellykket", {
-      position: "top-center",
-    });
     onSave();
   };
 

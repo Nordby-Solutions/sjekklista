@@ -27,11 +27,9 @@ export type ChecklistTemplate = {
   name: string;
   created_at: string; // ISO date string
   updated_at: string | null; // ISO date string or null
-  definition: any; // JSON object, type as needed
   workspaceId: string; // uuid
   description: string;
   versionId: number;
-
   items: ChecklistTemplateSection[];
 };
 
