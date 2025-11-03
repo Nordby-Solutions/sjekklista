@@ -63,6 +63,7 @@ ChecklistRendererProps) {
     status: "draft" | "not_started" | "in_progress" | "completed"
   ) => {
     const now = new Date().toISOString();
+
     const checklist: Checklist = {
       id: crypto.randomUUID(),
       templateId: template.id,

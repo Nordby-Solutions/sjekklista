@@ -21,19 +21,20 @@ localforage.config({
 const CHECKLIST_TEMPLATE = "checklist_templates";
 const CHECKLIST = "checklists";
 const REPORT_TEMPLATE = "report_template";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+
+console.log({ API_BASE_URL });
 
 const getLatestChecklistTemplate = async () => {
-  const data = await localforage.getItem<ChecklistTemplate>(
-    "latestChecklistTemplate"
-  );
-
-  return data;
+  return await getChecklistTemplates();
 };
 
 const getChecklistTemplates = async () => {
-  const data = await localforage.getItem<ChecklistTemplate[]>(
-    CHECKLIST_TEMPLATE
-  );
+  const res = await fetch(`${API_BASE_URL}/api/checklist-template`);
+  const data = (await res.json()) as ChecklistTemplateDto[];
+  console.debug("getChecklistTemplates:", data);
+
   return data ?? [];
 };
 
@@ -47,7 +48,7 @@ const findChecklistTemplate = async (id: string) => {
 };
 
 // Converted from Postgres table to TypeScript interface
-export interface ChecklistTemplateDb {
+export interface ChecklistTemplateDto {
   id: string; // uuid
   name: string;
   description: string | null;
@@ -60,7 +61,7 @@ export interface ChecklistTemplateDb {
 
 const getChecklistTemplateLookup = async () => {
   const { data } = await supabase.from("checklist_templates").select("*");
-  const checklistTemplates = data as ChecklistTemplateDb[];
+  const checklistTemplates = data as ChecklistTemplateDto[];
 
   const lookups = checklistTemplates.map(
     (x) =>
@@ -74,19 +75,18 @@ const getChecklistTemplateLookup = async () => {
   return lookups;
 };
 
-const saveChecklistTemplate = async (template: ChecklistTemplate) => {
-  const checklists =
-    (await localforage.getItem<ChecklistTemplate[]>(CHECKLIST_TEMPLATE)) ?? [];
+const saveChecklistTemplate = async (template: ChecklistTemplateDto) => {
+  const res = await fetch(`${API_BASE_URL}/api/checklist-template`, {
+    method: "POST",
+    body: JSON.stringify(template),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-  if (checklists.find((c) => c.id === template.id)) {
-    // Update existing
-    const index = checklists.findIndex((c) => c.id === template.id);
-    checklists[index] = template;
-  } else {
-    checklists.push(template);
+  if (!res.ok) {
+    console.error("Failed to save checklist template:", res.statusText);
   }
-
-  await localforage.setItem(CHECKLIST_TEMPLATE, checklists);
 };
 
 const saveChecklist = async (checklist: Checklist) => {
