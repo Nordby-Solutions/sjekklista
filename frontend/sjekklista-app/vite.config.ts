@@ -11,11 +11,6 @@ export default defineConfig({
       "@": path.resolve("./src"),
     },
   },
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: ["./src/tests/setup.ts"], // Path to your setup file
-  },
   plugins: [
     react(),
     tailwindcss(),
