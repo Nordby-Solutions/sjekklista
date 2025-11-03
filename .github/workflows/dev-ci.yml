@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: cd frontend && npm ci && npm test
+      - run: cd frontend && npm run test
 
   test-backend:
     needs: detect-changes
