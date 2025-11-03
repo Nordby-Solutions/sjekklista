@@ -1,0 +1,32 @@
+# name: CI/CD Test
+
+# on:
+#   pull_request:
+#     branches: [main]
+
+# jobs:
+#   deploy-test:
+#     runs-on: ubuntu-latest
+#     environment: test
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: azure/login@v2
+#         with:
+#           creds: ${{ secrets.AZURE_CREDENTIALS }}
+#       - uses: azure/arm-deploy@v2
+#         with:
+#           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+#           template: infra/environments/test.bicep
+#           scope: subscription
+#           region: westeurope
+#       - uses: Azure/static-web-apps-deploy@v1
+#         with:
+#           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+#           app_location: "./frontend/sjekklista-app"
+#           output_location: "dist"
+# #   e2e-tests:
+# #     needs: deploy-test
+# #     runs-on: ubuntu-latest
+# #     steps:
+# #       - uses: actions/checkout@v4
+# #       - run: npm ci && npm run e2e # your E2E suite

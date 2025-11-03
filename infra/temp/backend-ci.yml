@@ -1,0 +1,71 @@
+# name: CI Backend - API
+
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#     paths:
+#       - "backend/sjekklista-backend/**"
+#   workflow_dispatch:
+
+# jobs:
+#   build_and_test:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+
+#     steps:
+#       - uses: actions/checkout@v4
+
+#       - name: Set up Node.js version
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: "20.x"
+
+#       - name: Setup Supabase CLI
+#         uses: supabase/setup-cli@v1
+#         with:
+#           version: latest
+
+#       - name: Start Supabase and wait for services
+#         working-directory: backend/sjekklista-backend
+#         run: |
+#           supabase start
+
+#           # Wait for services to be fully ready with retry loop.
+#           echo "Waiting for Supabase services to be ready..."
+#           for i in {1..30}; do
+#           if supabase status -o json > /tmp/supabase-status.json 2>/dev/null; then
+#               API_URL=$(jq -r '.API_URL' /tmp/supabase-status.json 2>/dev/null || echo "null")
+#               if [[ "$API_URL" != "null" && "$API_URL" != "" ]]; then
+#               echo "Supabase services are ready! (attempt $i)"
+#               rm -f /tmp/supabase-status.json
+#               break
+#               fi
+#           fi
+#           echo "Services not ready yet, retrying... (attempt $i/30)"
+#           sleep 2
+#           done
+
+#       - name: Run migrations
+#         working-directory: backend/sjekklista-backend
+#         run: supabase migration up
+
+#       - name: Write .env.ci from Supabase status JSON
+#         working-directory: backend/sjekklista-backend
+#         run: |
+#           supabase status -o json > supabase-status.json
+
+#           echo "SUPABASE_URL=$(jq -r '.API_URL' supabase-status.json)" > .env.ci
+#           echo "SUPABASE_SERVICE_ROLE_KEY=$(jq -r '.SERVICE_ROLE_KEY' supabase-status.json)" >> .env.ci
+
+#       - name: Show contents of .env.ci
+#         working-directory: backend/sjekklista-backend
+#         run: cat .env.ci
+
+#       - name: Install dependencies and build
+#         working-directory: backend/sjekklista-backend
+#         run: |
+#           npm ci
+#           npm run build
+#           npm run test:ci
