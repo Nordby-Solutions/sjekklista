@@ -5,27 +5,51 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChecklistRenderer } from "@/components/ChecklistRenderer";
 import { ChecklistTemplateDesignerComponent } from "../../components/checklist-template/ChecklistTemplateDesignerComponent";
 import { useNavigate, useParams } from "react-router-dom";
-import { API } from "@/data/api";
+import { API, type ChecklistTemplateDto } from "@/data/api";
 import { Info } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 // This is your wrapper component
 export function ChecklistTemplateDesignerPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [template, setTemplate] = useState<ChecklistTemplate>({
-    id: uuid(),
-    versionId: uuid(),
+    id: uuid().toString(),
+    versionId: 1,
     name: "",
     description: "",
     items: [],
+    created_at: new Date().toISOString(),
+    updated_at: null,
+    workspaceId: "",
   });
 
-  const onChecklistTemplateSaved = () => {
+  const onChecklistTemplateSaved = async () => {
+    const templateDefinition = {
+      items: template.items,
+    };
+
+    const templateDto: ChecklistTemplateDto = {
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      description: template.description,
+      definition: templateDefinition,
+      id: template.id,
+      name: template.name,
+      version_id: template.versionId,
+      workspace_id: template.workspaceId,
+    };
+
+    await API.checklistTempate.saveChecklistTemplate(templateDto);
+    await toast.success("Lagring vellykket", {
+      position: "top-center",
+    });
+
     navigate("/");
   };
 
@@ -41,10 +65,13 @@ export function ChecklistTemplateDesignerPage() {
 
       setTemplate({
         id: uuid(),
-        versionId: uuid(),
+        versionId: 1,
         name: "",
         description: "",
         items: [],
+        created_at: new Date().toISOString(),
+        updated_at: null,
+        workspaceId: "",
       });
     })();
   }, [id]);
