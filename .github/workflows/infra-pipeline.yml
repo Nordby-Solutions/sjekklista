@@ -32,5 +32,3 @@ jobs:
           scope: subscription
           region: westeurope
           template: infra/environments/${{ github.event.inputs.environment }}.bicep
-          parameters: >
-            subscriptionId=${{ secrets.AZURE_SUBSCRIPTION_ID }}
