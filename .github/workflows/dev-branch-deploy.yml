@@ -1,17 +1,20 @@
-name: Dev - CI
+name: Dev Branch Deploy
 
-# Only run on PR into dev
 on:
-  pull_request:
+  push:
     branches: [dev]
+    paths:
+      - "frontend/**"
+      - "backend/**"
+      - "infra/**"
 
 # Required for detect-changes
 permissions:
   contents: read
   pull-requests: read
 
-# Filter out which components has been changes, and only test
-# those with changes
+# Filter out which components has been changed
+# and only deploy those with changes
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
@@ -32,17 +35,32 @@ jobs:
             infra:
               - 'infra/**'
 
-  test-frontend:
+  deploy-frontend:
     needs: detect-changes
     if: needs.detect-changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - uses: actions/checkout@v4
-      - run: cd frontend/sjekklista-app && npm ci && npm run test
+      - uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          app_location: "./frontend/sjekklista-app"
+          output_location: "dist"
 
-  test-backend:
+  deploy-backend:
     needs: detect-changes
     if: needs.detect-changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
+    environment: dev
     steps:
-      - run: echo "Should test backend here.."
+      - run: echo "Deploy backend here"
+
+  deploy-infra:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.infra == 'true'
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - run: echo "Deploy infra here"
