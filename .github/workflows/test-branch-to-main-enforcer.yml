@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  check_branch:
+  check_pr_to_main_required_test:
     runs-on: ubuntu-latest
     steps:
       - name: Check branch
