@@ -13,9 +13,6 @@ permissions:
   contents: read
   pull-requests: read
 
-env:
-  DEPLOY_ENV: dev
-
 # Filter out which components has been changed
 # and only deploy those with changes
 jobs:
@@ -42,7 +39,7 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
-    environment: ${{ env.DEPLOY_ENV }}
+    environment: dev
     steps:
       - uses: actions/checkout@v4
       - uses: Azure/static-web-apps-deploy@v1
@@ -56,7 +53,7 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
-    environment: ${{ env.DEPLOY_ENV }}
+    environment: dev
     steps:
       - run: echo "Deploy backend here"
 
@@ -64,6 +61,6 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.infra == 'true'
     runs-on: ubuntu-latest
-    environment: ${{ env.DEPLOY_ENV }}
+    environment: dev
     steps:
       - run: echo "Deploy infra here"
