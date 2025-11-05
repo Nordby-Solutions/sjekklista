@@ -1,9 +1,9 @@
-name: Dev Branch Tests
+name: Pullrequest Testing
 
 # Only run on PR into dev
 on:
   pull_request:
-    branches: [dev]
+    branches: [main]
 
 # Required for detect-changes
 permissions:
@@ -16,7 +16,8 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      frontend: ${{ steps.filter.outputs.frontend }}
+      frontend-app: ${{ steps.filter.outputs.frontend-app }}
+      frontend-landing: ${{ steps.filter.outputs.frontend-landing }}
       backend: ${{ steps.filter.outputs.backend }}
       infra: ${{ steps.filter.outputs.infra }}
     steps:
@@ -25,16 +26,18 @@ jobs:
         id: filter
         with:
           filters: |
-            frontend:
-              - 'frontend/**'
+            frontend-app:
+              - 'frontend/sjekklista-app**'
+            frontend-landing:
+              - 'frontend/sjekklista-landing**'
             backend:
               - 'backend/**'
             infra:
               - 'infra/**'
 
-  test-frontend:
+  test-frontend-app:
     needs: detect-changes
-    if: needs.detect-changes.outputs.frontend == 'true'
+    if: needs.detect-changes.outputs.frontend-app == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

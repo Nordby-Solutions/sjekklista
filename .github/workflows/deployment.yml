@@ -1,8 +1,8 @@
-name: Dev Branch Deploy
+name: Deployment
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
     paths:
       - "frontend/**"
       - "backend/**"
@@ -19,7 +19,8 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      frontend: ${{ steps.filter.outputs.frontend }}
+      frontend-app: ${{ steps.filter.outputs.frontend-app }}
+      frontend-landing: ${{ steps.filter.outputs.frontend-landing }}
       backend: ${{ steps.filter.outputs.backend }}
       infra: ${{ steps.filter.outputs.infra }}
     steps:
@@ -28,39 +29,44 @@ jobs:
         id: filter
         with:
           filters: |
-            frontend:
-              - 'frontend/**'
+            frontend-app:
+              - 'frontend/sjekklista-app/**'
+            frontend-landing:
+              - 'frontend/sjekklista-landing/**'
             backend:
               - 'backend/**'
             infra:
               - 'infra/**'
 
-  deploy-frontend:
+  deploy-frontend-app:
     needs: detect-changes
-    if: needs.detect-changes.outputs.frontend == 'true'
+    if: needs.detect-changes.outputs.frontend-app == 'true'
     runs-on: ubuntu-latest
-    environment: dev
+    environment: prod
     steps:
       - uses: actions/checkout@v4
+
+      - run: npm ci && npm run build
+        working-directory: frontend/sjekklista-app
+
       - uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          app_location: "./frontend/sjekklista-app"
+          app_location: "frontend/sjekklista-app"
           output_location: "dist"
 
   deploy-backend:
     needs: detect-changes
     if: needs.detect-changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
-    environment: dev
+    environment: prod
     steps:
       - run: echo "Deploy backend here"
 
   deploy-infra:
     needs: detect-changes
     if: needs.detect-changes.outputs.infra == 'true'
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - run: echo "Deploy infra here"
+    uses: ./.github/workflows/deploy-infra-template.yml
+    with:
+      environment: prod
