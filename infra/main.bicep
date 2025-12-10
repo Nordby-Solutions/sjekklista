@@ -22,6 +22,7 @@ module landingSwa './modules/static-web-app.bicep' = {
     name: landingName
     location: location
   }
+  dependsOn: [rg]
 }
 
 
@@ -32,4 +33,5 @@ module appSwa './modules/static-web-app.bicep' = {
     name: appName
     location: location
   }
+  dependsOn: [rg]
 }
