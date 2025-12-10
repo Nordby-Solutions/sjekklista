@@ -4,6 +4,8 @@ param location string = 'westeurope'
 
 var rgName = 'sjekklista-${environment}-rg'
 var appName = 'sjekklista-${environment}-app'
+var landingName = 'sjekklista-${environment}-landing'
+
 
 module rg './modules/resource-group.bicep' = {
   name: 'rg'
@@ -12,6 +14,16 @@ module rg './modules/resource-group.bicep' = {
     location: location
   }
 }
+
+module landingSwa './modules/static-web-app.bicep' = {
+  name: 'swa'
+  scope: resourceGroup(rgName)
+  params: {
+    name: landingName
+    location: location
+  }
+}
+
 
 module appSwa './modules/static-web-app.bicep' = {
   name: 'swa'
