@@ -17,19 +17,21 @@ module rg './modules/resource-group.bicep' = {
 
 module landingSwa './modules/static-web-app.bicep' = {
   name: 'swa-landing'
-  scope: resourceGroup(rg.outputs.name)
+  scope: resourceGroup(rgName)
   params: {
     name: landingName
     location: location
   }
+  dependsOn: [rg]
 }
 
 
 module appSwa './modules/static-web-app.bicep' = {
   name: 'swa-app'
-  scope: resourceGroup(rg.outputs.name)
+  scope: resourceGroup(rgName)
   params: {
     name: appName
     location: location
   }
+  dependsOn: [rg]
 }
