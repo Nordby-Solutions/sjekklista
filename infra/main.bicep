@@ -17,7 +17,7 @@ module rg './modules/resource-group.bicep' = {
 
 module landingSwa './modules/static-web-app.bicep' = {
   name: 'swa-landing'
-  scope: resourceGroup(rgName)
+  scope: resourceGroup(rg.outputs.name)
   params: {
     name: landingName
     location: location
@@ -27,7 +27,7 @@ module landingSwa './modules/static-web-app.bicep' = {
 
 module appSwa './modules/static-web-app.bicep' = {
   name: 'swa-app'
-  scope: resourceGroup(rgName)
+  scope: resourceGroup(rg.outputs.name)
   params: {
     name: appName
     location: location
