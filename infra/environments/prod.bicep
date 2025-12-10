@@ -1,11 +1,11 @@
 targetScope = 'subscription'
 
 var location string = 'westeurope'
-var environment string = 'dev'
+var environment string = 'prod'
 var subscriptionId = subscription().subscriptionId
 
 module app '../main.bicep' = {
-  name: 'deploy-dev'
+  name: 'deploy-prod'
   scope: subscription(subscriptionId)
   params: {
     environment: environment
