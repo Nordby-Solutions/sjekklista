@@ -8,13 +8,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'brand-purple': '#825bf9',
-        'brand-blue': '#0052cc',
-        'brand-orange': '#ffab00',
-        'brand-green': '#00c49a',
-        'brand-gray': '#f4f5f7',
-        'brand-dark': '#1d1d1d',
-        'brand-red': '#d32f2f',
+        'brand-purple': 'var(--color-brand-purple)',
+        'brand-blue': 'var(--color-brand-blue)',
+        'brand-orange': 'var(--color-brand-orange)',
+        'brand-green': 'var(--color-brand-green)',
+        'brand-gray': 'var(--color-brand-gray)',
+        'brand-dark': 'var(--color-brand-dark)',
+        'brand-red': 'var(--color-brand-red)',
       },
     },
   },
