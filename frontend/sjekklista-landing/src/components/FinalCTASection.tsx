@@ -1,5 +1,4 @@
-import Link from "next/link";
-import LottieWrapper from "./LottieWrapper";
+import LottieWrapper from './LottieWrapper'
 
 export default function FinalCTASection() {
   return (
@@ -14,14 +13,16 @@ export default function FinalCTASection() {
           kontroller eller jobber med HMS, gir Sjekklista deg verktøyene du
           trenger for å jobbe smart og effektivt.
         </p>
-        <Link
+        <a
           href="https://app.sjekklista.no"
-          className="bg-brand-purple text-white px-6 py-3 rounded hover:bg-blue-700 transition"
+          className="bg-brand-purple text-white px-6 py-3 rounded hover:bg-blue-700 transition inline-block"
         >
           Prøv gratis nå
-        </Link>
+        </a>
       </div>
-      <LottieWrapper path="/lottie/headache.json" />
+      <div className="mx-auto w-48 h-48 sm:w-56 sm:h-56 md:w-[300px] md:h-[300px]">
+        <LottieWrapper path="/lottie/headache.json" />
+      </div>
     </section>
-  );
+  )
 }

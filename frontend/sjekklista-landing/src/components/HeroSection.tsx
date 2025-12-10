@@ -1,5 +1,4 @@
-import Link from "next/link";
-import LottieWrapper from "./LottieWrapper";
+import LottieWrapper from './LottieWrapper'
 
 export default function HeroSection() {
   return (
@@ -36,5 +35,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

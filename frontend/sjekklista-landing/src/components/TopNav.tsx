@@ -1,21 +1,18 @@
-"use client";
-
-import Link from "next/link";
-import { useState } from "react";
+import { useState } from 'react'
 
 export default function TopNav() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="max-w-6xl mx-auto px-6">
         <div className="h-16 flex items-center justify-between">
-          <Link
+          <a
             href="/"
             className="font-semibold tracking-tight text-brand-purple text-lg"
           >
             Sjekklista
-          </Link>
+          </a>
 
           {/* Mobile menu toggle */}
           <button
@@ -28,39 +25,39 @@ export default function TopNav() {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-6 text-slate-600">
-            <Link href="#features" className="hover:text-slate-900 transition">
+            <a href="#features" className="hover:text-slate-900 transition">
               Funksjoner
-            </Link>
-            <Link href="#pricing" className="hover:text-slate-900 transition">
+            </a>
+            <a href="#pricing" className="hover:text-slate-900 transition">
               Priser
-            </Link>
-            <Link
+            </a>
+            <a
               href="https://app.sjekklista.no"
               className="bg-brand-purple text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
             >
               Kom i gang
-            </Link>
+            </a>
           </div>
         </div>
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden mt-2 flex flex-col gap-4 text-slate-600">
-            <Link href="#features" className="hover:text-slate-900 transition">
+          <div className="md:hidden mt-2 flex flex-col gap-4 text-slate-600 pb-4">
+            <a href="#features" className="hover:text-slate-900 transition">
               Funksjoner
-            </Link>
-            <Link href="#pricing" className="hover:text-slate-900 transition">
+            </a>
+            <a href="#pricing" className="hover:text-slate-900 transition">
               Priser
-            </Link>
-            <Link
+            </a>
+            <a
               href="https://app.sjekklista.no"
               className="bg-brand-purple text-white px-4 py-2 rounded-md hover:bg-blue-700 transition w-fit"
             >
               Kom i gang
-            </Link>
+            </a>
           </div>
         )}
       </div>
     </nav>
-  );
+  )
 }
