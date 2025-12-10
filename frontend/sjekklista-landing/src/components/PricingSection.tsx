@@ -12,7 +12,7 @@ export default function PricingSection() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Baseline */}
-        <div className="bg-white p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h3 className="text-xl font-semibold text-brand-purple mb-2">
             Start
           </h3>
@@ -31,7 +31,7 @@ export default function PricingSection() {
         </div>
 
         {/* Team */}
-        <div className="bg-white p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h3 className="text-xl font-semibold text-brand-purple mb-2">Team</h3>
           <p className="text-slate-600 mb-4">For mellomstore firmaer</p>
           <ul className="text-sm text-slate-500 space-y-2 mb-4">
@@ -44,7 +44,7 @@ export default function PricingSection() {
         </div>
 
         {/* Enterprise */}
-        <div className="bg-white p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h3 className="text-xl font-semibold text-brand-purple mb-2">
             Enterprise
           </h3>
@@ -52,7 +52,6 @@ export default function PricingSection() {
           <ul className="text-sm text-slate-500 space-y-2 mb-4">
             <li>👥 Ubegrenset brukere</li>
             <li>🧩 API og integrasjoner</li>
-            {/* <li>🛡️ Egen instans og GDPR-avtale</li> */}
             <li>📦 Tilpasset lagring og sikkerhet</li>
           </ul>
           <p className="font-semibold text-slate-700">Tilpasset pris</p>
@@ -66,5 +65,5 @@ export default function PricingSection() {
         </p>
       </div>
     </section>
-  );
+  )
 }

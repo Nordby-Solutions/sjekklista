@@ -17,5 +17,5 @@ export default function TrustedBySection() {
         <div className="text-slate-500 text-sm">ElektroVest</div>
       </div>
     </section>
-  );
+  )
 }

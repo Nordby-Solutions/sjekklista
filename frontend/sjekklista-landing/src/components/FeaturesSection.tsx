@@ -1,6 +1,6 @@
-import LottieWrapper from "./LottieWrapper";
+import LottieWrapper from './LottieWrapper'
 
-export default function FeatureSection() {
+export default function FeaturesSection() {
   return (
     <section
       id="features"
@@ -28,5 +28,5 @@ export default function FeatureSection() {
         <LottieWrapper path="/lottie/customization.json" />
       </div>
     </section>
-  );
+  )
 }
