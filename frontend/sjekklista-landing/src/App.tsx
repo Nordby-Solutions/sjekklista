@@ -6,6 +6,7 @@ import PricingSection from './components/PricingSection'
 import FinalCTASection from './components/FinalCTASection'
 import TrustedBySection from './components/TrustedBySection'
 
+// Main application component
 function App() {
   return (
     <>
