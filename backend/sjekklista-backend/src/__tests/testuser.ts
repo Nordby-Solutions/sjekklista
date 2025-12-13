@@ -12,11 +12,11 @@ const TEST_USER_EMAIL = "test@example.com";
 const TEST_USER_PASSWORD = "test1234.!";
 
 export async function createTestUser(): Promise<TestUser> {
-  // 1️⃣ Try to find an existing user
+  // 1️1 Try to find an existing user
   const { data: existingUsers } = await supabase.auth.admin.listUsers();
   let user = existingUsers?.users?.find((u) => u.email === TEST_USER_EMAIL);
 
-  // 2️⃣ Create if not found
+  // 2️2 Create if not found
   if (!user) {
     const { data: newUser } = await supabase.auth.admin.createUser({
       email: TEST_USER_EMAIL,
@@ -26,7 +26,7 @@ export async function createTestUser(): Promise<TestUser> {
     user = newUser.user!;
   }
 
-  // 3️⃣ Sign in to get access token
+  // 3️3 Sign in to get access token
   const {
     data: { session },
     error,
