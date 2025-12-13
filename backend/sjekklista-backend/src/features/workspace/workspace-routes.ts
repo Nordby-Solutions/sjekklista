@@ -5,10 +5,6 @@ import { getSubscriptions } from "./logic/getSubscriptions";
 
 const router = Router();
 
-router.get("/workspaces", (_, res) => {
-  res.status(200).json({ message: "List of workspaces" });
-});
-
 router.get("/subscription", async (req: AuthenticatedRequest, res) => {
   try {
     const subscriptions = await getSubscriptions(req.user!.id);
