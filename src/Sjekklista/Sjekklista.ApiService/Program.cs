@@ -1,5 +1,6 @@
 using Sjekklista.ApiService.Features.Employment;
 using Sjekklista.ApiService.Infrastructure;
+using Sjekklista.ApiService.Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,12 +20,16 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
+app.UseMiddleware<TenantMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
+var apiGroup = app.MapGroup("/api");
+
+apiGroup.MapEmploymentEndpoints();
 
 app.MapDefaultEndpoints();
 

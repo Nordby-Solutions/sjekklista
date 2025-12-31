@@ -1,4 +1,8 @@
 ﻿using Bogus;
+using Sjekklista.ApiService.Features.Employment.Contracts;
+using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Create;
+using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Get;
+using Sjekklista.ApiService.Tests.Integration.Helpers;
 using System.ComponentModel;
 
 namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
@@ -7,35 +11,155 @@ namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
     public class EmploymentEndpointsTest
     {
         private readonly Faker _faker = new();
-        private EmploymentClient _employmentClient;
+        private readonly WebApplicationFactoryFixture _fixture;
 
         public EmploymentEndpointsTest(WebApplicationFactoryFixture fixture)
         {
-            _employmentClient = new EmploymentClient(fixture);
+            _fixture = fixture;
+        }
+
+        private EmploymentClient GetEmploymentClient(Guid tenantId)
+        {
+            return new EmploymentClient(tenantId, _fixture);
         }
 
         [Fact]
         public async Task Creates_employee()
         {
-            HttpResponseMessage response = await _employmentClient.CreateEmployee();
+            // Arrange
+            var tenantId = Guid.NewGuid();
+            var sut = GetEmploymentClient(tenantId);
+            var employeeDto = new EmployeeDto()
+            {
+                Firstname = _faker.Name.FirstName(),
+                Lastname = _faker.Name.LastName(),
+                DateOfBirth = DateOnly.FromDateTime(_faker.Date.Past(30, DateTime.Now.AddYears(-18))),
+                PersonalEmailAddress = _faker.Internet.Email(),
+                PhoneNumber = _faker.Phone.PhoneNumber()
+            };
+
+            // Act
+            var httpResponse = await sut.CreateEmployee(new()
+            {
+                Employee = employeeDto
+            });
+
+            // Assert
+            await SjekklistaAssertions.Assert200OkResponse(httpResponse);
+
+            var getEmployeesResponse = await sut
+                .GetEmployees(new())
+                .As<GetEmployeesResponse>();
+            Assert.Contains(getEmployeesResponse.Employees, e =>
+                e.Firstname == employeeDto.Firstname
+                && e.Lastname == employeeDto.Lastname
+                && e.DateOfBirth == employeeDto.DateOfBirth
+                && e.PersonalEmailAddress == employeeDto.PersonalEmailAddress
+                && e.PhoneNumber == employeeDto.PhoneNumber
+                && e.TenantId == tenantId);
         }
 
         [Fact]
         public async Task Updates_employee()
         {
-            HttpResponseMessage response = await _employmentClient.UpdateEmployee();
+            // Arrange
+            var tenantId = Guid.NewGuid();
+            var sut = GetEmploymentClient(tenantId);
+
+            var createEmployeeResponse = await sut.CreateEmployee(new()
+            {
+                Employee = new EmployeeDto()
+                {
+                    Firstname = _faker.Name.FirstName(),
+                    Lastname = _faker.Name.LastName(),
+                    DateOfBirth = DateOnly.FromDateTime(_faker.Date.Past(30, DateTime.Now.AddYears(-18))),
+                    PersonalEmailAddress = _faker.Internet.Email(),
+                    PhoneNumber = _faker.Phone.PhoneNumber()
+                }
+            }).As<CreateEmployeeResponse>();
+            var createdEmployee = createEmployeeResponse.Employee;
+
+            // Act
+            var updateEmployeeDto = new EmployeeDto()
+            {
+                Id = createdEmployee.Id,
+                Firstname = _faker.Name.FirstName(),
+                Lastname = _faker.Name.LastName(),
+                DateOfBirth = DateOnly.FromDateTime(_faker.Date.Past(30, DateTime.Now.AddYears(-18))),
+                PersonalEmailAddress = _faker.Internet.Email(),
+                PhoneNumber = _faker.Phone.PhoneNumber()
+            };
+            var updateHttpResponse = await sut.UpdateEmployee(new()
+            {
+                Employee = updateEmployeeDto
+            });
+
+            // Assert
+            await SjekklistaAssertions.Assert200OkResponse(updateHttpResponse);
+
+            var getEmployeesResponse = await sut
+                .GetEmployees(new())
+                .As<GetEmployeesResponse>();
+            var targetedEmployee = getEmployeesResponse.Employees
+                .First(e => e.Id == createdEmployee.Id);
+            Assert.Equal(updateEmployeeDto.Firstname, targetedEmployee.Firstname);
+            Assert.Equal(updateEmployeeDto.Lastname, targetedEmployee.Lastname);
+            Assert.Equal(updateEmployeeDto.DateOfBirth, targetedEmployee.DateOfBirth);
+            Assert.Equal(updateEmployeeDto.PhoneNumber, targetedEmployee.PhoneNumber);
         }
 
         [Fact]
         public async Task Deletes_employee()
         {
-            HttpResponseMessage response = await _employmentClient.DeleteEmployee();
+            var sut = GetEmploymentClient(Guid.NewGuid());
+            HttpResponseMessage response = await sut.DeleteEmployee(null!);
+            await SjekklistaAssertions.Assert200OkResponse(response);
         }
 
         [Fact]
-        public async Task Get_employees_returns_all_employees()
+        public async Task Get_employees_returns_all_employees_inside_tenant()
         {
-            HttpResponseMessage response = await _employmentClient.GetEmployees();
+            // Given
+            var targetedTenantId = Guid.NewGuid();
+            var sut = GetEmploymentClient(targetedTenantId);
+
+            var createEmployeeResponse = await sut.CreateEmployee(new()
+            {
+                Employee = new EmployeeDto()
+                {
+                    Firstname = _faker.Name.FirstName(),
+                    Lastname = _faker.Name.LastName(),
+                    DateOfBirth = DateOnly.FromDateTime(_faker.Date.Past(30, DateTime.Now.AddYears(-18))),
+                    PersonalEmailAddress = _faker.Internet.Email(),
+                    PhoneNumber = _faker.Phone.PhoneNumber()
+                }
+            }).As<CreateEmployeeResponse>();
+            var createdEmployee = createEmployeeResponse.Employee;
+
+            var otherTenantId = Guid.NewGuid();
+            var otherEmployeeResponse = await GetEmploymentClient(otherTenantId).CreateEmployee(new()
+            {
+                Employee = new EmployeeDto()
+                {
+                    Firstname = _faker.Name.FirstName(),
+                    Lastname = _faker.Name.LastName(),
+                    DateOfBirth = DateOnly.FromDateTime(_faker.Date.Past(30, DateTime.Now.AddYears(-18))),
+                    PersonalEmailAddress = _faker.Internet.Email(),
+                    PhoneNumber = _faker.Phone.PhoneNumber()
+                }
+            }).As<CreateEmployeeResponse>();
+
+            // When
+            var getEmployeesResponse = await sut
+                .GetEmployees(new())
+                .As<GetEmployeesResponse>();
+
+            // Then
+            Assert.DoesNotContain(getEmployeesResponse.Employees, e => e.TenantId == otherTenantId);
+            Assert.All(getEmployeesResponse.Employees, e =>
+            {
+                Assert.Equal(targetedTenantId, e.TenantId);
+            });
         }
 
 

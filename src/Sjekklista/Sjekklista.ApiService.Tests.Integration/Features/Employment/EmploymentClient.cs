@@ -1,33 +1,37 @@
-﻿
+﻿using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Delete;
+using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Get;
+using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Update;
+
 namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
 {
     public class EmploymentClient
     {
         private readonly HttpClient _httpClient;
 
-        public EmploymentClient(WebApplicationFactoryFixture fixture)
+        public EmploymentClient(Guid tenantId, WebApplicationFactoryFixture fixture)
         {
             _httpClient = fixture.Factory.CreateClient();
+            _httpClient.DefaultRequestHeaders.Add("X-Tenant", tenantId.ToString());
         }
 
-        internal async Task<HttpResponseMessage> CreateEmployee()
+        internal async Task<HttpResponseMessage> CreateEmployee(UpdateEmployeeRequest request)
         {
-            throw new NotImplementedException();
+            return await _httpClient.PostAsJsonAsync("/api/employment/employee", request);
         }
 
-        internal async Task<HttpResponseMessage> DeleteEmployee()
+        internal async Task<HttpResponseMessage> DeleteEmployee(DeleteEmployeeRequest request)
         {
-            throw new NotImplementedException();
+            return await _httpClient.DeleteAsync($"/api/employment/employee/{request.Id}");
         }
 
-        internal async Task<HttpResponseMessage> GetEmployees()
+        internal async Task<HttpResponseMessage> GetEmployees(GetEmployeesRequest request)
         {
-            throw new NotImplementedException();
+            return await _httpClient.PostAsJsonAsync("/api/employment/employee/list", request);
         }
 
-        internal async Task<HttpResponseMessage> UpdateEmployee()
+        internal async Task<HttpResponseMessage> UpdateEmployee(UpdateEmployeeRequest request)
         {
-            throw new NotImplementedException();
+            return await _httpClient.PutAsJsonAsync("/api/employment/employee", request);
         }
     }
 }

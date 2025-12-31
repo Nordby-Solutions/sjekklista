@@ -1,8 +1,8 @@
-﻿using Sjekklista.ApiService.Shared.Models;
+﻿using Sjekklista.ApiService.Shared.Contracts;
 
-namespace Sjekklista.ApiService.Features.Employment.Models
+namespace Sjekklista.ApiService.Features.Employment.Contracts
 {
-    public class Employee : TenantEntity
+    public class EmployeeDto : TenantDto
     {
         public Guid Id { get; set; }
         public string Firstname { get; set; } = null!;
