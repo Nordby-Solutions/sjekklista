@@ -1,6 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Sdk Name="Aspire.AppHost.Sdk" Version="9.5.0" />
+  <Sdk Name="Aspire.AppHost.Sdk" Version="13.1.0" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -12,11 +12,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sjekklista.ApiService\Sjekklista.ApiService.csproj" />
-    <ProjectReference Include="..\Sjekklista.Web\Sjekklista.Web.csproj" />
+    <ProjectReference Include="..\sjekklistahr\sjekklistahr.esproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.0" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="13.1.0" />
+    <PackageReference Include="Aspire.Hosting.JavaScript" Version="13.1.0" />
   </ItemGroup>
 
 </Project>

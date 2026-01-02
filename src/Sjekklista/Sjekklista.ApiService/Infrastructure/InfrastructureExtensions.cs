@@ -10,7 +10,7 @@ namespace Sjekklista.ApiService.Infrastructure
             services.AddHttpContextAccessor();
             services.AddScoped<ITenantProvider, HttpTenantProvider>();
 
-            services.AddDbContext<SjekklistaTenantBasedDbContext>(opt => opt.UseInMemoryDatabase("sjekklista"));
+            services.AddDbContext<SjekklistaDbContext>(opt => opt.UseInMemoryDatabase("sjekklista"));
 
             return services;
         }

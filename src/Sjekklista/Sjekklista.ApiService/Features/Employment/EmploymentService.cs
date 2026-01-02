@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Create;
+using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Delete;
 using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Get;
 using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Update;
 using Sjekklista.ApiService.Features.Employment.Models;
@@ -8,8 +9,21 @@ using Sjekklista.ApiService.Shared;
 namespace Sjekklista.ApiService.Features.Employment
 {
     public class EmploymentService(
-        SjekklistaTenantBasedDbContext _dbContext)
+        SjekklistaDbContext _dbContext)
     {
+        public async Task<GetEmployeeResponse> GetEmployeeAsync(
+            GetEmployeeRequest request,
+            CancellationToken cancellationToken)
+        {
+            var employee = await _dbContext.Employees
+                .AsNoTracking()
+                .Where(x => x.Id == request.EmployeeId)
+                .Select(x => x.ToDto())
+                .SingleOrDefaultAsync(cancellationToken);
+
+            return new GetEmployeeResponse { Employee = employee };
+        }
+
         public async Task<CreateEmployeeResponse> CreateEmployeeAsync(
             CreateEmployeeRequest request,
             CancellationToken cancellationToken)
@@ -32,8 +46,8 @@ namespace Sjekklista.ApiService.Features.Employment
             };
         }
 
-        internal async Task<GetEmployeesResponse> GetEmployeesAsync(
-            GetEmployeesRequest request,
+        internal async Task<ListEmployeesResponse> ListEmployeesAsync(
+            ListEmployeesRequest request,
             CancellationToken cancellationToken)
         {
             var employeeDtos = await _dbContext.Employees
@@ -41,7 +55,7 @@ namespace Sjekklista.ApiService.Features.Employment
                 .Select(x => x.ToDto())
                 .ToArrayAsync(cancellationToken);
 
-            return new GetEmployeesResponse()
+            return new ListEmployeesResponse()
             {
                 Employees = employeeDtos
             };
@@ -65,6 +79,22 @@ namespace Sjekklista.ApiService.Features.Employment
             return new UpdateEmployeeResponse()
             {
                 Employee = employee.ToDto()
+            };
+        }
+
+        internal async Task<DeleteEmployeeResponse> DeleteEmployeeAsync(
+            DeleteEmployeeRequest deleteEmployeeRequest,
+            CancellationToken cancellationToken)
+        {
+            var employee = await _dbContext.Employees
+                .SingleAsync(x => x.Id == deleteEmployeeRequest.EmployeeId, cancellationToken);
+
+            _dbContext.Employees.Remove(employee);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return new DeleteEmployeeResponse()
+            {
+                Success = true
             };
         }
     }

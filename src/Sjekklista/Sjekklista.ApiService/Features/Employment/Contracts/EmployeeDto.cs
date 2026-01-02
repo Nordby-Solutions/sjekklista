@@ -2,7 +2,7 @@
 
 namespace Sjekklista.ApiService.Features.Employment.Contracts
 {
-    public class EmployeeDto : TenantDto
+    public class EmployeeDto : BaseTenantDto
     {
         public Guid Id { get; set; }
         public string Firstname { get; set; } = null!;

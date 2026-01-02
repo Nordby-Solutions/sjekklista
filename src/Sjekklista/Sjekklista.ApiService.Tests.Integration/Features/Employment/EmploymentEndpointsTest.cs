@@ -3,7 +3,6 @@ using Sjekklista.ApiService.Features.Employment.Contracts;
 using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Create;
 using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Get;
 using Sjekklista.ApiService.Tests.Integration.Helpers;
-using System.ComponentModel;
 
 namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
 {
@@ -48,8 +47,8 @@ namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
             await SjekklistaAssertions.Assert200OkResponse(httpResponse);
 
             var getEmployeesResponse = await sut
-                .GetEmployees(new())
-                .As<GetEmployeesResponse>();
+                .ListEmployees(new())
+                .As<ListEmployeesResponse>();
             Assert.Contains(getEmployeesResponse.Employees, e =>
                 e.Firstname == employeeDto.Firstname
                 && e.Lastname == employeeDto.Lastname
@@ -98,8 +97,8 @@ namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
             await SjekklistaAssertions.Assert200OkResponse(updateHttpResponse);
 
             var getEmployeesResponse = await sut
-                .GetEmployees(new())
-                .As<GetEmployeesResponse>();
+                .ListEmployees(new())
+                .As<ListEmployeesResponse>();
             var targetedEmployee = getEmployeesResponse.Employees
                 .First(e => e.Id == createdEmployee.Id);
             Assert.Equal(updateEmployeeDto.Firstname, targetedEmployee.Firstname);
@@ -109,11 +108,57 @@ namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
         }
 
         [Fact]
+        public async Task Gets_single_employee()
+        {
+            // Given
+            var sut = GetEmploymentClient(Guid.NewGuid());
+
+            var createEmployeeResponse = await sut.CreateEmployee(new()
+            {
+                Employee = new EmployeeDto()
+                {
+                    Firstname = _faker.Name.FirstName(),
+                    Lastname = _faker.Name.LastName(),
+                    DateOfBirth = DateOnly.FromDateTime(_faker.Date.Past(30, DateTime.Now.AddYears(-18))),
+                    PersonalEmailAddress = _faker.Internet.Email(),
+                    PhoneNumber = _faker.Phone.PhoneNumber()
+                }
+            }).As<CreateEmployeeResponse>();
+
+            // When
+            var httpResponse = await sut.GetEmployee(createEmployeeResponse.Employee.Id);
+
+            // Then
+            await SjekklistaAssertions.Assert200OkResponse(httpResponse);
+
+            var response = await httpResponse.Content.ReadFromJsonAsync<GetEmployeeResponse>();
+            Assert.NotNull(response);
+            Assert.NotNull(response.Employee);
+        }
+
+        [Fact]
         public async Task Deletes_employee()
         {
+            // Given
             var sut = GetEmploymentClient(Guid.NewGuid());
-            HttpResponseMessage response = await sut.DeleteEmployee(null!);
-            await SjekklistaAssertions.Assert200OkResponse(response);
+
+            var createEmployeeResponse = await sut.CreateEmployee(new()
+            {
+                Employee = new EmployeeDto()
+                {
+                    Firstname = _faker.Name.FirstName(),
+                    Lastname = _faker.Name.LastName(),
+                    DateOfBirth = DateOnly.FromDateTime(_faker.Date.Past(30, DateTime.Now.AddYears(-18))),
+                    PersonalEmailAddress = _faker.Internet.Email(),
+                    PhoneNumber = _faker.Phone.PhoneNumber()
+                }
+            }).As<CreateEmployeeResponse>();
+
+            // When
+            var httpResponse = await sut.DeleteEmployee(createEmployeeResponse.Employee.Id);
+
+            // Then
+            await SjekklistaAssertions.Assert200OkResponse(httpResponse);
         }
 
         [Fact]
@@ -151,8 +196,8 @@ namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
 
             // When
             var getEmployeesResponse = await sut
-                .GetEmployees(new())
-                .As<GetEmployeesResponse>();
+                .ListEmployees(new())
+                .As<ListEmployeesResponse>();
 
             // Then
             Assert.DoesNotContain(getEmployeesResponse.Employees, e => e.TenantId == otherTenantId);
@@ -163,11 +208,11 @@ namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
         }
 
 
-        [Fact]
-        [Description("Ensures that all information related to is obfuscated and there is no way of tracing it back to the person.")]
-        public async Task Sensures_all_information_by_employee()
-        {
+        //[Fact]
+        //[Description("Ensures that all information related to is obfuscated and there is no way of tracing it back to the person.")]
+        //public async Task Sensures_all_information_by_employee()
+        //{
 
-        }
+        //}
     }
 }

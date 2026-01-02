@@ -2,5 +2,6 @@
 {
     public record DeleteEmployeeResponse
     {
+        public required bool Success { get; init; }
     }
 }

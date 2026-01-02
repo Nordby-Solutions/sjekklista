@@ -2,6 +2,6 @@
 {
     public record DeleteEmployeeRequest
     {
-        public required Guid Id { get; init; }
+        public required Guid EmployeeId { get; init; }
     }
 }

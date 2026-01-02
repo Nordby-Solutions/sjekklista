@@ -6,6 +6,8 @@
   <Project Path="Sjekklista.ApiService/Sjekklista.ApiService.csproj" />
   <Project Path="Sjekklista.AppHost/Sjekklista.AppHost.csproj" />
   <Project Path="Sjekklista.ServiceDefaults/Sjekklista.ServiceDefaults.csproj" />
-  <Project Path="Sjekklista.Tests/Sjekklista.Tests.csproj" />
-  <Project Path="Sjekklista.Web/Sjekklista.Web.csproj" />
+  <Project Path="SjekklistaHR/sjekklistahr.esproj">
+    <Build />
+    <Deploy />
+  </Project>
 </Solution>

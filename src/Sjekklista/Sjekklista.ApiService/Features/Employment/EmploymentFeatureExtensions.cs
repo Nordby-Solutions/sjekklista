@@ -15,24 +15,30 @@
                 .WithTags("Employment");
 
             employmentGroup
-                .MapPost("/employee/list", EmploymentEndpoints.GetEmployees)
+                .MapPost("/employees/list", EmploymentEndpoints.ListEmployees)
                 .WithName("GetEmployees")
                 .WithSummary("Retrieves a list of employees.");
 
             employmentGroup
-                .MapPost("/employee", EmploymentEndpoints.CreateEmployee)
+                .MapPost("/employees", EmploymentEndpoints.CreateEmployee)
                 .WithName("CreateEmployee")
                 .WithSummary("Creates an employee.");
 
             employmentGroup
-                .MapPut("/employee", EmploymentEndpoints.UpdateEmployee)
+                .MapPut("/employees", EmploymentEndpoints.UpdateEmployee)
                 .WithName("UpdateEmployee")
                 .WithSummary("Updates an employee.");
 
             employmentGroup
-                .MapDelete("/employee/{employeeId}", EmploymentEndpoints.DeleteEmployee)
+                .MapDelete("/employees/{employeeId}", EmploymentEndpoints.DeleteEmployee)
                 .WithName("DeleteEmployee")
                 .WithSummary("Deletes an employee.");
+
+            employmentGroup
+                .MapGet("/employees/{employeeId}", EmploymentEndpoints.GetEmployee)
+                .WithName("GetEmployee")
+                .WithSummary("Deletes an employee.");
+
 
         }
     }

@@ -1,5 +1,4 @@
-﻿using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Delete;
-using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Get;
+﻿using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Get;
 using Sjekklista.ApiService.Features.Employment.Contracts.Employee.Update;
 
 namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
@@ -16,22 +15,27 @@ namespace Sjekklista.ApiService.Tests.Integration.Features.Employment
 
         internal async Task<HttpResponseMessage> CreateEmployee(UpdateEmployeeRequest request)
         {
-            return await _httpClient.PostAsJsonAsync("/api/employment/employee", request);
+            return await _httpClient.PostAsJsonAsync("/api/employment/employees", request);
         }
 
-        internal async Task<HttpResponseMessage> DeleteEmployee(DeleteEmployeeRequest request)
+        internal async Task<HttpResponseMessage> DeleteEmployee(Guid employeeId)
         {
-            return await _httpClient.DeleteAsync($"/api/employment/employee/{request.Id}");
+            return await _httpClient.DeleteAsync($"/api/employment/employees/{employeeId}");
         }
 
-        internal async Task<HttpResponseMessage> GetEmployees(GetEmployeesRequest request)
+        internal async Task<HttpResponseMessage> GetEmployee(Guid employeeId)
         {
-            return await _httpClient.PostAsJsonAsync("/api/employment/employee/list", request);
+            return await _httpClient.GetAsync($"/api/employment/employees/{employeeId}");
+        }
+
+        internal async Task<HttpResponseMessage> ListEmployees(ListEmployeesRequest request)
+        {
+            return await _httpClient.PostAsJsonAsync("/api/employment/employees/list", request);
         }
 
         internal async Task<HttpResponseMessage> UpdateEmployee(UpdateEmployeeRequest request)
         {
-            return await _httpClient.PutAsJsonAsync("/api/employment/employee", request);
+            return await _httpClient.PutAsJsonAsync("/api/employment/employees", request);
         }
     }
 }
