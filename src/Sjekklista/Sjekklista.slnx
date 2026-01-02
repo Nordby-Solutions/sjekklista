@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="Sjekklista.ApiService.Tests.Integration/Sjekklista.ApiService.Tests.Integration.csproj" />
+  <Project Path="Sjekklista.ApiService/Sjekklista.ApiService.csproj" />
+  <Project Path="Sjekklista.AppHost/Sjekklista.AppHost.csproj" />
+  <Project Path="Sjekklista.ServiceDefaults/Sjekklista.ServiceDefaults.csproj" />
+  <Project Path="SjekklistaHR/sjekklistahr.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>

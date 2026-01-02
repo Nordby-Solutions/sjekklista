@@ -1,0 +1,84 @@
+.tenant-select-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f6fa;
+  padding: 24px;
+}
+
+.tenant-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  width: 100%;
+  max-width: 640px;
+}
+
+.tenant-card h1 {
+  margin: 0 0 8px 0;
+}
+
+.tenant-card p {
+  margin: 0 0 16px 0;
+  color: #4a4a4a;
+}
+
+.tenant-list {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.tenant-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.tenant-item:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.tenant-name {
+  font-weight: 600;
+  color: #222;
+}
+
+.tenant-slug {
+  color: #666;
+  font-size: 14px;
+}
+
+.tenant-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.tenant-actions button {
+  border: 1px solid #d0d0d0;
+  background: #f4f4f4;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.tenant-actions button.secondary {
+  background: #fff;
+}
+
+.tenant-card.error {
+  color: #c62828;
+  border: 1px solid #f3b7b7;
+  background: #fff5f5;
+}
