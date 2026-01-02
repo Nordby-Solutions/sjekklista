@@ -9,17 +9,18 @@ export default function FeaturesSection() {
       {/* Text first on all viewports */}
       <div>
         <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-          Skreddersy sjekklister og rapporter
+          Kraftig. Rimelig. Brukervennlig.
         </h2>
         <p className="text-lg text-slate-600 mb-8">
-          Sjekklista lar deg designe egne sjekklister med fleksible felt og
-          maler. Generer rapporter med ett klikk, og del dem med kollegaer eller
-          kunder. Perfekt for teamarbeid og intern dokumentasjon.
+          Vi bygger moderne løsninger som gjør det enklere å administrere dine 
+          daglige operasjoner. Fra HR-prosesser til dokumentasjon og kontroll — 
+          hver applikasjon er designet med fokus på brukbarhet og effektivitet.
         </p>
         <ul className="list-disc list-inside text-slate-600 mb-8 space-y-2">
-          <li>Lag og tilpass sjekklister etter behov</li>
-          <li>Trekk ut rapporter med full oversikt</li>
-          <li>Del med andre brukere og internt i firmaet</li>
+          <li>Intuitive brukergrensesnitt som krever minimal opplæring</li>
+          <li>Skalbar fra små lag til større organisasjoner</li>
+          <li>Integrert med verktøyene du allerede bruker</li>
+          <li>Robust sikkerhet og dataoverholdelse inkludert</li>
         </ul>
       </div>
 

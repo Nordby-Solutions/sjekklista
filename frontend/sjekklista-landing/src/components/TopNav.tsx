@@ -32,10 +32,10 @@ export default function TopNav() {
               Priser
             </a>
             <a
-              href="https://app.sjekklista.no"
+              href="mailto:post@norso.no?subject=Interesse%20i%20Sjekklista&body=Hei,%0D%0A%0D%0AJeg%20er%20interessert%20i%20Sjekklista%20og%20ønsker%20å%20melde%20interesse."
               className="bg-brand-purple text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
             >
-              Kom i gang
+              Meld interesse
             </a>
           </div>
         </div>
@@ -50,10 +50,10 @@ export default function TopNav() {
               Priser
             </a>
             <a
-              href="https://app.sjekklista.no"
+              href="mailto:post@norso.no?subject=Interesse%20i%20Sjekklista&body=Hei,%0D%0A%0D%0AJeg%20er%20interessert%20i%20Sjekklista%20og%20ønsker%20å%20melde%20interesse."
               className="bg-brand-purple text-white px-4 py-2 rounded-md hover:bg-blue-700 transition w-fit"
             >
-              Kom i gang
+              Meld interesse
             </a>
           </div>
         )}

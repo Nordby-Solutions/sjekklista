@@ -16,21 +16,19 @@ export default function HeroSection() {
       {/* Text second on mobile, first on desktop */}
       <div className="order-2 md:order-none">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-          Sjekklister og dokumentasjon — gjort enkelt
+          Moderne verktøy for små og mellomstore bedrifter
         </h1>
         <p className="text-lg text-slate-600 mb-8">
-          Et raskt og pålitelig verktøy for prosjektledere, vektere og
-          håndverkere. Lag sjekklister på sekunder. Full sporbarhet.
-          Offline-støtte.
+          En flotte av rimelige, kraftige og brukervennlige applikasjoner 
+          designet spesielt for små og mellomstore bedrifter. Fra HR til 
+          dokumentasjon — vi har løsninger som gjør ditt arbeid enklere og mer effektivt.
         </p>
         <div className="flex gap-4">
           <a
-            href="https://app.sjekklista.no"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="mailto:post@norso.no?subject=Interesse%20i%20Sjekklista&body=Hei,%0D%0A%0D%0AJeg%20er%20interessert%20i%20Sjekklista%20og%20ønsker%20å%20melde%20interesse."
             className="bg-brand-purple text-white px-6 py-3 rounded hover:bg-blue-700 transition"
           >
-            Kom i gang gratis
+            Meld interesse
           </a>
         </div>
       </div>
