@@ -17,11 +17,15 @@ export interface CreateEmployeeResponse {
   employee?: EmployeeDto;
 }
 
-export type GetEmployeesRequest = {
+export interface GetEmployeeResponse {
+  employee?: EmployeeDto;
+}
+
+export type ListEmployeesRequest = {
   searchValue?: string;
 };
 
-export interface GetEmployeesResponse {
+export interface ListEmployeesResponse {
   employees: EmployeeDto[];
 }
 

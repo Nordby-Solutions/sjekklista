@@ -17,6 +17,7 @@
     "@syncfusion/ej2-react-inputs": "^32.1.20",
     "@syncfusion/ej2-react-navigations": "^32.1.19",
     "axios": "^1.7.9",
+    "oidc-client-ts": "^3.4.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^6.28.1"
