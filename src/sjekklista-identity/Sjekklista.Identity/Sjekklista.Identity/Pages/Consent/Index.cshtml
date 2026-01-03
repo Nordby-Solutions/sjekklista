@@ -10,10 +10,11 @@
             <div class="client-logo"><img src="@Model.View.ClientLogoUrl"></div>
         }
         <h1>
+            <span class="sl-check"></span>
             @Model.View.ClientName
-            <small class="text-muted">is requesting your permission</small>
+            <small class="text-muted">ber om din tillatelse</small>
         </h1>
-        <p>Uncheck the permissions you do not wish to grant.</p>
+        <p>Fjern avmerkingen for tillatelser du ikke ønsker å gi.</p>
     </div>
 
     <div class="row">
@@ -32,7 +33,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <span class="glyphicon glyphicon-user"></span>
-                                Personal Information
+                                Personlig informasjon
                             </div>
                             <ul class="list-group list-group-flush">
                                 @foreach (var scope in Model.View.IdentityScopes)
@@ -50,7 +51,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <span class="glyphicon glyphicon-tasks"></span>
-                                Application Access
+                                Applikasjonstilgang
                             </div>
                             <ul class="list-group list-group-flush">
                                 @foreach (var scope in Model.View.ApiScopes)
@@ -66,10 +67,10 @@
                     <div class="card">
                         <div class="card-header">
                             <span class="glyphicon glyphicon-pencil"></span>
-                            Description
+                            Beskrivelse
                         </div>
                         <div class="card-body">
-                            <input class="form-control" placeholder="Description or name of device" asp-for="Input.Description" autofocus>
+                            <input class="form-control" placeholder="Beskrivelse eller navn på enhet" asp-for="Input.Description" autofocus>
                         </div>
                     </div>
                 </div>
@@ -80,7 +81,7 @@
                         <div class="form-check">
                             <input class="form-check-input" asp-for="Input.RememberConsent">
                             <label class="form-check-label" asp-for="Input.RememberConsent">
-                                <strong>Remember My Decision</strong>
+                                <strong>Husk mitt valg</strong>
                             </label>
                         </div>
                     </div>
@@ -90,8 +91,14 @@
 
         <div class="row">
             <div class="col-sm-4">
-                <button name="Input.button" value="yes" class="btn btn-primary" autofocus>Yes, Allow</button>
-                <button name="Input.button" value="no" class="btn btn-secondary">No, Do Not Allow</button>
+                <button name="Input.button" value="yes" class="btn btn-primary" autofocus>
+                    <span class="glyphicon glyphicon-ok" style="color: white;"></span>
+                    Ja, tillat
+                </button>
+                <button name="Input.button" value="no" class="btn btn-secondary">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    Nei, ikke tillat
+                </button>
             </div>
             <div class="col-sm-4 col-lg-auto">
                 @if (Model.View.ClientUrl != null)

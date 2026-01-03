@@ -2,16 +2,17 @@
 @model Sjekklista.Identity.Pages.Logout.LoggedOut
 
 <div class="logged-out-page">
+    <span class="sl-check" style="width: 64px; height: 64px; font-size: 32px; display: inline-block; margin-bottom: 20px;"></span>
     <h1>
-        Logout
-        <small>You are now logged out</small>
+        Utlogget
+        <small style="display: block; margin-top: 12px;">Du er nå logget ut</small>
     </h1>
 
     @if (Model.View.PostLogoutRedirectUri != null)
     {
-        <div>
-            Click <a class="PostLogoutRedirectUri" href="@Model.View.PostLogoutRedirectUri">here</a> to return to the
-            <span>@Model.View.ClientName</span> application.
+        <div style="margin-top: 30px; padding: 20px; background-color: var(--card-bg); border-radius: 8px; box-shadow: var(--shadow-sm);">
+            Klikk <a class="PostLogoutRedirectUri" href="@Model.View.PostLogoutRedirectUri">her</a> for å gå tilbake til
+            <span><strong>@Model.View.ClientName</strong></span>-applikasjonen.
         </div>
     }
 
