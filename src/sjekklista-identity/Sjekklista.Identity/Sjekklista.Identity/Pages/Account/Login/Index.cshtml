@@ -3,8 +3,8 @@
 
 <div class="login-page">
     <div class="lead">
-        <h1>Login</h1>
-        <p>Choose how to login</p>
+        <h1><span class="sl-check"></span> Logg inn</h1>
+        <p>Velg hvordan du vil logge inn på Sjekklista</p>
     </div>
 
     <partial name="_ValidationSummary" />
@@ -16,7 +16,10 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Local Account</h2>
+                        <h2 style="margin: 0; font-size: 1.25rem;">
+                            <span class="glyphicon glyphicon-user"></span>
+                            Lokal konto
+                        </h2>
                     </div>
 
                     <div class="card-body">
@@ -24,12 +27,12 @@
                             <input type="hidden" asp-for="Input.ReturnUrl" />
 
                             <div class="form-group">
-                                <label asp-for="Input.Username"></label>
-                                <input class="form-control" placeholder="Username" asp-for="Input.Username" autofocus>
+                                <label asp-for="Input.Username">Brukernavn</label>
+                                <input class="form-control" placeholder="Skriv inn brukernavn" asp-for="Input.Username" autofocus>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Input.Password"></label>
-                                <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
+                                <label asp-for="Input.Password">Passord</label>
+                                <input type="password" class="form-control" placeholder="Skriv inn passord" asp-for="Input.Password" autocomplete="off">
                             </div>
                             
                             @if (Model.View.AllowRememberLogin)
@@ -38,14 +41,17 @@
                                     <div class="form-check">
                                         <input class="form-check-input" asp-for="Input.RememberLogin">
                                         <label class="form-check-label" asp-for="Input.RememberLogin">
-                                            Remember My Login
+                                            Husk meg
                                         </label>
                                     </div>
                                 </div>
                             }
                             
-                            <button class="btn btn-primary" name="Input.Button" value="login">Login</button>
-                            <button class="btn btn-secondary" name="Input.Button" value="cancel">Cancel</button>
+                            <button class="btn btn-primary" name="Input.Button" value="login">
+                                <span class="glyphicon glyphicon-log-in" style="color: white;"></span>
+                                Logg inn
+                            </button>
+                            <button class="btn btn-secondary" name="Input.Button" value="cancel">Avbryt</button>
                         </form>
                     </div>
                 </div>
@@ -57,13 +63,16 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-header">
-                        <h2>External Account</h2>
+                        <h2 style="margin: 0; font-size: 1.25rem;">
+                            <span class="glyphicon glyphicon-cloud"></span>
+                            Ekstern konto
+                        </h2>
                     </div>
                     <div class="card-body">
                         <ul class="list-inline">
                             @foreach (var provider in Model.View.VisibleExternalProviders)
                             {
-                                <li class="list-inline-item">
+                                <li class="list-inline-item" style="margin-bottom: 10px;">
                                     <a class="btn btn-secondary"
                                        asp-page="/ExternalLogin/Challenge"
                                        asp-route-scheme="@provider.AuthenticationScheme"
@@ -81,8 +90,8 @@
         @if (!Model.View.EnableLocalLogin && !Model.View.VisibleExternalProviders.Any())
         {
             <div class="alert alert-warning">
-                <strong>Invalid login request</strong>
-                There are no login schemes configured for this request.
+                <strong>Ugyldig innloggingsforespørsel</strong>
+                Det er ingen påloggingsmetoder konfigurert for denne forespørselen.
             </div>
         }
     </div>
