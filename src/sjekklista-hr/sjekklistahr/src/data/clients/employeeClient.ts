@@ -1,15 +1,16 @@
 import { apiClient } from '../apiClient';
 import type { 
   EmployeeDto, 
-  GetEmployeesRequest, 
-  GetEmployeesResponse,
+  ListEmployeesRequest, 
+  ListEmployeesResponse,
   CreateEmployeeRequest,
-  CreateEmployeeResponse 
+  CreateEmployeeResponse, 
+  GetEmployeeResponse
 } from '../models';
 
 export class EmployeeClient {
-  async getEmployees(request: GetEmployeesRequest): Promise<EmployeeDto[]> {
-    const response = await apiClient.getHttpClient().post<GetEmployeesResponse>(
+  async getEmployees(request: ListEmployeesRequest): Promise<EmployeeDto[]> {
+    const response = await apiClient.getHttpClient().post<ListEmployeesResponse>(
       '/api/employment/employees/list',
       request
     );
@@ -25,10 +26,10 @@ export class EmployeeClient {
   }
 
   async getEmployeeById(id: string): Promise<EmployeeDto | null> {
-    const response = await apiClient.getHttpClient().get<EmployeeDto>(
+    const response = await apiClient.getHttpClient().get<GetEmployeeResponse>(
       `/api/employment/employees/${id}`
     );
-    return response.data || null;
+    return response.data.employee || null;
   }
 
   async updateEmployee(id: string, employee: EmployeeDto): Promise<EmployeeDto | null> {

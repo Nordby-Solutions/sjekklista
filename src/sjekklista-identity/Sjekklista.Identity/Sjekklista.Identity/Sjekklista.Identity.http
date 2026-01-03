@@ -1,0 +1,6 @@
+@Sjekklista.Identity_HostAddress = http://localhost:5249
+
+GET {{Sjekklista.Identity_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
