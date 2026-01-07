@@ -40,3 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 backend/sjekklista-backend/dist/app.js
+/.vs
+/src/sjekklista-identity/Sjekklista.Identity/Sjekklista.Identity/keys

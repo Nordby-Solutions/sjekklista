@@ -1,3 +1,4 @@
+using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Test;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,8 @@ builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>()
     .AddDefaultTokenProviders();
+builder.Services
+    .AddTransient<IProfileService, ProfileService>();
 
 builder.Services
     .AddIdentityServer(options =>
@@ -29,6 +32,7 @@ builder.Services
     .AddInMemoryClients(Config.Clients)
     .AddInMemoryApiScopes(Config.ApiScopes)
     .AddInMemoryIdentityResources(Config.IdentityResources)
+    .AddInMemoryApiResources(Config.ApiResources)
     .AddAspNetIdentity<ApplicationUser>()
     .AddTestUsers([
         new TestUser()

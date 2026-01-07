@@ -55,7 +55,8 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.Employment
                 && e.DateOfBirth == employeeDto.DateOfBirth
                 && e.PersonalEmailAddress == employeeDto.PersonalEmailAddress
                 && e.PhoneNumber == employeeDto.PhoneNumber
-                && e.TenantId == tenantId);
+                && e.TenantId == tenantId
+                && e.CreatedByUserId == TestAuthHandler.SignedOnUserId);
         }
 
         [Fact]

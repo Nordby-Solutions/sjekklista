@@ -10,5 +10,6 @@ namespace Sjekklista.Hr.ApiService.Features.Employment.Contracts.Employee
         public string? PersonalEmailAddress { get; set; }
         public string? PhoneNumber { get; set; }
         public DateOnly DateOfBirth { get; set; }
+        public Guid CreatedByUserId { get; set; }
     }
 }

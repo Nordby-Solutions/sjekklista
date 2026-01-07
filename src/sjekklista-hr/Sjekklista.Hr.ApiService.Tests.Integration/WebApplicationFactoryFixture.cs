@@ -1,5 +1,7 @@
 ﻿
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Sjekklista.Hr.ApiService.Tests.Integration.Helpers;
 
 namespace Sjekklista.Hr.ApiService.Tests.Integration
 {
@@ -15,6 +17,13 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration
                 {
                     builder.ConfigureServices(services =>
                     {
+                        services.AddAuthentication(options =>
+                        {
+                            options.DefaultAuthenticateScheme = TestAuthHandler.SchemeName;
+                            options.DefaultChallengeScheme = TestAuthHandler.SchemeName;
+                        })
+                        .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
+                            TestAuthHandler.SchemeName, _ => { });
                     });
                 });
         }

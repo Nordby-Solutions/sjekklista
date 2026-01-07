@@ -4,11 +4,13 @@ using Sjekklista.Hr.ApiService.Features.Employment.Contracts.Employee.Delete;
 using Sjekklista.Hr.ApiService.Features.Employment.Contracts.Employee.Get;
 using Sjekklista.Hr.ApiService.Features.Employment.Contracts.Employee.Update;
 using Sjekklista.Hr.ApiService.Features.Employment.Models;
+using Sjekklista.Hr.ApiService.Features.Shared;
 using Sjekklista.Hr.ApiService.Shared;
 
 namespace Sjekklista.Hr.ApiService.Features.Employment
 {
     public class EmployeeService(
+        ICurrentUserService _currentUserService,
         SjekklistaHrDbContext _dbContext)
     {
         public async Task<GetEmployeeResponse> GetEmployeeAsync(
@@ -35,6 +37,7 @@ namespace Sjekklista.Hr.ApiService.Features.Employment
                 DateOfBirth = request.Employee.DateOfBirth,
                 PersonalEmailAddress = request.Employee.PersonalEmailAddress,
                 PhoneNumber = request.Employee.PhoneNumber,
+                CreatedByUserId = _currentUserService.SignedOnUserId
             };
 
             _dbContext.Employees.Add(employee);

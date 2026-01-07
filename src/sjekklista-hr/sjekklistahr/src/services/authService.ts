@@ -68,6 +68,22 @@ export class AuthService {
   }
 
   /**
+   * Subscribe to user loaded event
+   */
+  addUserLoaded(handler: (user: User) => void): () => void {
+    this.userManager.events.addUserLoaded(handler);
+    return () => this.userManager.events.removeUserLoaded(handler);
+  }
+
+  /**
+   * Subscribe to user unloaded event
+   */
+  addUserUnloaded(handler: () => void): () => void {
+    this.userManager.events.addUserUnloaded(handler);
+    return () => this.userManager.events.removeUserUnloaded(handler);
+  }
+
+  /**
    * Start the login flow
    */
   async login(): Promise<void> {

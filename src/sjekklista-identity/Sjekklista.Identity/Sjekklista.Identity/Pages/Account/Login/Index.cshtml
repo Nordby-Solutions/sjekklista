@@ -2,23 +2,18 @@
 @model Sjekklista.Identity.Pages.Login.Index
 
 <div class="login-page">
-    <div class="lead">
-        <h1><span class="sl-check"></span> Logg inn</h1>
-        <p>Velg hvordan du vil logge inn på Sjekklista</p>
-    </div>
-
     <partial name="_ValidationSummary" />
 
     <div class="row">
 
         @if (Model.View.EnableLocalLogin)
         {
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
                         <h2 style="margin: 0; font-size: 1.25rem;">
                             <span class="glyphicon glyphicon-user"></span>
-                            Lokal konto
+                            Logg inn
                         </h2>
                     </div>
 

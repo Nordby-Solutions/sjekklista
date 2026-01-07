@@ -15,7 +15,8 @@ namespace Sjekklista.Hr.ApiService.Features.Employment
                 DateOfBirth = employee.DateOfBirth,
                 PersonalEmailAddress = employee.PersonalEmailAddress,
                 PhoneNumber = employee.PhoneNumber,
-                TenantId = employee.TenantId
+                TenantId = employee.TenantId,
+                CreatedByUserId = employee.CreatedByUserId
             };
         }
     }

@@ -12,7 +12,7 @@ Create a `.env.local` file in the `sjekklistahr` directory with the following va
 
 ```env
 VITE_AUTH_AUTHORITY=https://localhost:7222
-VITE_AUTH_CLIENT_ID=react-client
+VITE_AUTH_CLIENT_ID=hr-client
 VITE_AUTH_REDIRECT_URI=http://localhost:3000/callback
 VITE_AUTH_POST_LOGOUT_URI=http://localhost:3000
 VITE_API_BASE_URL=http://localhost:5000/api
@@ -136,7 +136,7 @@ function LogoutButton() {
 Your IDP must be configured with:
 
 1. **Client Registration**
-   - Client ID: `react-client`
+   - Client ID: `hr-client`
    - Redirect URI: `http://localhost:3000/callback`
    - Response Type: `code` (Authorization Code Flow)
    - Scopes: `openid profile sjekklista.api`
