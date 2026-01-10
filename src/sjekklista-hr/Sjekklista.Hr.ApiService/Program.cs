@@ -2,6 +2,7 @@ using Microsoft.IdentityModel.Tokens;
 using Sjekklista.Hr.ApiService.Features.Employment;
 using Sjekklista.Hr.ApiService.Features.Tenancy;
 using Sjekklista.Hr.ApiService.Features.Tenancy.Models;
+using Sjekklista.Hr.ApiService.Features.VacationPlanning;
 using Sjekklista.Hr.ApiService.Infrastructure;
 using Sjekklista.Hr.ApiService.Infrastructure.Middleware;
 using Sjekklista.Hr.ApiService.Shared;
@@ -19,6 +20,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddTenantFeature();
 builder.Services.AddEmploymentFeature();
+builder.Services.AddVacationPlanningFeature();
 builder.Services.AddInfrastructure();
 
 builder.Services.AddCors(p =>
@@ -58,7 +60,7 @@ app.UseMiddleware<TenantMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<SjekklistaHrDbContext>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<HRDbContext>();
 
     dbContext.Tenants.Add(new Tenant()
     {
@@ -89,6 +91,7 @@ var apiGroup = app
     .RequireAuthorization();
 
 apiGroup.MapEmploymentEndpoints();
+apiGroup.MapVacationPlanningEndpoints();
 
 app.MapDefaultEndpoints();
 app.Run();

@@ -12,7 +12,7 @@ namespace Sjekklista.Hr.ApiService.Infrastructure
             services.AddScoped<ITenantProvider, HttpTenantProvider>();
             services.AddScoped<ICurrentUserService, ClaimsIdentityCurrentUserService>();
 
-            services.AddDbContext<SjekklistaHrDbContext>(opt => opt.UseInMemoryDatabase("sjekklista"));
+            services.AddDbContext<HRDbContext>(opt => opt.UseInMemoryDatabase("sjekklista"));
 
             return services;
         }

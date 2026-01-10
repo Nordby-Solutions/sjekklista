@@ -11,7 +11,7 @@ namespace Sjekklista.Hr.ApiService.Features.Employment
 {
     public class EmployeeService(
         ICurrentUserService _currentUserService,
-        SjekklistaHrDbContext _dbContext)
+        HRDbContext _dbContext)
     {
         public async Task<GetEmployeeResponse> GetEmployeeAsync(
             GetEmployeeRequest request,
@@ -37,6 +37,8 @@ namespace Sjekklista.Hr.ApiService.Features.Employment
                 DateOfBirth = request.Employee.DateOfBirth,
                 PersonalEmailAddress = request.Employee.PersonalEmailAddress,
                 PhoneNumber = request.Employee.PhoneNumber,
+                StartDate = request.Employee.StartDate,
+                EndDate = request.Employee.EndDate,
                 CreatedByUserId = _currentUserService.SignedOnUserId
             };
 
