@@ -1,12 +1,15 @@
-﻿using Sjekklista.Hr.ApiService.Shared.Models;
+﻿using Sjekklista.Hr.ApiService.Shared.Exceptions;
+using Sjekklista.Hr.ApiService.Shared.Models;
 
 namespace Sjekklista.Hr.ApiService.Features.VacationPlanning.Models
 {
     public class EmployeeVacationPlan : TenantEntity
     {
-        public int Year { get; set; }
-        public Guid EmployeeId { get; set; }
-        public string? EmployeeComment { get; set; }
+        public int Year { get; private set; }
+        public Guid EmployeeId { get; private set; }
+
+        private List<EmployeeVacationDay> _vacationDays = new();
+        public IReadOnlyCollection<EmployeeVacationDay> VacationDays => _vacationDays.AsReadOnly();
 
         protected EmployeeVacationPlan()
         {
@@ -19,6 +22,14 @@ namespace Sjekklista.Hr.ApiService.Features.VacationPlanning.Models
         {
             Year = year;
             EmployeeId = employeeId;
+        }
+
+        public void RequestVacation(DateOnly requestedDate)
+        {
+            if (_vacationDays.Any(x => x.RequestedDate == requestedDate))
+                throw new DomainException("Date is already requested.");
+
+            _vacationDays.Add(new EmployeeVacationDay(requestedDate));
         }
     }
 }

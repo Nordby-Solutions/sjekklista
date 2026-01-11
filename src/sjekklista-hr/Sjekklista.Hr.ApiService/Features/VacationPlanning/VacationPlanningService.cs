@@ -7,7 +7,7 @@ namespace Sjekklista.Hr.ApiService.Features.VacationPlanning
 {
     internal class VacationPlanningService(HRDbContext _dbContext)
     {
-        internal async Task<GetEmployeeVacationPlanResponse> GetEmployeeVacationPlanAsync(
+        internal async Task<Result<GetEmployeeVacationPlanResponse>> GetEmployeeVacationPlanAsync(
             GetEmployeeVacationPlanRequest request,
             CancellationToken cancellationToken)
         {
@@ -15,38 +15,47 @@ namespace Sjekklista.Hr.ApiService.Features.VacationPlanning
                 .Where(x => x.Year == request.Year)
                 .Where(x => x.EmployeeId == request.EmployeeId)
                 .FirstOrDefaultAsync(cancellationToken);
-            if (existingPlan is null)
-                throw new ArgumentException($"No vacation plan created for Employee{request.EmployeeId} in year - {request.Year}");
 
-            return new GetEmployeeVacationPlanResponse()
+            if (existingPlan is null)
+            {
+                return Result.Failure<GetEmployeeVacationPlanResponse>(
+                    new Error(VacationPlanningErrorCodes.PlanNotFound,
+                        $"Vacation plan not found for employee {request.EmployeeId} in {request.Year}."));
+            }
+
+            return Result.Success(new GetEmployeeVacationPlanResponse
             {
                 EmployeeVacation = existingPlan.ToDto()
-            };
+            });
         }
 
-        internal async Task<SaveEmployeeVacationResponse> SaveEmployeeVacationPlanAsync(
+        internal async Task<Result<SaveEmployeeVacationPlanResponse>> SaveEmployeeVacationPlanAsync(
             SaveEmployeeVacationPlanRequest request,
             CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(request.EmployeeVacation);
-
             var existingPlan = await _dbContext.EmployeeVacationPlans
                 .Where(x => x.Year == request.EmployeeVacation.Year)
                 .Where(x => x.EmployeeId == request.EmployeeVacation.EmployeeId)
                 .FirstOrDefaultAsync(cancellationToken);
+
             if (existingPlan is not null)
-                throw new Exception("Cannot save an existing vacation plan as of now.");
+            {
+                return Result.Failure<SaveEmployeeVacationPlanResponse>(
+                    new Error(VacationPlanningErrorCodes.PlanAlreadyExists,
+                        "A vacation plan already exists for this employee and year."));
+            }
 
             var newPlan = new EmployeeVacationPlan(
                 request.EmployeeVacation.Year,
                 request.EmployeeVacation.EmployeeId);
+
             _dbContext.EmployeeVacationPlans.Add(newPlan);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new SaveEmployeeVacationResponse()
+            return Result.Success(new SaveEmployeeVacationPlanResponse
             {
                 EmployeeVacation = newPlan.ToDto()
-            };
+            });
         }
     }
 }

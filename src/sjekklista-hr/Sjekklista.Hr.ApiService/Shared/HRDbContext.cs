@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Sjekklista.Hr.ApiService.Features.Employment.Models;
 using Sjekklista.Hr.ApiService.Features.Tenancy.Models;
@@ -46,6 +45,18 @@ public class HRDbContext : DbContext
             entity.Property(e => e.EmployeeId).IsRequired();
             entity.Property(e => e.Year).IsRequired();
             entity.Property(e => e.TenantId).IsRequired();
+
+            entity.Navigation(e => e.VacationDays)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            entity.OwnsMany(e => e.VacationDays, vacationDay =>
+            {
+                vacationDay.Property<int>("Id");
+                vacationDay.HasKey("Id");
+                vacationDay.Property(vd => vd.RequestedDate).IsRequired();
+                vacationDay.Property(vd => vd.Status).IsRequired();
+                vacationDay.WithOwner();
+            });
         });
 
         ApplyTenantFilters(modelBuilder);

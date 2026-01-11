@@ -1,4 +1,8 @@
-﻿namespace Sjekklista.Hr.ApiService.Features.VacationPlanning
+﻿using FluentValidation;
+using Sjekklista.Hr.ApiService.Features.VacationPlanning.Contracts;
+using Sjekklista.Hr.ApiService.Features.VacationPlanning.Validators;
+
+namespace Sjekklista.Hr.ApiService.Features.VacationPlanning
 {
     internal static class VacationPlanningFeatureExtensions
     {
@@ -6,6 +10,8 @@
             this IServiceCollection services)
         {
             services.AddScoped<VacationPlanningService>();
+            services.AddScoped<IValidator<SaveEmployeeVacationPlanRequest>, SaveEmployeeVacationPlanRequestValidator>();
+            services.AddScoped<IValidator<GetEmployeeVacationPlanRequest>, GetEmployeeVacationPlanRequestValidator>();
             return services;
         }
 

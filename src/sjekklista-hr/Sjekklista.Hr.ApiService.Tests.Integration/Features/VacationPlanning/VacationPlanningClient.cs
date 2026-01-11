@@ -22,5 +22,11 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.VacationPlanning
         {
             return await _httpClient.PostAsJsonAsync("/api/vacation-planning/employee", request);
         }
+
+        internal async Task<HttpResponseMessage> InitializeVacationPlans(
+            InitializeVacationPlansRequest request)
+        {
+            return await _httpClient.PostAsJsonAsync("/api/vacation-planning/initialize", request);
+        }
     }
 }

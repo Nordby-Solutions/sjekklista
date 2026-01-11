@@ -23,8 +23,34 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.VacationPlanning
             return new(tenantId, _fixture);
         }
 
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(200000)]
+        public async Task Create_vacation_plan_Errors_on_invalid_input(int year)
+        {
+            // Given
+            var tenantId = Guid.NewGuid();
+            var sut = GetSut(tenantId);
+            var invalidVacationPlan = new EmployeeVacationPlanDto()
+            {
+                EmployeeId = Guid.Empty,
+                Year = year,
+            };
+
+            // When
+            var httpResponse = await sut.SaveEmployeeVacationPlan(new SaveEmployeeVacationPlanRequest()
+            {
+                EmployeeVacation = invalidVacationPlan
+            });
+
+            // Then
+            var problemDetails = await SjekklistaAssertions.Assert400BadRequest(httpResponse);
+            Assert.Contains(problemDetails.Errors, e => e.Key.Contains(nameof(invalidVacationPlan.EmployeeId)));
+            Assert.Contains(problemDetails.Errors, e => e.Key.Contains(nameof(invalidVacationPlan.Year)));
+        }
+
         [Fact]
-        public async Task Persists_vacation_plan()
+        public async Task Creates_vacation_plan()
         {
             // Given
             var tenantId = Guid.NewGuid();
@@ -49,7 +75,7 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.VacationPlanning
             // Then
             await SjekklistaAssertions.Assert200OkResponse(httpResponse);
 
-            var response = await httpResponse.As<SaveEmployeeVacationResponse>();
+            var response = await httpResponse.As<SaveEmployeeVacationPlanResponse>();
             var getEmployeeVacationResponse = await sut
                 .GetEmployeeVacationPlan(createEmployeeResponse.Employee.Id, response.EmployeeVacation!.Year)
                 .As<GetEmployeeVacationPlanResponse>();
