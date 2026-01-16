@@ -1,14 +1,18 @@
 <Solution>
+  <Folder Name="/Backend/">
+    <Project Path="Sjekklista.Hr.ApiService.Tests.Integration/Sjekklista.Hr.ApiService.Tests.Integration.csproj" />
+    <Project Path="Sjekklista.Hr.ApiService.Tests.Unit/Sjekklista.Hr.ApiService.Tests.Unit.csproj" Id="5ba22878-3870-48cb-a6a4-dcda42804f31" />
+    <Project Path="Sjekklista.Hr.ApiService/Sjekklista.Hr.ApiService.csproj" />
+    <Project Path="Sjekklista.Hr.ServiceDefaults/Sjekklista.Hr.ServiceDefaults.csproj" />
+  </Folder>
   <Folder Name="/Dependencies/">
     <Project Path="../sjekklista-identity/Sjekklista.Identity/Sjekklista.Identity/Sjekklista.Identity.csproj" />
   </Folder>
-  <Project Path="Sjekklista.Hr.ApiService.Tests.Integration/Sjekklista.Hr.ApiService.Tests.Integration.csproj" />
-  <Project Path="Sjekklista.Hr.ApiService.Tests.Unit/Sjekklista.Hr.ApiService.Tests.Unit.csproj" Id="5ba22878-3870-48cb-a6a4-dcda42804f31" />
-  <Project Path="Sjekklista.Hr.ApiService/Sjekklista.Hr.ApiService.csproj" />
+  <Folder Name="/Frontend/">
+    <Project Path="SjekklistaHR/sjekklistahr.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
   <Project Path="Sjekklista.Hr.AppHost/Sjekklista.Hr.AppHost.csproj" />
-  <Project Path="Sjekklista.Hr.ServiceDefaults/Sjekklista.Hr.ServiceDefaults.csproj" />
-  <Project Path="SjekklistaHR/sjekklistahr.esproj">
-    <Build />
-    <Deploy />
-  </Project>
 </Solution>

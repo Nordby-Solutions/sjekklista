@@ -10,14 +10,21 @@ namespace Sjekklista.Identity
         ];
 
         public static IEnumerable<ApiScope> ApiScopes => [
-            new ApiScope("sjekklista.api", "Sjekklista API")
+            new ApiScope("sjekklista.api.hr", "HR API"),
+        ];
+
+        public static IEnumerable<ApiResource> ApiResources => [
+            new ApiResource("hr-api", "HR API")
+            {
+                Scopes = { "sjekklista.api.hr" }
+            },
         ];
 
         public static IEnumerable<Client> Clients => [
             new Client
             {
-                ClientId = "react-client",
-                ClientName = "React App",
+                ClientId = "hr-client",
+                ClientName = "Sjekklista HR",
                 AllowedGrantTypes = GrantTypes.Code,
                 RequirePkce = true,
                 RequireClientSecret = false,
@@ -36,7 +43,7 @@ namespace Sjekklista.Identity
                 {
                     "openid",
                     "profile",
-                    "sjekklista.api"
+                    "sjekklista.api.hr"
                 },
                 AllowOfflineAccess = true
             }

@@ -2,7 +2,7 @@
 
 namespace Sjekklista.Hr.ApiService.Features.Employment
 {
-    public class EmploymentContractService(SjekklistaHrDbContext _dbContext)
+    public class EmploymentContractService(HRDbContext _dbContext)
     {
 
     }

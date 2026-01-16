@@ -5,7 +5,7 @@ using Sjekklista.Hr.ApiService.Shared;
 
 namespace Sjekklista.Hr.ApiService.Features.Tenancy
 {
-    public class TenantService(SjekklistaHrDbContext _dbContext)
+    public class TenantService(HRDbContext _dbContext)
     {
         internal async Task<IReadOnlyCollection<TenantDto>> GetTentantsForSignedOnUserAsync(
             CancellationToken cancellationToken)

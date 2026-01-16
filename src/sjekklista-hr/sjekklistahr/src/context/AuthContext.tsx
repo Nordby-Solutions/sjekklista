@@ -52,6 +52,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     initializeAuth();
+
+    // Keep context in sync with oidc-client events so we do not drop state after callback navigation
+    const unsubscribeLoaded = authService.addUserLoaded((loadedUser: User) => {
+      setUser(loadedUser);
+      setIsAuthenticated(!loadedUser.expired);
+      setAccessToken(loadedUser.access_token);
+      setIsLoading(false);
+    });
+
+    const unsubscribeUnloaded = authService.addUserUnloaded(() => {
+      setUser(null);
+      setIsAuthenticated(false);
+      setAccessToken(null);
+    });
+
+    return () => {
+      unsubscribeLoaded();
+      unsubscribeUnloaded();
+    };
   }, []);
 
   const handleLogin = async () => {

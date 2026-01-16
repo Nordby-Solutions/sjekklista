@@ -29,6 +29,32 @@ export class ApiClient {
       return config;
     });
 
+      // Example: Axios interceptor for your apiClient.ts
+      this.httpClient.interceptors.response.use(
+          (response) => response,
+          (error) => {
+              if (error.response?.status === 400) {
+                  // Validation error - likely a frontend bug
+                  console.error('Validation failed:', error.response.data);
+                  if (import.meta.env.DEV) {
+                      // In dev, show actual errors
+                  } else {
+                      // In prod, generic message + log to monitoring
+                      console.error(error);
+                  }
+              } else if ([404, 409, 422].includes(error.response?.status)) {
+                  // Business logic errors - show to user
+                  const errors = error.response.data as Error[];
+                  const message = errors[0]?.message || 'Operation failed';
+                  console.error(message);
+              } else if (error.response?.status >= 500) {
+                  // Server error
+                  console.error(error);
+              }
+              return Promise.reject(error);
+          }
+      );
+
     // Add response interceptor to handle 401 errors
     this.httpClient.interceptors.response.use(
       (response) => response,

@@ -22,7 +22,7 @@ export const NavMenu: React.FC = () => {
 
       <Link to={`${basePath}/schedule`} className="sl-item">
         <span className="e-icons e-timeline-agenda sl-icon"></span>
-        <span>Timeplan</span>
+        <span>Ferieplanlegger</span>
       </Link>
 
       <Link to={`${basePath}/tasks`} className="sl-item">

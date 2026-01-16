@@ -35,3 +35,4 @@ export interface TenantInfo {
 }
 
 export * from './tenants';
+export * from './VacationPlanningModels';

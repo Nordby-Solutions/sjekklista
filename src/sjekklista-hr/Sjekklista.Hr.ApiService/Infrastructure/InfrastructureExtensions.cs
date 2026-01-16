@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Sjekklista.Hr.ApiService.Features.Shared;
 using Sjekklista.Hr.ApiService.Shared;
 
 namespace Sjekklista.Hr.ApiService.Infrastructure
@@ -9,8 +10,9 @@ namespace Sjekklista.Hr.ApiService.Infrastructure
         {
             services.AddHttpContextAccessor();
             services.AddScoped<ITenantProvider, HttpTenantProvider>();
+            services.AddScoped<ICurrentUserService, ClaimsIdentityCurrentUserService>();
 
-            services.AddDbContext<SjekklistaHrDbContext>(opt => opt.UseInMemoryDatabase("sjekklista"));
+            services.AddDbContext<HRDbContext>(opt => opt.UseInMemoryDatabase("sjekklista"));
 
             return services;
         }

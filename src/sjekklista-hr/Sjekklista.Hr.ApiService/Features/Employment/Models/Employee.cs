@@ -10,5 +10,9 @@ namespace Sjekklista.Hr.ApiService.Features.Employment.Models
         public string? PersonalEmailAddress { get; set; }
         public string? PhoneNumber { get; set; }
         public DateOnly DateOfBirth { get; set; }
+        public Guid? UserId { get; set; }
+        public required Guid CreatedByUserId { get; set; }
+        public DateOnly StartDate { get; internal set; }
+        public DateOnly? EndDate { get; internal set; }
     }
 }

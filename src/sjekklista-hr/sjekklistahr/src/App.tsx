@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { TenantProvider } from './context/TenantContext';
 import { MainLayout } from './components/MainLayout';
@@ -19,9 +18,11 @@ import '@syncfusion/ej2-grids/styles/fabric.css';
 import '@syncfusion/ej2-splitbuttons/styles/fabric.css';
 import '@syncfusion/ej2-calendars/styles/fabric.css';
 import '@syncfusion/ej2-dropdowns/styles/fabric.css';
+import '@syncfusion/ej2-schedule/styles/fabric.css';
 import EmployeeManagement from './pages/employment/employee/EmployeeManagement';
 import { TenantSelection } from './pages/tenant/TenantSelection';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { VacationPlanning } from './pages/vacation/VacationPlanning';
 
 function App() {
   return (
@@ -48,7 +49,7 @@ function App() {
             <Route path="employees/edit/:employeeId" element={<EmployeeManagement />} />
             <Route path="employees/create" element={<EmployeeManagement />} />
           </Route>
-          <Route path="schedule" element={<div>Schedule page coming soon...</div>} />
+          <Route path="schedule" element={<VacationPlanning />} />
           <Route path="tasks" element={<div>Tasks page coming soon...</div>} />
         </Route>
 

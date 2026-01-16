@@ -1,6 +1,8 @@
+using Microsoft.IdentityModel.Tokens;
 using Sjekklista.Hr.ApiService.Features.Employment;
 using Sjekklista.Hr.ApiService.Features.Tenancy;
 using Sjekklista.Hr.ApiService.Features.Tenancy.Models;
+using Sjekklista.Hr.ApiService.Features.VacationPlanning;
 using Sjekklista.Hr.ApiService.Infrastructure;
 using Sjekklista.Hr.ApiService.Infrastructure.Middleware;
 using Sjekklista.Hr.ApiService.Shared;
@@ -18,38 +20,61 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddTenantFeature();
 builder.Services.AddEmploymentFeature();
+builder.Services.AddVacationPlanningFeature();
 builder.Services.AddInfrastructure();
 
 builder.Services.AddCors(p =>
 {
-    p.AddDefaultPolicy(c => c.WithOrigins("http://localhost:5174").AllowCredentials().AllowAnyHeader().AllowAnyMethod());
+    p.AddDefaultPolicy(c => c
+        .WithOrigins("http://localhost:5173")
+        .AllowCredentials()
+        .AllowAnyHeader()
+        .AllowAnyMethod());
 });
+
+builder.Services
+    .AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.Authority = builder.Configuration["Keys:Identity:Authority"];
+        options.RequireHttpsMetadata = true;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidAudiences = new[] { "hr-api" }
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseCors();
 app.UseExceptionHandler();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseMiddleware<TenantMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<SjekklistaHrDbContext>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<HRDbContext>();
 
     dbContext.Tenants.Add(new Tenant()
     {
         Id = Guid.NewGuid(),
         Number = 1,
-        Name = "Østby Tunet",
-        Slug = "ostbytunet",
+        Name = "Tunet pleie",
+        Slug = "tunet_pleie",
     });
     dbContext.Tenants.Add(new Tenant()
     {
         Id = Guid.NewGuid(),
         Number = 2,
-        Name = "N.K.S Helsehus",
-        Slug = "nks-helsehus",
+        Name = "Helsehuset",
+        Slug = "helsehuset",
     });
 
     await dbContext.SaveChangesAsync();
@@ -57,17 +82,18 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.MapGroup("/user").MapTenantEndpoints();
+app.MapGroup("/user")
+    .RequireAuthorization()
+    .MapTenantEndpoints();
 
-var apiGroup = app.MapGroup("/api");
+var apiGroup = app
+    .MapGroup("/api")
+    .RequireAuthorization();
 
 apiGroup.MapEmploymentEndpoints();
+apiGroup.MapVacationPlanningEndpoints();
 
 app.MapDefaultEndpoints();
-
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+

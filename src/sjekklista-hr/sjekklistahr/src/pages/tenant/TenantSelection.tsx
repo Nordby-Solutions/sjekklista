@@ -88,6 +88,9 @@ export const TenantSelection: React.FC = () => {
 
   return (
     <div className="tenant-select-wrapper">
+
+      <h1>Sjekklista HR</h1>
+
       <div className="tenant-card">
         <h1>Velg virksomhet</h1>
         <p>Velg riktig virksomhet for å fortsette.</p>

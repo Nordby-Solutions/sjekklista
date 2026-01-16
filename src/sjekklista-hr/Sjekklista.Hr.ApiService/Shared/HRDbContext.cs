@@ -1,22 +1,23 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Sjekklista.Hr.ApiService.Features.Employment.Models;
 using Sjekklista.Hr.ApiService.Features.Tenancy.Models;
+using Sjekklista.Hr.ApiService.Features.VacationPlanning.Models;
 using Sjekklista.Hr.ApiService.Shared.Models;
 using System.Reflection;
 
 namespace Sjekklista.Hr.ApiService.Shared;
 
-public class SjekklistaHrDbContext : DbContext
+public class HRDbContext : DbContext
 {
     private readonly ITenantProvider _tenantProvider;
 
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<EmployeeVacationPlan> EmployeeVacationPlans { get; set; }
     public DbSet<Tenant> Tenants { get; set; }
 
-    public SjekklistaHrDbContext(
-        DbContextOptions<SjekklistaHrDbContext> options,
+    public HRDbContext(
+        DbContextOptions<HRDbContext> options,
         ITenantProvider tenantProvider)
         : base(options)
     {
@@ -24,11 +25,39 @@ public class SjekklistaHrDbContext : DbContext
     }
 
     // Parameterless constructor for design-time tools
-    protected SjekklistaHrDbContext() { }
+    protected HRDbContext() { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Employee>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Firstname).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Lastname).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.TenantId).IsRequired();
+        });
+
+        modelBuilder.Entity<EmployeeVacationPlan>(entity =>
+        {
+            entity.HasKey(e => new { e.EmployeeId, e.Year });
+            entity.Property(e => e.EmployeeId).IsRequired();
+            entity.Property(e => e.Year).IsRequired();
+            entity.Property(e => e.TenantId).IsRequired();
+
+            entity.Navigation(e => e.VacationDays)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            entity.OwnsMany(e => e.VacationDays, vacationDay =>
+            {
+                vacationDay.Property<int>("Id");
+                vacationDay.HasKey("Id");
+                vacationDay.Property(vd => vd.RequestedDate).IsRequired();
+                vacationDay.Property(vd => vd.Status).IsRequired();
+                vacationDay.WithOwner();
+            });
+        });
 
         ApplyTenantFilters(modelBuilder);
     }
@@ -39,7 +68,7 @@ public class SjekklistaHrDbContext : DbContext
         {
             if (typeof(TenantEntity).IsAssignableFrom(entityType.ClrType))
             {
-                var method = typeof(SjekklistaHrDbContext)
+                var method = typeof(HRDbContext)
                     .GetMethod(nameof(ApplyTenantFilter), BindingFlags.NonPublic | BindingFlags.Instance)!
                     .MakeGenericMethod(entityType.ClrType);
 
