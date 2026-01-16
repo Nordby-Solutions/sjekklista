@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Sjekklista.Hr.ApiService.Features.Shared;
 using Sjekklista.Hr.ApiService.Shared;
 

@@ -4,6 +4,7 @@ import { SidebarComponent } from '@syncfusion/ej2-react-navigations';
 import { AppBarComponent } from '@syncfusion/ej2-react-navigations';
 import { ButtonComponent } from '@syncfusion/ej2-react-buttons';
 import { NavMenu } from './NavMenu';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { useTenant } from '../context/TenantContext';
 import './MainLayout.css';
 
@@ -48,17 +49,19 @@ export const MainLayout: React.FC = () => {
 
           <div className="e-appbar-spacer"></div>
 
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <div className="e-avatar e-avatar-small e-avatar-circle image">SN</div>
-            <div>
-              <label style={{ display: 'block' }}>Sebastian Nordby</label>
-              <label style={{ fontSize: '.9em' }}>Administrator</label>
+          <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+            <LanguageSwitcher />
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <div className="e-avatar e-avatar-small e-avatar-circle image">SN</div>
+              <div>
+                <label style={{ display: 'block' }}>Sebastian Nordby</label>
+                <label style={{ fontSize: '.9em' }}>Administrator</label>
+              </div>
             </div>
           </div>
         </AppBarComponent>
 
         <main className="page-content">
-          {/* {tenantId && <div className="tenant-info">Current tenant: {tenantId}</div>} */}
           <Outlet />
         </main>
       </div>

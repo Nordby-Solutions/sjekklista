@@ -1,4 +1,4 @@
-﻿using Sjekklista.Hr.ApiService.Features.VacationPlanning.Contracts;
+using Sjekklista.Hr.ApiService.Features.VacationPlanning.Contracts;
 
 namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.VacationPlanning
 {
@@ -14,13 +14,31 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.VacationPlanning
 
         internal async Task<HttpResponseMessage> GetEmployeeVacationPlan(Guid employeeId, int year)
         {
-            return await _httpClient.GetAsync($"/api/vacation-planning/employee/{year}/{employeeId}");
+            var response = await _httpClient.GetAsync($"/api/vacation-planning/employee/{year}/{employeeId}");
+            return response;
         }
 
         internal async Task<HttpResponseMessage> SaveEmployeeVacationPlan(
             SaveEmployeeVacationPlanRequest request)
         {
             return await _httpClient.PostAsJsonAsync("/api/vacation-planning/employee", request);
+        }
+
+        internal async Task<HttpResponseMessage> RequestVacation(
+            RequestVacationRequest request)
+        {
+            return await _httpClient.PostAsJsonAsync("/api/vacation-planning/employee/request-vacation", request);
+        }
+
+        internal async Task<HttpResponseMessage> SetupVacation(
+            SetupVacationRequest request)
+        {
+            return await _httpClient.PostAsJsonAsync("/api/vacation-planning/employee/setup-vacation", request);
+        }
+
+        internal async Task<HttpResponseMessage> GetAllVacationPlans(int year)
+        {
+            return await _httpClient.GetAsync($"/api/vacation-planning/employee/year/{year}");
         }
 
         internal async Task<HttpResponseMessage> InitializeVacationPlans(

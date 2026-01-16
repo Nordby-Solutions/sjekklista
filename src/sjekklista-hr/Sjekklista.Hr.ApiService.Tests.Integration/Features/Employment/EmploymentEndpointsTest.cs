@@ -1,4 +1,4 @@
-﻿using Bogus;
+using Bogus;
 using Sjekklista.Hr.ApiService.Features.Employment.Contracts.Employee;
 using Sjekklista.Hr.ApiService.Features.Employment.Contracts.Employee.Create;
 using Sjekklista.Hr.ApiService.Features.Employment.Contracts.Employee.Get;
@@ -44,7 +44,7 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.Employment
             });
 
             // Assert
-            await SjekklistaAssertions.Assert200OkResponse(httpResponse);
+            SjekklistaAssertions.Assert200OkResponse(httpResponse);
 
             var getEmployeesResponse = await sut
                 .ListEmployees(new())
@@ -95,7 +95,7 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.Employment
             });
 
             // Assert
-            await SjekklistaAssertions.Assert200OkResponse(updateHttpResponse);
+            SjekklistaAssertions.Assert200OkResponse(updateHttpResponse);
 
             var getEmployeesResponse = await sut
                 .ListEmployees(new())
@@ -130,7 +130,7 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.Employment
             var httpResponse = await sut.GetEmployee(createEmployeeResponse.Employee.Id);
 
             // Then
-            await SjekklistaAssertions.Assert200OkResponse(httpResponse);
+            SjekklistaAssertions.Assert200OkResponse(httpResponse);
 
             var response = await httpResponse.Content.ReadFromJsonAsync<GetEmployeeResponse>();
             Assert.NotNull(response);
@@ -159,7 +159,7 @@ namespace Sjekklista.Hr.ApiService.Tests.Integration.Features.Employment
             var httpResponse = await sut.DeleteEmployee(createEmployeeResponse.Employee.Id);
 
             // Then
-            await SjekklistaAssertions.Assert200OkResponse(httpResponse);
+            SjekklistaAssertions.Assert200OkResponse(httpResponse);
         }
 
         [Fact]

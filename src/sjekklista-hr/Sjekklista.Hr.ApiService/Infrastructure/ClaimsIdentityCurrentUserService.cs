@@ -20,7 +20,8 @@ namespace Sjekklista.Hr.ApiService.Infrastructure
                     .FindFirst("user_id")?
                     .Value;
                 if (claim is null)
-                    throw new Exception("Invalid state.");
+                    //throw new Exception("Invalid state.");
+                    return Guid.NewGuid(); // Todo: Hack for now, will take idp later. Wont enforce 
 
                 return Guid.Parse(claim);
             }
