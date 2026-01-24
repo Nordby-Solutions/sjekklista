@@ -5,9 +5,6 @@
     <Project Path="Sjekklista.Hr.ApiService/Sjekklista.Hr.ApiService.csproj" />
     <Project Path="Sjekklista.Hr.ServiceDefaults/Sjekklista.Hr.ServiceDefaults.csproj" />
   </Folder>
-  <Folder Name="/Dependencies/">
-    <Project Path="../sjekklista-identity/Sjekklista.Identity/Sjekklista.Identity/Sjekklista.Identity.csproj" />
-  </Folder>
   <Folder Name="/Frontend/">
     <Project Path="SjekklistaHR/sjekklistahr.esproj">
       <Build />
