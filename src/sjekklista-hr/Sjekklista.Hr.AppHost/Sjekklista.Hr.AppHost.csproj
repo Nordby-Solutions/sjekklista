@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\sjekklista-identity\Sjekklista.Identity\Sjekklista.Identity\Sjekklista.Identity.csproj" />
     <ProjectReference Include="..\Sjekklista.Hr.ApiService\Sjekklista.Hr.ApiService.csproj" />
     <ProjectReference Include="..\sjekklistahr\sjekklistahr.esproj" />
   </ItemGroup>
