@@ -36,13 +36,15 @@ builder.Services
     .AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority = builder.Configuration["Keys:Identity:Authority"];
+        options.Authority = "https://login.microsoftonline.com/5ea6f635-ad0f-4bd0-864b-05560252d210";
         options.RequireHttpsMetadata = true;
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = true,
-            ValidAudiences = new[] { "hr-api" }
+            ValidAudience = "cbb438ce-224e-475b-9cea-c1b36646f434",
+            ValidateIssuer = true,
+            ValidIssuer = "https://login.microsoftonline.com/5ea6f635-ad0f-4bd0-864b-05560252d210/v2.0"
         };
     });
 
