@@ -1,9 +1,11 @@
 import axios, { type AxiosInstance } from 'axios';
-import { authService } from '../services/authService';
+import type { PublicClientApplication } from '@azure/msal-browser';
+import { tokenRequest } from '../config/authConfig';
 
 export class ApiClient {
   private httpClient: AxiosInstance;
   private tenantId: string | null = null;
+  private msalInstance: PublicClientApplication | null = null;
 
   constructor(baseURL: string = import.meta.env.VITE_API_BASE_URL || '/api') {
     this.httpClient = axios.create({
@@ -15,15 +17,31 @@ export class ApiClient {
 
     // Add request interceptor to include tenant ID and auth token
     this.httpClient.interceptors.request.use(async (config) => {
-      console.log('API Client Tenant ID:', this.tenantId);
       if (this.tenantId) {
         config.headers['X-Tenant'] = this.tenantId;
       }
 
       // Add authorization header with access token
-      const accessToken = await authService.getAccessToken();
-      if (accessToken) {
-        config.headers['Authorization'] = `Bearer ${accessToken}`;
+      if (this.msalInstance) {
+        try {
+          const accounts = this.msalInstance.getAllAccounts();
+          
+          if (accounts.length > 0) {
+            const response = await this.msalInstance.acquireTokenSilent({
+              ...tokenRequest,
+              account: accounts[0],
+            });
+            config.headers['Authorization'] = `Bearer ${response.accessToken}`;
+            console.log('✅ Access token added to request:', config.url);
+          } else {
+            console.warn('⚠️ No authenticated accounts found - API request will be sent without token');
+          }
+        } catch (error) {
+          console.error('❌ Token acquisition failed:', error);
+          // If silent token acquisition fails, the user might need to re-authenticate
+        }
+      } else {
+        console.warn('⚠️ MSAL instance not initialized on apiClient');
       }
 
       return config;
@@ -65,23 +83,17 @@ export class ApiClient {
         if (error.response?.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
 
-          try {
-            const newUser = await authService.renewToken();
-            if (newUser) {
-              const newToken = newUser.access_token;
-              originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-              return this.httpClient(originalRequest);
-            }
-          } catch (refreshError) {
-            console.error('Token refresh failed:', refreshError);
-            // Token refresh failed, redirect to login will be handled by auth service
-            return Promise.reject(refreshError);
-          }
+          // Token expired, will be handled by MSAL automatically on next request
+          console.error('Token expired');
         }
 
         return Promise.reject(error);
       }
     );
+  }
+
+  setMsalInstance(instance: PublicClientApplication) {
+    this.msalInstance = instance;
   }
 
   setTenantId(tenantId: string | null) {

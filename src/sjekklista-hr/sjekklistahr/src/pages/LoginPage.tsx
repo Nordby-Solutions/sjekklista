@@ -1,24 +1,27 @@
 /**
  * Login Page
- * Initiates the OIDC login flow
+ * Initiates the MSAL login flow via redirect
  */
 
-import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMsal, useIsAuthenticated } from '@azure/msal-react';
+import { loginRequest } from '../config/authConfig';
 
 export const LoginPage: React.FC = () => {
-  const { login, error } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const { instance } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
+  const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    try {
-      setIsLoading(true);
-      await login();
-    } catch (err) {
-      console.error('Login error:', err);
-    } finally {
-      setIsLoading(false);
+  // If already authenticated, redirect to select-tenant
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/select-tenant', { replace: true });
     }
+  }, [isAuthenticated, navigate]);
+
+  const handleLogin = () => {
+    instance.loginRedirect(loginRequest);
   };
 
   return (
@@ -27,15 +30,8 @@ export const LoginPage: React.FC = () => {
         <h1>Sjekklista</h1>
         <p>Sign in to your account</p>
 
-        {error && (
-          <div style={{ color: '#d32f2f', marginBottom: '1rem', padding: '0.5rem', border: '1px solid #d32f2f', borderRadius: '4px' }}>
-            {error}
-          </div>
-        )}
-
         <button
           onClick={handleLogin}
-          disabled={isLoading}
           style={{
             padding: '0.75rem 1.5rem',
             fontSize: '1rem',
@@ -43,12 +39,11 @@ export const LoginPage: React.FC = () => {
             color: 'white',
             border: 'none',
             borderRadius: '4px',
-            cursor: isLoading ? 'not-allowed' : 'pointer',
-            opacity: isLoading ? 0.6 : 1,
+            cursor: 'pointer',
             width: '100%',
           }}
         >
-          {isLoading ? 'Signing in...' : 'Sign In'}
+          Sign In
         </button>
       </div>
     </div>

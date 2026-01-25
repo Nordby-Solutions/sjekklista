@@ -1,19 +1,24 @@
-/**
- * OIDC Configuration for IDP authentication
- * Supports refresh token flow for future token refresh implementation
- */
+import type { Configuration } from '@azure/msal-browser';
 
-export const authConfig = {
-  authority: import.meta.env.VITE_AUTH_AUTHORITY,
-  client_id: import.meta.env.VITE_AUTH_CLIENT_ID,
-  redirect_uri: import.meta.env.VITE_AUTH_REDIRECT_URI,
-  response_type: 'code',
-  scope: 'openid profile api://cbb438ce-224e-475b-9cea-c1b36646f434/access',
-  // Post-logout redirect URI
-  post_logout_redirect_uri: import.meta.env.VITE_AUTH_POST_LOGOUT_URI,
-  // Enable silent renew for automatic token refresh
-  automaticSilentRenew: true,
-  // These settings support future refresh token implementation
-  monitorSession: true,
-  checkSessionIframeInterval: 2000,
+export const msalConfig: Configuration = {
+  auth: {
+    clientId: import.meta.env.VITE_AUTH_CLIENT_ID,
+    authority: import.meta.env.VITE_AUTH_AUTHORITY,
+    redirectUri: import.meta.env.VITE_AUTH_REDIRECT_URI,
+  },
+  cache: {
+    cacheLocation: 'sessionStorage',
+  },
+};
+
+export const loginRequest = {
+  scopes: [
+  'openid',
+  'profile',
+  'api://cbb438ce-224e-475b-9cea-c1b36646f434/access', // Request API consent during login
+  ],
+};
+
+export const tokenRequest = {
+  scopes: ['api://cbb438ce-224e-475b-9cea-c1b36646f434/access'],
 };

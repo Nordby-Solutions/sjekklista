@@ -1,52 +1,30 @@
 /**
  * Callback Page
- * Handles the redirect from the IDP after authentication
+ * Handles the MSAL redirect and navigates to the app
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
+import { useMsal } from '@azure/msal-react';
 
 export const AuthCallback: React.FC = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
+  const { inProgress } = useMsal();
 
   useEffect(() => {
-    const handleCallback = async () => {
-      try {
-        const user = await authService.handleCallback();
-        if (user) {
-          // Redirect to tenant selection or home
-          navigate('/select-tenant', { replace: true });
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Authentication failed';
-        setError(errorMessage);
-        console.error('Callback error:', err);
-        // Redirect to login on error
-        setTimeout(() => {
-          navigate('/login', { replace: true });
-        }, 3000);
-      }
-    };
-
-    handleCallback();
-  }, [navigate]);
-
-  if (error) {
-    return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        <h1>Authentication Error</h1>
-        <p>{error}</p>
-        <p>Redirecting to login...</p>
-      </div>
-    );
-  }
+    // Wait for MSAL to finish handling the redirect
+    if (inProgress === 'none') {
+      // Redirect to tenant selection after successful authentication
+      navigate('/select-tenant', { replace: true });
+    }
+  }, [inProgress, navigate]);
 
   return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <h1>Processing Authentication</h1>
-      <p>Please wait while we complete your login...</p>
+    <div style={{ padding: '2rem', textAlign: 'center', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div>
+        <h1>Processing authentication...</h1>
+        <p>Please wait while we complete your sign-in.</p>
+      </div>
     </div>
   );
 };
